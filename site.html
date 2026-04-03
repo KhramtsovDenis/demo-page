@@ -361,6 +361,7 @@
         <div class="actions">
             <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display: none;">
             <button class="btn-secondary" id="importBtn" title="Загрузить из Word (DOCX) или CSV">Импорт (DOCX/CSV)</button>
+            <button class="btn-secondary" id="resetStorageBtn" title="Очистить локально сохраненные данные этой страницы">Сбросить данные</button>
             <button class="btn-primary" id="addBtn">+ Добавить веху</button>
             <button class="btn-success" id="exportBtn">💾 Сохранить как HTML</button>
         </div>
@@ -424,13 +425,23 @@
             'planned': { label: '🔵 Запланировано', class: 'status-planned' }
         };
 
-        const STORAGE_KEY = 'roadmap_smart_speaker_data';
-        const TITLE_STORAGE_KEY = 'roadmap_smart_speaker_title';
+        const APP_VERSION = '2026-04-04T12-00-00';
+        const PAGE_KEY_PREFIX = `roadmap_${location.pathname.replace(/[^a-z0-9а-яё]/gi, '_').toLowerCase()}`;
+        const STORAGE_KEY = `${PAGE_KEY_PREFIX}_data`;
+        const TITLE_STORAGE_KEY = `${PAGE_KEY_PREFIX}_title`;
+        const VERSION_KEY = `${PAGE_KEY_PREFIX}_version`;
         let milestones = [];
         let editingId = null;
 
         // Initialization
         function init() {
+            const savedVersion = localStorage.getItem(VERSION_KEY);
+            if (savedVersion !== APP_VERSION) {
+                localStorage.removeItem(STORAGE_KEY);
+                localStorage.removeItem(TITLE_STORAGE_KEY);
+                localStorage.setItem(VERSION_KEY, APP_VERSION);
+            }
+
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
@@ -464,12 +475,26 @@
                 }
             });
 
+            const resetBtn = document.getElementById('resetStorageBtn');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    const ok = confirm('Очистить локально сохраненные данные этой страницы и перезагрузить ее?');
+                    if (!ok) return;
+
+                    localStorage.removeItem(STORAGE_KEY);
+                    localStorage.removeItem(TITLE_STORAGE_KEY);
+                    localStorage.removeItem(VERSION_KEY);
+                    location.reload();
+                });
+            }
+
             render();
             setupPanScroll();
         }
 
         function saveToStorage() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
+            localStorage.setItem(VERSION_KEY, APP_VERSION);
         }
 
         // Render functions
@@ -693,8 +718,14 @@
             if (appScript) {
                 const stateStr = JSON.stringify(milestones, null, 4);
                 const regex = /\/\* DATA_START \*\/[\s\S]*?\/\* DATA_END \*\//;
-                const newBlock = `/* DATA_START */ \n        const INITIAL_DATA = ${stateStr}; \n        /* DATA_END */`;
+                const newBlock = `/* DATA_START */ 
+        const INITIAL_DATA = ${stateStr}; 
+        /* DATA_END */`;
                 appScript.textContent = appScript.textContent.replace(regex, newBlock);
+
+                const versionRegex = /const APP_VERSION = '[^']*';/;
+                const exportVersion = new Date().toISOString().replace(/[:.]/g, '-');
+                appScript.textContent = appScript.textContent.replace(versionRegex, `const APP_VERSION = '${exportVersion}';`);
             }
 
             // 4. Очищаем контейнер от отрендеренных карточек (они всё равно сгенерируются функцией init() при запуске файла) 
