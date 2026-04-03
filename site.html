@@ -4,375 +4,851 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Общее окна релизов] Roadmap</title>
-    <!-- Подключаем библиотеку mammoth.js для чтения .docx файлов прямо в браузере -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --line-color: #cbd5e1;
-            
-            --color-done: #10b981;
-            --bg-done: #d1fae5;
-            --text-done: #065f46;
-            
-            --color-progress: #f59e0b;
-            --bg-progress: #fef3c7;
-            --text-progress: #92400e;
-            
-            --color-planned: #3b82f6;
-            --bg-planned: #dbeafe;
-            --text-planned: #1e40af;
+            --bg: #f4f7fb;
+            --panel: #ffffff;
+            --panel-soft: #f8fafc;
+            --text: #0f172a;
+            --muted: #64748b;
+            --line: #d7e0ea;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --shadow-soft: 0 4px 14px rgba(15, 23, 42, 0.06);
 
-            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --done: #10b981;
+            --done-bg: #d1fae5;
+            --done-text: #065f46;
+
+            --progress: #f59e0b;
+            --progress-bg: #fef3c7;
+            --progress-text: #92400e;
+
+            --planned: #3b82f6;
+            --planned-bg: #dbeafe;
+            --planned-text: #1e40af;
+
+            --header-height: 88px;
+            --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background:
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 28%),
+                radial-gradient(circle at left top, rgba(16, 185, 129, 0.06), transparent 22%),
+                var(--bg);
+            color: var(--text);
+            font-family: var(--font);
         }
 
         body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100dvh;
         }
 
-        header {
-            padding: 20px 40px;
-            background: #ffffff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        .page-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+        }
+
+        .header-inner {
+            max-width: none;
+            width: calc(100% - 24px);
+            margin: 0 auto;
+            padding: 16px 12px;
             display: flex;
-            justify-content: space-between;
+            gap: 16px;
             align-items: center;
-            z-index: 10;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+            flex: 1 1 320px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--shadow-soft);
+            white-space: nowrap;
+        }
+
+        .back-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+        }
+
+        .page-title-wrap {
+            min-width: 0;
         }
 
         #roadmapTitle {
-            margin: 0;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            margin: 0 0 4px 0;
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
             outline: none;
-            cursor: text;
+            border-radius: 10px;
             padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
             border: 1px dashed transparent;
+            cursor: text;
+            display: inline-block;
+            max-width: 100%;
         }
 
         #roadmapTitle:hover, #roadmapTitle:focus {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
+            background: #f8fbff;
+            border-color: #bfdbfe;
         }
 
-        .actions {
+        .subtitle {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .toolbar {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            flex: 1 1 420px;
         }
 
         button {
-            font-family: inherit;
-            cursor: pointer;
+            appearance: none;
             border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
+            border-radius: 12px;
+            padding: 11px 15px;
+            font: inherit;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
         }
 
         .btn-primary {
-            background-color: #0f172a;
+            background: #0f172a;
             color: white;
+            box-shadow: var(--shadow-soft);
         }
 
-        .btn-primary:hover { background-color: #334155; }
+        .btn-primary:hover { background: #1e293b; }
 
         .btn-secondary {
-            background-color: #f1f5f9;
-            color: #0f172a;
-            border: 1px solid #e2e8f0;
+            background: var(--panel);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover { background-color: #e2e8f0; }
-        
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
         .btn-success {
-            background-color: #10b981;
+            background: #0f766e;
             color: white;
-        }
-        
-        .btn-success:hover {
-            background-color: #059669;
+            box-shadow: var(--shadow-soft);
         }
 
-        /* Roadmap Layout */
-        .roadmap-wrapper {
+        .btn-success:hover {
+            background: #115e59;
+        }
+
+        .btn-danger-lite {
+            background: #fff7ed;
+            color: #9a3412;
+            border: 1px solid #fed7aa;
+        }
+
+        .btn-danger-lite:hover {
+            background: #ffedd5;
+        }
+
+        .page-shell {
+            width: calc(100% - 24px);
+            margin: 16px auto 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
             flex: 1;
-            overflow-x: auto;
-            overflow-y: hidden;
-            padding: 40px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(255,255,255,0.96) 40%, rgba(16,185,129,0.06));
+            border: 1px solid rgba(191, 219, 254, 0.75);
+            border-radius: 24px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow-soft);
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.9fr);
+            gap: 16px;
+        }
+
+        .hero h2 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-radius: 18px;
+            padding: 14px;
+            min-height: 86px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .workspace {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            background: rgba(255,255,255,0.66);
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .workspace-head {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.88);
+            background: rgba(248, 250, 252, 0.75);
+        }
+
+        .workspace-title {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        .workspace-hint {
+            font-size: 13px;
+            color: var(--muted);
+            text-align: right;
+        }
+
+        .roadmap-wrapper {
             position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: auto;
+            padding: 24px 22px 30px;
             cursor: grab;
+            touch-action: pan-x pan-y;
         }
 
         .roadmap-wrapper:active { cursor: grabbing; }
 
-        .roadmap-container {
-            display: flex;
-            align-items: center;
-            padding: 20px 0;
-            gap: 0;
+        .roadmap-container.desktop {
             position: relative;
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            width: max-content;
+            min-width: 100%;
+            min-height: 760px;
+            padding: 12px 0;
         }
 
-        /* Central Timeline */
-        .timeline-line {
+        .roadmap-container.desktop .timeline-line {
             position: absolute;
-            top: 50%;
             left: 0;
             right: 0;
-            height: 4px;
-            background-color: var(--line-color);
+            top: 50%;
             transform: translateY(-50%);
+            height: 4px;
+            background: var(--line);
+            border-radius: 999px;
+            z-index: 0;
+        }
+
+        .desktop-column {
+            width: 360px;
+            min-width: 360px;
+            display: grid;
+            grid-template-rows: minmax(340px, 1fr) 28px minmax(340px, 1fr);
+            position: relative;
             z-index: 1;
-            border-radius: 2px;
+            transition: transform 0.18s ease, opacity 0.18s ease;
         }
 
-        .column {
-            display: flex;
-            flex-direction: column;
-            width: 320px;
-            min-width: 320px;
-            height: 500px;
+        .desktop-column.drag-over {
+            transform: scale(0.98);
+            opacity: 0.72;
+        }
+
+        .slot {
             position: relative;
-            z-index: 2;
-            transition: transform 0.2s;
-        }
-
-        .column.drag-over {
-            opacity: 0.5;
-            transform: scale(0.95);
-        }
-
-        .node-area {
-            height: 20px;
+            min-height: 0;
             display: flex;
-            align-items: center;
             justify-content: center;
+            padding-inline: 18px;
+        }
+
+        .top-slot {
+            align-items: flex-end;
+            padding-bottom: 42px;
+        }
+
+        .bottom-slot {
+            align-items: flex-start;
+            padding-top: 42px;
+        }
+
+        .slot.empty {
+            pointer-events: none;
+        }
+
+        .connector {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            background: var(--line);
+            border-radius: 999px;
+        }
+
+        .top-slot .connector { bottom: 0; height: 42px; }
+        .bottom-slot .connector { top: 0; height: 42px; }
+
+        .node-row {
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
             background: white;
-            border: 4px solid var(--line-color);
-            z-index: 3;
-            box-shadow: 0 0 0 4px var(--bg-color);
+            border: 4px solid var(--line);
+            box-shadow: 0 0 0 6px rgba(244, 247, 251, 0.95);
         }
 
-        .top-area, .bottom-area {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            position: relative;
-            padding: 0 20px;
-        }
-
-        .top-area { align-items: flex-end; padding-bottom: 30px; }
-        .bottom-area { align-items: flex-start; padding-top: 30px; }
-
-        /* Connector lines */
-        .connector {
-            position: absolute;
-            width: 2px;
-            background-color: var(--line-color);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .top-area .connector { bottom: 0; height: 30px; }
-        .bottom-area .connector { top: 0; height: 30px; }
-
-        /* Cards */
         .card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
             width: 100%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08);
+            max-width: 100%;
+            min-height: 184px;
+            max-height: 340px;
+            background: rgba(255,255,255,0.98);
+            border-radius: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.95);
+            border-top: 4px solid #cbd5e1;
+            padding: 18px 18px 16px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: hidden;
             position: relative;
-            cursor: grab;
-            border-top: 4px solid #ccc;
-            transition: box-shadow 0.2s, transform 0.2s, z-index 0s;
-            user-select: none;
-            z-index: 1;
         }
 
         .card:hover {
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
-            z-index: 10;
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
         }
 
-        .card:active { cursor: grabbing; }
+        .card-actions {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 900;
+            flex: 0 0 auto;
+        }
+
+        .icon-btn svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .icon-btn:hover {
+            background: white;
+            color: var(--text);
+        }
+
+        .icon-btn.delete:hover {
+            color: #dc2626;
+            border-color: #fecaca;
+            background: #fff5f5;
+        }
 
         .card-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+            padding-right: 74px;
         }
 
         .status-badge {
-            font-size: 11px;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 20px;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.04em;
+            white-space: nowrap;
         }
 
-        .delete-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-            opacity: 0;
-            transition: opacity 0.2s, color 0.2s;
-            position: absolute;
-            top: 15px;
-            right: 15px;
+        .card-main {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 0;
+            flex: 1;
+            overflow: hidden;
         }
-
-        .card:hover .delete-btn { opacity: 1; }
-        .delete-btn:hover { color: #ef4444; }
 
         .card-title {
             font-size: 16px;
             font-weight: 600;
-            margin: 12px 0 8px 0;
             line-height: 1.3;
-            padding-right: 15px;
+            letter-spacing: normal;
+            white-space: normal;
+            overflow: visible;
+            padding-right: 12px;
+            flex: 0 0 auto;
         }
 
         .card-desc {
+            color: var(--muted);
             font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            max-height: 58px;
-            transition: max-height 0.4s ease;
+            line-height: 1.55;
+            white-space: pre-wrap;
+            overflow: auto;
+            min-height: 0;
+            flex: 1 1 auto;
+            max-height: none;
+            padding-right: 4px;
         }
 
-        .card:hover .card-desc {
-            -webkit-line-clamp: 100;
-            max-height: 400px;
+        .card.editing {
+            max-height: min(78vh, 620px);
+            overflow: auto;
+            overscroll-behavior: contain;
+            scroll-behavior: smooth;
         }
 
         .card-date {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-main);
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 700;
         }
 
-        /* Status Colors */
-        .status-done .card { border-top-color: var(--color-done); }
-        .status-done .dot { border-color: var(--color-done); }
-        .status-done .status-badge { background-color: var(--bg-done); color: var(--text-done); }
+        .card-date svg {
+            flex: 0 0 auto;
+        }
 
-        .status-progress .card { border-top-color: var(--color-progress); }
-        .status-progress .dot { border-color: var(--color-progress); }
-        .status-progress .status-badge { background-color: var(--bg-progress); color: var(--text-progress); }
+        .status-done .card { border-top-color: var(--done); }
+        .status-done .dot { border-color: var(--done); }
+        .status-done .status-badge { background: var(--done-bg); color: var(--done-text); }
 
-        .status-planned .card { border-top-color: var(--color-planned); }
-        .status-planned .dot { border-color: var(--color-planned); }
-        .status-planned .status-badge { background-color: var(--bg-planned); color: var(--text-planned); }
+        .status-progress .card { border-top-color: var(--progress); }
+        .status-progress .dot { border-color: var(--progress); }
+        .status-progress .status-badge { background: var(--progress-bg); color: var(--progress-text); }
 
-        /* Edit Mode */
+        .status-planned .card { border-top-color: var(--planned); }
+        .status-planned .dot { border-color: var(--planned); }
+        .status-planned .status-badge { background: var(--planned-bg); color: var(--planned-text); }
+
         .edit-form {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            min-height: 100%;
+            flex: 1;
         }
 
-        .edit-form input, .edit-form textarea, .edit-form select {
-            font-family: inherit;
-            border: 1px solid var(--line-color);
-            border-radius: 6px;
-            padding: 8px;
-            font-size: 13px;
+        .edit-form input,
+        .edit-form textarea,
+        .edit-form select {
             width: 100%;
-            box-sizing: border-box;
+            font: inherit;
+            border: 1px solid var(--border);
+            border-radius: 12px;
             background: #f8fafc;
+            color: var(--text);
+            padding: 10px 12px;
         }
-        
-        .edit-form input:focus, .edit-form textarea:focus, .edit-form select:focus {
+
+        .edit-form textarea {
+            min-height: 160px;
+            resize: vertical;
+            white-space: pre-wrap;
+            flex: 1 0 160px;
+        }
+
+        .edit-form input:focus,
+        .edit-form textarea:focus,
+        .edit-form select:focus {
             outline: none;
-            border-color: var(--color-planned);
+            border-color: #93c5fd;
             background: white;
         }
 
-        .edit-form textarea { resize: vertical; min-height: 60px; }
-        
         .edit-actions {
             display: flex;
             gap: 8px;
-            margin-top: 5px;
+            margin-top: auto;
+            position: sticky;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+            padding-top: 8px;
         }
 
         .edit-actions button {
             flex: 1;
-            padding: 6px;
-            font-size: 12px;
+            padding: 10px 12px;
+            border-radius: 12px;
         }
 
-        .btn-save { background: var(--text-main); color: white; }
-        .btn-cancel { background: white; border: 1px solid var(--line-color); }
-        
+        .btn-save { background: #0f172a; color: white; }
+        .btn-cancel { background: white; border: 1px solid var(--border); color: var(--text); }
+
         .dragging {
-            opacity: 0.4;
+            opacity: 0.45;
+        }
+
+        .roadmap-container.mobile {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 100%;
+            padding-left: 0;
+        }
+
+        .roadmap-container.mobile .mobile-line {
+            position: absolute;
+            left: 17px;
+            top: 8px;
+            bottom: 8px;
+            width: 4px;
+            background: var(--line);
+            border-radius: 999px;
+            z-index: 0;
+        }
+
+        .mobile-row {
+            display: grid;
+            grid-template-columns: 36px minmax(0, 1fr);
+            gap: 12px;
+            align-items: flex-start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mobile-node {
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 18px;
+        }
+
+        .mobile-row .card {
+            min-height: 0;
+            max-height: none;
+        }
+
+        .mobile-row .card-desc {
+            max-height: 160px;
+        }
+
+        .empty-state {
+            display: grid;
+            place-items: center;
+            min-height: 320px;
+            padding: 20px;
+        }
+
+        .empty-box {
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            max-width: 440px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .empty-box h3 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+        }
+
+        .empty-box p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 1180px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 920px) {
+            .header-inner {
+                padding: 14px 14px 16px;
+            }
+
+            .header-left,
+            .toolbar {
+                flex-basis: 100%;
+            }
+
+            .toolbar {
+                justify-content: flex-start;
+            }
+
+            .page-shell {
+                width: min(100%, calc(100% - 16px));
+                margin: 10px auto 16px;
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 16px;
+                border-radius: 20px;
+            }
+
+            .workspace {
+                border-radius: 20px;
+            }
+
+            .workspace-head {
+                padding: 12px 14px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .workspace-hint {
+                text-align: left;
+            }
+
+            .roadmap-wrapper {
+                padding: 16px 12px 20px;
+                cursor: default;
+            }
+        }
+
+        @media (max-width: 640px) {
+            button,
+            .back-link {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .stat {
+                min-height: 78px;
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .card {
+                border-radius: 18px;
+                padding: 16px 16px 14px;
+            }
+
+            .card-header {
+                padding-right: 72px;
+            }
+
+            .card-title {
+                font-size: 15px;
+                line-height: 1.3;
+            }
+
+            .card-desc {
+                font-size: 13px;
+                max-height: 180px;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="page-header">
+        <div class="header-inner">
+            <div class="header-left">
+                <a class="back-link" href="index.html" aria-label="Вернуться на главную">
+                    <span aria-hidden="true">←</span>
+                    <span>Назад на главную</span>
+                </a>
+                <div class="page-title-wrap">
+                    <h1 id="roadmapTitle" contenteditable="true" title="Кликни, чтобы изменить название">[Общее окна релизов]</h1>
+                    <p class="subtitle">Планирование релизов сайта, витрины, интернет-магазина и ключевых проектных вех в одном месте.</p>
+                </div>
+            </div>
 
-    <header>
-        <h1 id="roadmapTitle" contenteditable="true" title="Кликните, чтобы изменить название">[Общее окна релизов]</h1>
-        <div class="actions">
-            <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display: none;">
-            <button class="btn-secondary" id="importBtn" title="Загрузить из Word (DOCX) или CSV">Импорт (DOCX/CSV)</button>
-            <button class="btn-secondary" id="resetStorageBtn" title="Очистить локально сохраненные данные этой страницы">Сбросить данные</button>
-            <button class="btn-primary" id="addBtn">+ Добавить веху</button>
-            <button class="btn-success" id="exportBtn">💾 Сохранить как HTML</button>
+            <div class="toolbar">
+                <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display:none;">
+                <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV">Импорт (DOCX/CSV)</button>
+                <button class="btn-primary" id="addBtn">+ Добавить веху</button>
+                <button class="btn-danger-lite" id="resetStorageBtn">Сбросить данные</button>
+                <button class="btn-success" id="exportBtn">💾 Сохранить как HTML</button>
+            </div>
         </div>
     </header>
 
-    <div class="roadmap-wrapper" id="scrollWrapper" style="cursor: grab;">
-        <div class="roadmap-container" id="roadmapContainer"><div class="timeline-line"></div></div>
-    </div>
+    <main class="page-shell">
+        <section class="hero">
+            <div>
+                <h2>Рабочая дорожная карта по сайту и релизам</h2>
+                <p>
+                    Здесь удобно вести релизы сайта, обновления витрины, интернет-магазина и другие важные этапы.
+                    Файл запоминает локальные правки в браузере, но при публикации новой версии на GitHub корректно
+                    обновляется и не тянет старое состояние из других страниц.
+                </p>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-label">Всего вех</div>
+                    <div class="stat-value" id="statTotal">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Сделано</div>
+                    <div class="stat-value" id="statDone">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">В работе</div>
+                    <div class="stat-value" id="statProgress">0</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Запланировано</div>
+                    <div class="stat-value" id="statPlanned">0</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <div class="workspace-head">
+                <div class="workspace-title">Таймлайн релизов</div>
+                <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. На телефоне страница переходит в вертикальный режим.</div>
+            </div>
+
+            <div class="roadmap-wrapper" id="scrollWrapper">
+                <div class="roadmap-container desktop" id="roadmapContainer"></div>
+            </div>
+        </section>
+    </main>
 
     <script id="app-script">
-        /* DATA_START */ 
+        /* DATA_START */
         const INITIAL_DATA = [
     {
         "id": 1775252680977,
@@ -415,45 +891,77 @@
         "desc": "Полное обновление и добавление всех блоков из дизайна в верстку",
         "status": "planned",
         "date": "12 мая 2026"
-    },
-    {
-        "id": 1775256219202,
-        "title": "Новый сайт",
-        "desc": "Описание задачи",
-        "status": "planned",
-        "date": "Месяц Год"
     }
-]; 
+];
         /* DATA_END */
 
+        const APP_VERSION = 'v-1775259584';
+
         const STATUS_MAP = {
-            'done': { label: '✅ Сделано', class: 'status-done' },
-            'progress': { label: '🟡 В работе', class: 'status-progress' },
-            'planned': { label: '🔵 Запланировано', class: 'status-planned' }
+            done: { label: '✅ Сделано', class: 'status-done' },
+            progress: { label: '🟡 В работе', class: 'status-progress' },
+            planned: { label: '🔵 Запланировано', class: 'status-planned' }
         };
 
-        const APP_VERSION = '2026-04-03T22-43-54-694Z';
-        const PAGE_KEY_PREFIX = `roadmap_${location.pathname.replace(/[^a-z0-9а-яё]/gi, '_').toLowerCase()}`;
-        const STORAGE_KEY = `${PAGE_KEY_PREFIX}_data`;
-        const TITLE_STORAGE_KEY = `${PAGE_KEY_PREFIX}_title`;
-        const VERSION_KEY = `${PAGE_KEY_PREFIX}_version`;
+        const LEGACY_KEYS = [
+            'roadmap_smart_speaker_data',
+            'roadmap_smart_speaker_title',
+            'roadmap_smart_speaker_app_version'
+        ];
+
+        const PAGE_KEY_PREFIX = getPageKeyPrefix();
+        const STORAGE_KEY = `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
+        const TITLE_STORAGE_KEY = `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
+        const VERSION_KEY = `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
+        const lastViewportMode = { mobile: isMobileView() };
+
         let milestones = [];
         let editingId = null;
+        let dragStartIndex = -1;
 
-        // Initialization
+        function getPageKeyPrefix() {
+            const raw = decodeURIComponent(window.location.pathname || 'roadmap');
+            return raw.replace(/[^a-z0-9а-яё]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'roadmap';
+        }
+
+        function getCurrentFileName() {
+            const raw = decodeURIComponent(window.location.pathname || '');
+            const fileName = raw.split('/').pop();
+            if (fileName && /\.[a-z0-9]+$/i.test(fileName)) return fileName;
+            return '';
+        }
+
+        function isMobileView() {
+            return window.matchMedia('(max-width: 920px)').matches;
+        }
+
         function init() {
+            migrateStorageIfNeeded();
+            restoreState();
+            bindStaticEvents();
+            render();
+            setupPanScroll();
+            setupViewportWatcher();
+        }
+
+        function migrateStorageIfNeeded() {
             const savedVersion = localStorage.getItem(VERSION_KEY);
             if (savedVersion !== APP_VERSION) {
                 localStorage.removeItem(STORAGE_KEY);
                 localStorage.removeItem(TITLE_STORAGE_KEY);
+                LEGACY_KEYS.forEach(key => localStorage.removeItem(key));
                 localStorage.setItem(VERSION_KEY, APP_VERSION);
             }
+        }
+
+        function restoreState() {
+            const titleEl = document.getElementById('roadmapTitle');
 
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
                     milestones = JSON.parse(stored);
-                } catch (e) {
+                } catch (error) {
                     milestones = [...INITIAL_DATA];
                 }
             } else {
@@ -461,112 +969,214 @@
             }
 
             const storedTitle = localStorage.getItem(TITLE_STORAGE_KEY);
-            const titleEl = document.getElementById('roadmapTitle');
             if (storedTitle) {
                 titleEl.innerText = storedTitle;
-                document.title = storedTitle + ' Roadmap';
+                document.title = `${storedTitle} Roadmap`;
+            } else {
+                document.title = `${titleEl.innerText.trim()} Roadmap`;
             }
+        }
 
-            // Title editing logic
+        function bindStaticEvents() {
+            const titleEl = document.getElementById('roadmapTitle');
+
             titleEl.addEventListener('blur', () => {
-                const newTitle = titleEl.innerText.trim() || '[Smart Speaker]';
+                const newTitle = titleEl.innerText.trim() || '[Новая дорожная карта]';
                 titleEl.innerText = newTitle;
                 localStorage.setItem(TITLE_STORAGE_KEY, newTitle);
-                document.title = newTitle + ' Roadmap';
+                document.title = `${newTitle} Roadmap`;
             });
 
-            titleEl.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
+            titleEl.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
                     titleEl.blur();
                 }
             });
 
-            const resetBtn = document.getElementById('resetStorageBtn');
-            if (resetBtn) {
-                resetBtn.addEventListener('click', () => {
-                    const ok = confirm('Очистить локально сохраненные данные этой страницы и перезагрузить ее?');
-                    if (!ok) return;
+            document.getElementById('addBtn').addEventListener('click', addMilestone);
+            document.getElementById('importBtn').addEventListener('click', () => document.getElementById('fileInput').click());
+            document.getElementById('fileInput').addEventListener('change', handleImport);
+            document.getElementById('resetStorageBtn').addEventListener('click', resetLocalData);
+            document.getElementById('exportBtn').addEventListener('click', exportHTML);
+        }
 
-                    localStorage.removeItem(STORAGE_KEY);
-                    localStorage.removeItem(TITLE_STORAGE_KEY);
-                    localStorage.removeItem(VERSION_KEY);
-                    location.reload();
-                });
-            }
+        function setupViewportWatcher() {
+            window.addEventListener('resize', debounce(() => {
+                const currentMobile = isMobileView();
+                if (currentMobile !== lastViewportMode.mobile) {
+                    lastViewportMode.mobile = currentMobile;
+                    render();
+                    setupPanScroll();
+                }
+            }, 120));
+        }
 
+        function addMilestone() {
+            const newItem = {
+                id: Date.now(),
+                title: 'Новая веха',
+                desc: 'Описание задачи',
+                status: 'planned',
+                date: 'Месяц 2026'
+            };
+
+            milestones.push(newItem);
+            editingId = newItem.id;
+            saveToStorage();
             render();
-            setupPanScroll();
+
+            const wrapper = document.getElementById('scrollWrapper');
+            setTimeout(() => {
+                if (isMobileView()) {
+                    wrapper.scrollTo({ top: wrapper.scrollHeight, behavior: 'smooth' });
+                } else {
+                    wrapper.scrollTo({ left: wrapper.scrollWidth, behavior: 'smooth' });
+                }
+            }, 80);
         }
 
         function saveToStorage() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
-            localStorage.setItem(VERSION_KEY, APP_VERSION);
         }
 
-        // Render functions
+        function updateStats() {
+            const done = milestones.filter(item => item.status === 'done').length;
+            const progress = milestones.filter(item => item.status === 'progress').length;
+            const planned = milestones.filter(item => item.status === 'planned').length;
+
+            document.getElementById('statTotal').innerText = milestones.length;
+            document.getElementById('statDone').innerText = done;
+            document.getElementById('statProgress').innerText = progress;
+            document.getElementById('statPlanned').innerText = planned;
+        }
+
         function render() {
             const container = document.getElementById('roadmapContainer');
-            // Keep the timeline line, remove all columns
-            container.innerHTML = '<div class="timeline-line"></div>';
+            container.innerHTML = '';
+            container.className = `roadmap-container ${isMobileView() ? 'mobile' : 'desktop'}`;
 
-            milestones.forEach((item, index) => {
-                const isTop = index % 2 === 0;
-                const col = document.createElement('div');
-                col.className = `column ${STATUS_MAP[item.status].class}`;
-                col.setAttribute('draggable', 'true');
-                col.dataset.index = index;
-                
-                // Drag and drop events
-                col.addEventListener('dragstart', handleDragStart);
-                col.addEventListener('dragover', handleDragOver);
-                col.addEventListener('dragleave', handleDragLeave);
-                col.addEventListener('drop', handleDrop);
-                col.addEventListener('dragend', handleDragEnd);
-
-                const cardHTML = editingId === item.id ? getEditFormHTML(item) : getCardHTML(item);
-                
-                const cardWrapper = document.createElement('div');
-                cardWrapper.className = isTop ? 'top-area' : 'bottom-area';
-                cardWrapper.innerHTML = `
-                    <div class="connector"></div>
-                    <div class="card" ondblclick="startEdit(${item.id}, event)">
-                        ${cardHTML}
+            if (!milestones.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-box">
+                            <h3>Пока пусто</h3>
+                            <p>Добавь первую веху вручную или загрузи данные из DOCX / CSV, и таймлайн сразу соберется.</p>
+                        </div>
                     </div>
                 `;
+                updateStats();
+                return;
+            }
 
-                const nodeArea = document.createElement('div');
-                nodeArea.className = 'node-area';
-                nodeArea.innerHTML = '<div class="dot"></div>';
+            if (isMobileView()) {
+                renderMobile(container);
+            } else {
+                renderDesktop(container);
+            }
 
-                const emptyArea = document.createElement('div');
-                emptyArea.className = isTop ? 'bottom-area' : 'top-area';
+            updateStats();
+        }
 
-                if (isTop) {
-                    col.appendChild(cardWrapper);
-                    col.appendChild(nodeArea);
-                    col.appendChild(emptyArea);
-                } else {
-                    col.appendChild(emptyArea);
-                    col.appendChild(nodeArea);
-                    col.appendChild(cardWrapper);
+        function renderDesktop(container) {
+            const line = document.createElement('div');
+            line.className = 'timeline-line';
+            container.appendChild(line);
+
+            milestones.forEach((item, index) => {
+                const column = document.createElement('div');
+                column.className = `desktop-column ${STATUS_MAP[item.status].class}`;
+                column.dataset.index = index;
+                column.draggable = editingId === null;
+
+                if (editingId === null) {
+                    column.addEventListener('dragstart', handleDragStart);
+                    column.addEventListener('dragover', handleDragOver);
+                    column.addEventListener('dragleave', handleDragLeave);
+                    column.addEventListener('drop', handleDrop);
+                    column.addEventListener('dragend', handleDragEnd);
                 }
 
-                container.appendChild(col);
+                const isTop = index % 2 === 0;
+                column.innerHTML = `
+                    ${isTop ? buildSlotHTML(item, 'top-slot') : '<div class="slot top-slot empty"></div>'}
+                    <div class="node-row"><div class="dot"></div></div>
+                    ${isTop ? '<div class="slot bottom-slot empty"></div>' : buildSlotHTML(item, 'bottom-slot')}
+                `;
+
+                attachCardEvents(column, item.id);
+                container.appendChild(column);
             });
+        }
+
+        function renderMobile(container) {
+            const line = document.createElement('div');
+            line.className = 'mobile-line';
+            container.appendChild(line);
+
+            milestones.forEach((item) => {
+                const row = document.createElement('div');
+                row.className = `mobile-row ${STATUS_MAP[item.status].class}`;
+                row.innerHTML = `
+                    <div class="mobile-node"><div class="dot"></div></div>
+                    <div class="mobile-card-wrap">${buildCardShellHTML(item)}</div>
+                `;
+                attachCardEvents(row, item.id);
+                container.appendChild(row);
+            });
+        }
+
+        function buildSlotHTML(item, slotClass) {
+            return `
+                <div class="slot ${slotClass}">
+                    <div class="connector"></div>
+                    ${buildCardShellHTML(item)}
+                </div>
+            `;
+        }
+
+        function buildCardShellHTML(item) {
+            return `
+                <div class="card ${editingId === item.id ? 'editing' : ''}" data-card-id="${item.id}">
+                    ${editingId === item.id ? getEditFormHTML(item) : getCardHTML(item)}
+                </div>
+            `;
         }
 
         function getCardHTML(item) {
             return `
-                <button class="delete-btn" onclick="deleteItem(${item.id}, event)" title="Удалить">×</button>
+                <div class="card-actions">
+                    <button class="icon-btn" type="button" onclick="startEdit(${item.id}, event)" title="Редактировать" aria-label="Редактировать">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-btn delete" type="button" onclick="deleteItem(${item.id}, event)" title="Удалить" aria-label="Удалить">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M3 6h18"></path>
+                            <path d="M8 6V4h8v2"></path>
+                            <path d="M19 6l-1 14H6L5 6"></path>
+                            <path d="M10 11v6"></path>
+                            <path d="M14 11v6"></path>
+                        </svg>
+                    </button>
+                </div>
                 <div class="card-header">
                     <span class="status-badge">${STATUS_MAP[item.status].label}</span>
                 </div>
-                <div class="card-title">${escapeHTML(item.title)}</div>
-                <div class="card-desc" title="${escapeHTML(item.desc)}">${escapeHTML(item.desc)}</div>
+                <div class="card-main">
+                    <div class="card-title" title="${escapeHTML(item.title)}">${escapeHTML(item.title)}</div>
+                    <div class="card-desc" title="${escapeHTML(item.desc)}">${escapeHTML(item.desc)}</div>
+                </div>
                 <div class="card-date">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                    ${escapeHTML(item.date)}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>${escapeHTML(item.date)}</span>
                 </div>
             `;
         }
@@ -583,45 +1193,44 @@
                     <textarea id="edit-desc" placeholder="Описание">${escapeHTML(item.desc)}</textarea>
                     <input type="text" id="edit-date" value="${escapeHTML(item.date)}" placeholder="Срок">
                     <div class="edit-actions">
-                        <button class="btn-cancel" onclick="cancelEdit(event)">Отмена</button>
-                        <button class="btn-save" onclick="saveEdit(${item.id}, event)">Сохранить</button>
+                        <button class="btn-cancel" type="button" onclick="cancelEdit(event)">Отмена</button>
+                        <button class="btn-save" type="button" onclick="saveEdit(${item.id}, event)">Сохранить</button>
                     </div>
                 </div>
             `;
         }
 
-        // Actions
-        document.getElementById('addBtn').addEventListener('click', () => {
-            const newItem = {
-                id: Date.now(),
-                title: 'Новая веха',
-                desc: 'Описание задачи',
-                status: 'planned',
-                date: 'Месяц Год'
-            };
-            milestones.push(newItem);
-            saveToStorage();
-            editingId = newItem.id;
-            render();
-            
-            // Scroll to end
-            const wrapper = document.getElementById('scrollWrapper');
-            setTimeout(() => { wrapper.scrollTo({ left: wrapper.scrollWidth, behavior: 'smooth' }); }, 100);
-        });
+        function attachCardEvents(root, id) {
+            const card = root.querySelector(`[data-card-id="${id}"]`);
+            if (!card) return;
+            card.addEventListener('dblclick', (event) => {
+                if (editingId !== id) {
+                    startEdit(id, event);
+                }
+            });
+        }
 
         window.deleteItem = function(id, event) {
             event.stopPropagation();
-            if(confirm('Удалить эту веху?')) {
-                milestones = milestones.filter(m => m.id !== id);
-                saveToStorage();
-                render();
-            }
+            if (!confirm('Удалить эту веху?')) return;
+            milestones = milestones.filter(item => item.id !== id);
+            saveToStorage();
+            if (editingId === id) editingId = null;
+            render();
         };
 
         window.startEdit = function(id, event) {
-            event.stopPropagation();
+            if (event) event.stopPropagation();
             editingId = id;
             render();
+            requestAnimationFrame(() => {
+                const card = document.querySelector(`.card[data-card-id="${id}"]`);
+                if (card) {
+                    card.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+                }
+                const firstField = document.getElementById('edit-title');
+                if (firstField) firstField.focus();
+            });
         };
 
         window.cancelEdit = function(event) {
@@ -632,190 +1241,170 @@
 
         window.saveEdit = function(id, event) {
             event.stopPropagation();
-            const title = document.getElementById('edit-title').value;
-            const desc = document.getElementById('edit-desc').value;
-            const status = document.getElementById('edit-status').value;
-            const date = document.getElementById('edit-date').value;
 
-            const index = milestones.findIndex(m => m.id === id);
-            if(index !== -1) {
+            const title = document.getElementById('edit-title').value.trim() || 'Без названия';
+            const desc = document.getElementById('edit-desc').value.trim();
+            const status = document.getElementById('edit-status').value;
+            const date = document.getElementById('edit-date').value.trim();
+
+            const index = milestones.findIndex(item => item.id === id);
+            if (index !== -1) {
                 milestones[index] = { ...milestones[index], title, desc, status, date };
                 saveToStorage();
             }
+
             editingId = null;
             render();
         };
 
-        // Drag and Drop Logic
-        let dragStartIndex = -1;
-
-        function handleDragStart(e) {
-            if (editingId) return e.preventDefault();
-            dragStartIndex = +this.dataset.index;
+        function handleDragStart(event) {
+            if (editingId !== null) {
+                event.preventDefault();
+                return;
+            }
+            dragStartIndex = Number(this.dataset.index);
             this.classList.add('dragging');
-            e.dataTransfer.effectAllowed = 'move';
-            // Slight delay so the element isn't hidden while dragging
-            setTimeout(() => this.style.opacity = '0.4', 0); 
+            event.dataTransfer.effectAllowed = 'move';
+            setTimeout(() => { this.style.opacity = '0.45'; }, 0);
         }
 
-        function handleDragOver(e) {
-            e.preventDefault();
-            const overCol = e.target.closest('.column');
-            if (overCol && !overCol.classList.contains('dragging')) {
-                overCol.classList.add('drag-over');
+        function handleDragOver(event) {
+            event.preventDefault();
+            const overColumn = event.currentTarget;
+            if (overColumn && !overColumn.classList.contains('dragging')) {
+                overColumn.classList.add('drag-over');
             }
         }
 
-        function handleDragLeave(e) {
-            const overCol = e.target.closest('.column');
-            if (overCol) {
-                overCol.classList.remove('drag-over');
-            }
+        function handleDragLeave() {
+            this.classList.remove('drag-over');
         }
 
-        function handleDrop(e) {
-            e.preventDefault();
-            const overCol = e.target.closest('.column');
-            if (overCol) {
-                overCol.classList.remove('drag-over');
-                const dropIndex = +overCol.dataset.index;
-                
-                if (dragStartIndex !== dropIndex && dragStartIndex > -1) {
-                    // Reorder array
-                    const item = milestones.splice(dragStartIndex, 1)[0];
-                    milestones.splice(dropIndex, 0, item);
-                    saveToStorage();
-                    render();
-                }
-            }
+        function handleDrop(event) {
+            event.preventDefault();
+            const dropIndex = Number(this.dataset.index);
+            this.classList.remove('drag-over');
+
+            if (dragStartIndex === -1 || dragStartIndex === dropIndex) return;
+
+            const moved = milestones.splice(dragStartIndex, 1)[0];
+            milestones.splice(dropIndex, 0, moved);
+            saveToStorage();
+            render();
         }
 
-        function handleDragEnd(e) {
+        function handleDragEnd() {
             this.classList.remove('dragging');
             this.style.opacity = '1';
-            document.querySelectorAll('.column').forEach(c => c.classList.remove('drag-over'));
             dragStartIndex = -1;
+            document.querySelectorAll('.desktop-column').forEach(col => col.classList.remove('drag-over'));
         }
 
-        // --- Улучшенный Экспорт HTML ---
-        document.getElementById('exportBtn').addEventListener('click', () => {
-            // Завершаем редактирование перед сохранением
+        function resetLocalData() {
+            const ok = confirm('Очистить локально сохраненные данные этой страницы и перезагрузить ее?');
+            if (!ok) return;
+
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(TITLE_STORAGE_KEY);
+            localStorage.removeItem(VERSION_KEY);
+            LEGACY_KEYS.forEach(key => localStorage.removeItem(key));
+            location.reload();
+        }
+
+        function exportHTML() {
             editingId = null;
             render();
 
             const currentTitle = document.getElementById('roadmapTitle').innerText.trim() || 'Roadmap';
-
-            // Клонируем документ, чтобы не сломать текущую страницу
             const clone = document.documentElement.cloneNode(true);
 
-            // 1. Обновляем <title> в скачиваемом файле
-            const titleEl = clone.querySelector('title');
-            if (titleEl) titleEl.innerText = `${currentTitle} Roadmap`;
+            const titleNode = clone.querySelector('title');
+            if (titleNode) titleNode.innerText = `${currentTitle} Roadmap`;
 
-            // 2. Очищаем все лишние скрипты инъекции (оставляем только app-script и mammoth)
+            const titleHeading = clone.querySelector('#roadmapTitle');
+            if (titleHeading) titleHeading.innerText = currentTitle;
+
             const scripts = clone.querySelectorAll('script');
-            scripts.forEach(s => {
-                if (s.id !== 'app-script' && !s.src.includes('mammoth')) {
-                    s.remove();
+            scripts.forEach(script => {
+                if (script.id !== 'app-script' && !(script.src || '').includes('mammoth')) {
+                    script.remove();
                 }
             });
 
-            // 3. Обновляем блок INITIAL_DATA внутри клона на актуальные данные
             const appScript = clone.querySelector('#app-script');
             if (appScript) {
                 const stateStr = JSON.stringify(milestones, null, 4);
-                const regex = /\/\* DATA_START \*\/[\s\S]*?\/\* DATA_END \*\//;
-                const newBlock = `/* DATA_START */ 
-        const INITIAL_DATA = ${stateStr}; 
-        /* DATA_END */`;
-                appScript.textContent = appScript.textContent.replace(regex, newBlock);
-
-                const versionRegex = /const APP_VERSION = '[^']*';/;
-                const exportVersion = new Date().toISOString().replace(/[:.]/g, '-');
-                appScript.textContent = appScript.textContent.replace(versionRegex, `const APP_VERSION = '${exportVersion}';`);
+                let scriptText = appScript.textContent;
+                scriptText = scriptText.replace(/\/\* DATA_START \*\/[\s\S]*?\/\* DATA_END \*\//, `/* DATA_START */\n        const INITIAL_DATA = ${stateStr};\n        /* DATA_END */`);
+                scriptText = scriptText.replace(/const APP_VERSION = '.*?';/, `const APP_VERSION = 'v-1775259584';`);
+                appScript.textContent = scriptText;
             }
 
-            // 4. Очищаем контейнер от отрендеренных карточек (они всё равно сгенерируются функцией init() при запуске файла) 
-            // Это уменьшит вес файла и уберет возможные дубликаты
             const container = clone.querySelector('#roadmapContainer');
-            if (container) {
-                container.innerHTML = '<div class="timeline-line"></div>';
-            }
+            if (container) container.innerHTML = '';
 
-            // 5. Формируем финальный HTML
-            const finalHTML = '<!DOCTYPE html>\n<html lang="ru">\n' + clone.innerHTML + '\n</html>';
-            
-            // 6. Инициируем скачивание
+            const finalHTML = '<!DOCTYPE html>\n' + clone.outerHTML;
             const blob = new Blob([finalHTML], { type: 'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
+
             const a = document.createElement('a');
             a.href = url;
-            
-            // Создаем безопасное имя файла из заголовка
-            const safeName = currentTitle.replace(/[^a-z0-9а-яё]/gi, '_').toLowerCase();
-            a.download = `roadmap_${safeName}.html`;
-            
+            a.download = getCurrentFileName() || `${slugify(currentTitle)}.html`;
             document.body.appendChild(a);
             a.click();
-            document.body.removeChild(a);
+            a.remove();
             URL.revokeObjectURL(url);
-        });
+        }
 
-        // Import Functionality (DOCX, CSV, TXT)
-        document.getElementById('importBtn').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
-        });
-
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
+        function handleImport(event) {
+            const file = event.target.files[0];
             if (!file) return;
 
             const ext = file.name.split('.').pop().toLowerCase();
 
             if (ext === 'docx') {
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    const arrayBuffer = event.target.result;
-                    
-                    mammoth.convertToHtml({arrayBuffer: arrayBuffer}).then(function(result) {
+                reader.onload = function(loadEvent) {
+                    const arrayBuffer = loadEvent.target.result;
+
+                    mammoth.convertToHtml({ arrayBuffer }).then((result) => {
                         const tempDiv = document.createElement('div');
                         tempDiv.innerHTML = result.value;
-                        
-                        let rows = [];
+
                         const table = tempDiv.querySelector('table');
-                        
                         if (table) {
-                            table.querySelectorAll('tr').forEach(tr => {
+                            const rows = [];
+                            table.querySelectorAll('tr').forEach((tr) => {
                                 const row = [];
-                                tr.querySelectorAll('td, th').forEach(cell => row.push(cell.innerText.trim()));
-                                if(row.length >= 3) rows.push(row);
+                                tr.querySelectorAll('td, th').forEach((cell) => row.push(cell.innerText.trim()));
+                                if (row.length >= 3) rows.push(row);
                             });
                             processParsedData(rows);
                         } else {
-                            mammoth.extractRawText({arrayBuffer: arrayBuffer}).then(res => {
+                            return mammoth.extractRawText({ arrayBuffer }).then((res) => {
                                 processParsedData(parseCSV(res.value));
                             });
                         }
-                    }).catch(function(err) {
-                        alert('Ошибка при чтении Word файла. Убедитесь, что это формат .docx');
-                        console.error(err);
+                    }).catch((error) => {
+                        alert('Ошибка чтения Word-файла. Проверь, что это именно .docx');
+                        console.error(error);
                     });
                 };
                 reader.readAsArrayBuffer(file);
             } else {
                 const reader = new FileReader();
-                reader.onload = function(event) {
-                    processParsedData(parseCSV(event.target.result));
+                reader.onload = function(loadEvent) {
+                    processParsedData(parseCSV(loadEvent.target.result));
                 };
                 reader.readAsText(file);
             }
-            
-            this.value = ''; // сбрасываем input
-        });
+
+            event.target.value = '';
+        }
 
         function processParsedData(rows) {
             if (!rows || rows.length === 0) {
-                alert('Не удалось найти данные. Убедитесь, что в файле есть таблица или текст через запятую.');
+                alert('Не удалось найти данные. Проверь, что в файле есть таблица или CSV-текст.');
                 return;
             }
 
@@ -827,8 +1416,8 @@
             const newMilestones = [];
             for (let i = startIdx; i < rows.length; i++) {
                 const row = rows[i];
-                if (row.length < 3) continue; 
-                
+                if (row.length < 3) continue;
+
                 newMilestones.push({
                     id: Date.now() + i,
                     title: row[0] || 'Без названия',
@@ -838,124 +1427,151 @@
                 });
             }
 
-            if (newMilestones.length > 0) {
-                const replace = confirm('Заменить текущую дорожную карту новыми данными из файла?\n\n[ОК] - Заменить всё\n[Отмена] - Добавить к текущим в конец');
-                if (replace) {
-                    milestones = newMilestones;
-                } else {
-                    milestones = milestones.concat(newMilestones);
-                }
-                saveToStorage();
-                render();
-                
-                const wrapper = document.getElementById('scrollWrapper');
-                setTimeout(() => { 
-                    wrapper.scrollTo({ left: replace ? 0 : wrapper.scrollWidth, behavior: 'smooth' }); 
-                }, 100);
-            } else {
+            if (!newMilestones.length) {
                 alert('Не удалось распознать структуру данных в файле.');
+                return;
             }
+
+            const replace = confirm('Заменить текущую дорожную карту данными из файла?\n\nОК - заменить всё\nОтмена - добавить в конец');
+            milestones = replace ? newMilestones : milestones.concat(newMilestones);
+            editingId = null;
+            saveToStorage();
+            render();
+
+            const wrapper = document.getElementById('scrollWrapper');
+            setTimeout(() => {
+                if (isMobileView()) {
+                    wrapper.scrollTo({ top: replace ? 0 : wrapper.scrollHeight, behavior: 'smooth' });
+                } else {
+                    wrapper.scrollTo({ left: replace ? 0 : wrapper.scrollWidth, behavior: 'smooth' });
+                }
+            }, 80);
         }
 
         function parseCSV(text) {
-            let result = [];
+            const result = [];
             let row = [];
             let inQuotes = false;
-            let currentValue = "";
-            
+            let currentValue = '';
+
             for (let i = 0; i < text.length; i++) {
-                let char = text[i];
+                const char = text[i];
+
                 if (char === '"') {
-                    if (inQuotes && text[i+1] === '"') {
-                        currentValue += '"'; 
-                        i++; 
+                    if (inQuotes && text[i + 1] === '"') {
+                        currentValue += '"';
+                        i++;
                     } else {
                         inQuotes = !inQuotes;
                     }
                 } else if (char === ',' && !inQuotes) {
                     row.push(currentValue.trim());
-                    currentValue = "";
+                    currentValue = '';
                 } else if (char === '\n' && !inQuotes) {
                     row.push(currentValue.trim());
-                    if (row.length > 1 || row[0] !== "") result.push(row);
+                    if (row.length > 1 || row[0] !== '') result.push(row);
                     row = [];
-                    currentValue = "";
-                } else if (char === '\r' && !inQuotes) {
-                } else {
+                    currentValue = '';
+                } else if (char !== '\r') {
                     currentValue += char;
                 }
             }
-            if (currentValue !== "" || row.length > 0) {
+
+            if (currentValue !== '' || row.length > 0) {
                 row.push(currentValue.trim());
                 result.push(row);
             }
+
             return result;
         }
 
-        function mapStatusToCode(rusStatus) {
-            if (!rusStatus) return 'planned';
-            const s = rusStatus.toLowerCase().trim();
+        function mapStatusToCode(value) {
+            if (!value) return 'planned';
+            const s = String(value).toLowerCase().trim();
             if (s.includes('завершено') || s.includes('сделано') || s.includes('готово')) return 'done';
             if (s.includes('работе') || s.includes('процессе')) return 'progress';
             return 'planned';
         }
 
-        function escapeHTML(str) {
-            return String(str).replace(/[&<>'"]/g, 
-                tag => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    "'": '&#39;',
-                    '"': '&quot;'
-                }[tag] || tag)
-            );
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>'"]/g, (char) => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[char] || char));
         }
 
-        // Mouse pan scrolling for wrapper
+        function slugify(value) {
+            return String(value)
+                .toLowerCase()
+                .replace(/[^a-z0-9а-яё]+/gi, '_')
+                .replace(/^_+|_+$/g, '') || 'roadmap';
+        }
+
+        function debounce(fn, wait) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn(...args), wait);
+            };
+        }
+
         function setupPanScroll() {
             const slider = document.getElementById('scrollWrapper');
-            let isDown = false;
-            let startX;
-            let scrollLeft;
+            slider.onmousedown = null;
+            slider.onmousemove = null;
+            slider.onmouseup = null;
+            slider.onmouseleave = null;
+            slider.onwheel = null;
 
-            slider.addEventListener('mousedown', (e) => {
-                if(e.target.closest('.card') || e.target.closest('button')) return;
+            if (isMobileView()) {
+                slider.style.cursor = 'default';
+                return;
+            }
+
+            let isDown = false;
+            let startX = 0;
+            let scrollLeft = 0;
+
+            slider.style.cursor = 'grab';
+
+            slider.onmousedown = (event) => {
+                if (event.target.closest('.card') || event.target.closest('button') || event.target.closest('a')) return;
                 isDown = true;
                 slider.style.cursor = 'grabbing';
-                startX = e.pageX - slider.offsetLeft;
+                startX = event.pageX - slider.offsetLeft;
                 scrollLeft = slider.scrollLeft;
-            });
-            slider.addEventListener('mouseleave', () => {
+            };
+
+            slider.onmouseleave = () => {
                 isDown = false;
                 slider.style.cursor = 'grab';
-            });
-            slider.addEventListener('mouseup', () => {
+            };
+
+            slider.onmouseup = () => {
                 isDown = false;
                 slider.style.cursor = 'grab';
-            });
-            slider.addEventListener('mousemove', (e) => {
+            };
+
+            slider.onmousemove = (event) => {
                 if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - slider.offsetLeft;
-                const walk = (x - startX) * 2; 
+                event.preventDefault();
+                const x = event.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 1.75;
                 slider.scrollLeft = scrollLeft - walk;
-            });
+            };
+
+            slider.onwheel = (event) => {
+                if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+                    event.preventDefault();
+                    slider.scrollLeft += event.deltaY;
+                }
+            };
         }
 
-        // Run
         init();
-
     </script>
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
