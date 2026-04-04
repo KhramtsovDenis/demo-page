@@ -30,6 +30,7 @@
             --planned-text: #1e40af;
 
             --header-height: 88px;
+            --mobile-header-peek: 56px;
             --font: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
 
@@ -60,6 +61,12 @@
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(226, 232, 240, 0.85);
             box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .page-header.is-collapsed {
+            transform: translateY(calc(-1 * var(--mobile-header-peek)));
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
         }
 
         .header-inner {
@@ -140,6 +147,24 @@
             flex-wrap: wrap;
             justify-content: flex-end;
             flex: 1 1 420px;
+        }
+
+        .toolbar button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn-icon {
+            font-size: 16px;
+            line-height: 1;
+            flex: 0 0 auto;
+        }
+
+        .btn-text {
+            line-height: 1;
         }
 
         button {
@@ -237,7 +262,8 @@
         }
 
         .stat {
-            background: rgba(255,255,255,0.92);
+            position: relative;
+            background: rgba(255,255,255,0.94);
             border: 1px solid rgba(226, 232, 240, 0.95);
             border-radius: 18px;
             padding: 14px;
@@ -246,6 +272,67 @@
             flex-direction: column;
             justify-content: space-between;
             box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .stat::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 5px;
+            border-radius: 18px 0 0 18px;
+            background: var(--line);
+        }
+
+        .stat-total {
+            background: linear-gradient(180deg, rgba(215, 224, 234, 0.20), rgba(255,255,255,0.96));
+        }
+
+        .stat-total::before {
+            background: var(--line);
+        }
+
+        .stat-total .stat-value {
+            color: #334155;
+        }
+
+        .stat-done {
+            background: linear-gradient(180deg, rgba(209, 250, 229, 0.66), rgba(255,255,255,0.96));
+            border-color: rgba(16, 185, 129, 0.18);
+        }
+
+        .stat-done::before {
+            background: var(--done);
+        }
+
+        .stat-done .stat-value {
+            color: var(--done-text);
+        }
+
+        .stat-progress {
+            background: linear-gradient(180deg, rgba(254, 243, 199, 0.72), rgba(255,255,255,0.96));
+            border-color: rgba(245, 158, 11, 0.18);
+        }
+
+        .stat-progress::before {
+            background: var(--progress);
+        }
+
+        .stat-progress .stat-value {
+            color: var(--progress-text);
+        }
+
+        .stat-planned {
+            background: linear-gradient(180deg, rgba(219, 234, 254, 0.72), rgba(255,255,255,0.96));
+            border-color: rgba(59, 130, 246, 0.18);
+        }
+
+        .stat-planned::before {
+            background: var(--planned);
+        }
+
+        .stat-planned .stat-value {
+            color: var(--planned-text);
         }
 
         .stat-label {
@@ -736,14 +823,74 @@
         }
 
         @media (max-width: 640px) {
-            button,
+            .page-header {
+                top: 0;
+            }
+
+            .header-inner {
+                padding: 10px 12px 10px;
+                gap: 10px;
+            }
+
+            .header-left {
+                gap: 10px;
+                align-items: center;
+            }
+
             .back-link {
-                width: 100%;
+                width: auto;
                 justify-content: center;
+                padding: 10px 12px;
+                min-height: 44px;
+                border-radius: 12px;
+                box-shadow: none;
+                flex: 0 0 auto;
+            }
+
+            .back-link span:last-child {
+                display: none;
+            }
+
+            #roadmapTitle {
+                font-size: 20px;
+                line-height: 1.15;
+                padding: 2px 4px;
+            }
+
+            .subtitle {
+                display: none;
             }
 
             .toolbar {
-                flex-direction: column;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                gap: 8px;
+                padding-bottom: 2px;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+
+            .toolbar::-webkit-scrollbar {
+                display: none;
+            }
+
+            .toolbar button {
+                flex: 0 0 auto;
+                min-width: 46px;
+                min-height: 46px;
+                padding: 0 12px;
+                border-radius: 12px;
+                box-shadow: none;
+            }
+
+            .toolbar .btn-text {
+                display: none;
+            }
+
+            .toolbar .btn-icon {
+                font-size: 18px;
             }
 
             .stats {
@@ -796,10 +943,10 @@
 
             <div class="toolbar">
                 <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display:none;">
-                <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV">Импорт (DOCX/CSV)</button>
-                <button class="btn-primary" id="addBtn">+ Добавить веху</button>
-                <button class="btn-danger-lite" id="resetStorageBtn">Сбросить данные</button>
-                <button class="btn-success" id="exportBtn">💾 Сохранить как HTML</button>
+                <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV"><span class="btn-icon" aria-hidden="true">⇪</span><span class="btn-text">Импорт (DOCX/CSV)</span></button>
+                <button class="btn-primary" id="addBtn"><span class="btn-icon" aria-hidden="true">＋</span><span class="btn-text">Добавить веху</span></button>
+                <button class="btn-danger-lite" id="resetStorageBtn"><span class="btn-icon" aria-hidden="true">↺</span><span class="btn-text">Сбросить данные</span></button>
+                <button class="btn-success" id="exportBtn"><span class="btn-icon" aria-hidden="true">💾</span><span class="btn-text">Сохранить как HTML</span></button>
             </div>
         </div>
     </header>
@@ -816,19 +963,19 @@
             </div>
 
             <div class="stats">
-                <div class="stat">
+                <div class="stat stat-total">
                     <div class="stat-label">Всего вех</div>
                     <div class="stat-value" id="statTotal">0</div>
                 </div>
-                <div class="stat">
+                <div class="stat stat-done">
                     <div class="stat-label">Сделано</div>
                     <div class="stat-value" id="statDone">0</div>
                 </div>
-                <div class="stat">
+                <div class="stat stat-progress">
                     <div class="stat-label">В работе</div>
                     <div class="stat-value" id="statProgress">0</div>
                 </div>
-                <div class="stat">
+                <div class="stat stat-planned">
                     <div class="stat-label">Запланировано</div>
                     <div class="stat-value" id="statPlanned">0</div>
                 </div>
@@ -853,49 +1000,49 @@
     {
         "id": 1773778636968,
         "title": "NEEM MP/PS",
-        "desc": "Первая релизная версия приложения поддерживающая новый продукт NEEM",
+        "desc": "1. Первая релизная версия приложения с поддержкой продукта NEEM.\n2. Подготовка базового пользовательского контура для дальнейшего развития сценариев.",
         "status": "done",
-        "date": "10 Март 2026"
+        "date": "10 марта 2026"
     },
     {
         "id": 1773776214811,
-        "title": "Sync Button and Battery NEEM MVP + Умные весы Normal Range Indicators (шкалирование) + Бывший прем",
-        "desc": "Работа с кнопками добавления визуала по АКБ\nДоработка МА, добавление шкал показателей\nЗапуск обновленных инсайтов и баллов активностей на всех пользователей",
+        "title": "NEEM MVP: Sync Button и Battery + умные весы: Normal Range Indicators + обновленные инсайты",
+        "desc": "1. Обновление визуала и логики кнопок, а также индикации АКБ.\n2. Доработка мобильного приложения для умных весов: добавление шкал показателей.\n3. Запуск обновленных инсайтов и баллов активности для всех пользователей.",
         "status": "progress",
-        "date": " 12 Мая 2026"
+        "date": "12 мая 2026"
     },
     {
         "id": 1773776694649,
-        "title": "Multi device (NEEM, Умные весы) + Онбординг фикс + Онбордиг весов + История использования NEEM",
-        "desc": "Вывод продукта в мултидивайс. Возвращение онбординга с обновленными целями пользователя\nДобавление онбординка для умных весов.",
+        "title": "Multi-device: NEEM и умные весы + фикс онбординга + онбординг весов + история использования NEEM",
+        "desc": "1. Вывод NEEM и умных весов в мультидевайсный контур.\n2. Возврат онбординга с обновленными целями пользователя.\n3. Добавление отдельного онбординга для умных весов.\n4. Запуск истории использования NEEM.",
         "status": "progress",
-        "date": "29 Июня 2026"
+        "date": "29 июня 2026"
     },
     {
         "id": 1773777223820,
-        "title": "Energy Balance Transparency + ЭКГ + Long-term data ",
-        "desc": "Энергобаланс - разделение прихода и расхода, вывод накопленного показателя за неделю.\nВывод данных за месяцы и год\nЭКГ - снятие данных, вывод в интерфейс полученных данных",
+        "title": "Energy Balance Transparency + ЭКГ + Long-term data",
+        "desc": "1. Энергобаланс: разделение прихода и расхода, а также вывод накопленного показателя за неделю.\n2. Добавление данных за месяц и год.\n3. ЭКГ: снятие показаний и вывод результатов в интерфейс.",
         "status": "planned",
-        "date": "31 Август 2026"
+        "date": "31 августа 2026"
     },
     {
         "id": 1773777519158,
-        "title": "Complex indicator + Аритмия + Поддержка iOS - Android",
-        "desc": "Комплексный показатель по ЭБ покажет успехи клиента на пути к цели. Вывод определения Аритмии с указанием количества и времени. Поддержка выхода нового релиза на AND и IOS",
+        "title": "Complex indicator + аритмия + поддержка iOS и Android",
+        "desc": "1. Комплексный показатель по энергобалансу помогает оценить прогресс пользователя на пути к цели.\n2. Вывод признаков аритмии с указанием времени и количества событий.\n3. Поддержка релиза на iOS и Android.",
         "status": "planned",
-        "date": "26 Октября 2026"
+        "date": "26 октября 2026"
     },
     {
         "id": 1773778008956,
-        "title": "Weight Trend + ВСР+ Темная тема  + NEEM OTA + Usage history + Нотификации браслет - телефон",
-        "desc": "Рефакторинг блока веса\nПоказатель сердечного ритма, диаграмма Пуанкаре \nNEEM от выполнения плана продаж.",
+        "title": "Weight Trend + ВСР + темная тема + NEEM OTA + Usage history + уведомления браслет - телефон",
+        "desc": "1. Рефакторинг блока веса и трендов.\n2. Добавление ВСР и диаграммы Пуанкаре.\n3. Поддержка темной темы.\n4. OTA для NEEM, история использования и уведомления между браслетом и телефоном.",
         "status": "planned",
-        "date": "23 Декабря 2026"
+        "date": "23 декабря 2026"
     }
-];
+]; 
         /* DATA_END */
 
-        const APP_VERSION = 'v-1775258120';
+        const APP_VERSION = 'v-1775261814';
 
         const STATUS_MAP = {
             done: { label: '✅ Сделано', class: 'status-done' },
@@ -942,6 +1089,8 @@
             render();
             setupPanScroll();
             setupViewportWatcher();
+            setupHeaderScroll();
+            updateHeaderCompactState();
         }
 
         function migrateStorageIfNeeded() {
@@ -1009,7 +1158,24 @@
                     render();
                     setupPanScroll();
                 }
+                updateHeaderCompactState();
             }, 120));
+        }
+
+        function setupHeaderScroll() {
+            window.addEventListener('scroll', updateHeaderCompactState, { passive: true });
+        }
+
+        function updateHeaderCompactState() {
+            const header = document.querySelector('.page-header');
+            if (!header) return;
+
+            if (!isMobileView()) {
+                header.classList.remove('is-collapsed');
+                return;
+            }
+
+            header.classList.toggle('is-collapsed', window.scrollY > 56);
         }
 
         function addMilestone() {
