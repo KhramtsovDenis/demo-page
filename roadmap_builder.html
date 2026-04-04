@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Релизы в приложении] Roadmap</title>
+    <title>[Новая дорожная карта] Roadmap</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
     <style>
@@ -33,10 +33,9 @@
             --brand: #6f63d9;
             --brand-2: #8f84e8;
             --brand-soft: rgba(111, 99, 217, 0.10);
-            --brand-border: rgba(143, 132, 232, 0.28);
+
             --success: #0f766e;
             --success-2: #10b981;
-            --success-soft: rgba(16, 185, 129, 0.12);
 
             --header-height: 88px;
             --mobile-header-peek: 56px;
@@ -49,8 +48,8 @@
             margin: 0;
             min-height: 100%;
             background:
-                radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 28%),
-                radial-gradient(circle at left top, rgba(16, 185, 129, 0.06), transparent 22%),
+                radial-gradient(circle at top right, rgba(111, 99, 217, 0.07), transparent 28%),
+                radial-gradient(circle at left top, rgba(143, 132, 232, 0.05), transparent 22%),
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
@@ -176,6 +175,13 @@
             line-height: 1;
         }
 
+        .btn-primary .btn-icon,
+        .btn-success .btn-icon,
+        .btn-save .btn-icon,
+        .btn-primary .btn-text,
+        .btn-success .btn-text,
+        .btn-save .btn-text { color: inherit; }
+
         button {
             appearance: none;
             border: none;
@@ -256,8 +262,8 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(111,99,217,0.12), rgba(255,255,255,0.96) 42%, rgba(16,185,129,0.06));
-            border: 1px solid rgba(217, 211, 255, 0.85);
+            background: linear-gradient(135deg, rgba(111, 99, 217, 0.10), rgba(255,255,255,0.96) 40%, rgba(143, 132, 232, 0.05));
+            border: 1px solid rgba(216, 180, 254, 0.72);
             border-radius: 24px;
             padding: 18px 20px;
             box-shadow: var(--shadow-soft);
@@ -546,9 +552,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            color: var(--muted);
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            color: #6f63d9;
             font-size: 14px;
             font-weight: 900;
             flex: 0 0 auto;
@@ -711,7 +717,7 @@
             border-radius: 12px;
         }
 
-        .btn-save { background: #0f172a; color: white; }
+        .btn-save { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; }
         .btn-cancel { background: white; border: 1px solid var(--border); color: var(--text); }
 
         .dragging {
@@ -955,13 +961,13 @@
     <header class="page-header">
         <div class="header-inner">
             <div class="header-left">
-                <a class="back-link" href="index.html" aria-label="Вернуться на главную">
+                <a class="back-link" href="./index.html" id="backToHubLink" aria-label="Вернуться на главную">
                     <span aria-hidden="true">←</span>
-                    <span>Назад на главную</span>
+                    <span>Назад в хаб</span>
                 </a>
                 <div class="page-title-wrap">
-                    <h1 id="roadmapTitle" contenteditable="true" title="Кликни, чтобы изменить название">[Релизы в приложении]</h1>
-                    <p class="subtitle">Планирование релизов, крупных задач и ключевых продуктовых вех в одном месте.</p>
+                    <h1 id="roadmapTitle" contenteditable="true" title="Кликни, чтобы изменить название">[Новая дорожная карта]</h1>
+                    <p class="subtitle">Создание новой дорожной карты с нуля или через импорт файла. Черновик сохраняется локально и потом экспортируется в отдельный HTML.</p>
                 </div>
             </div>
 
@@ -979,11 +985,9 @@
     <main class="page-shell">
         <section class="hero">
             <div>
-                <h2>Рабочая дорожная карта по приложению</h2>
+                <h2>Конструктор новой дорожной карты</h2>
                 <p>
-                    Здесь удобно вести релизы, этапы разработки, крупные продуктовые работы и промежуточные точки.
-                    Файл запоминает локальные правки в браузере, но при публикации новой версии на GitHub умеет корректно
-                    обновляться и не тянуть старое состояние из прошлых страниц.
+                    Здесь можно быстро собрать новую дорожную карту: добавить вехи вручную, импортировать DOCX или CSV, выгрузить DOCX для правок или скачать готовую HTML-страницу для публикации. Черновики хранятся локально в браузере и отображаются на главной странице в блоке черновиков.
                 </p>
             </div>
 
@@ -1009,8 +1013,8 @@
 
         <section class="workspace">
             <div class="workspace-head">
-                <div class="workspace-title">Таймлайн релизов</div>
-                <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. На телефоне страница переходит в вертикальный режим.</div>
+                <div class="workspace-title">Таймлайн дорожной карты</div>
+                <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. Пустую карту можно начать вручную или заполнить через импорт файла.</div>
             </div>
 
             <div class="roadmap-wrapper" id="scrollWrapper">
@@ -1021,53 +1025,18 @@
 
     <script id="app-script">
         /* DATA_START */
-        const INITIAL_DATA = [
-    {
-        "id": 1773778636968,
-        "title": "NEEM MP/PS",
-        "desc": "1. Первая релизная версия приложения с поддержкой продукта NEEM.\n2. Подготовка базового пользовательского контура для дальнейшего развития сценариев.",
-        "status": "done",
-        "date": "10 марта 2026"
-    },
-    {
-        "id": 1773776214811,
-        "title": "NEEM MVP: Sync Button и Battery + умные весы: Normal Range Indicators + обновленные инсайты",
-        "desc": "1. Обновление визуала и логики кнопок, а также индикации АКБ.\n2. Доработка мобильного приложения для умных весов: добавление шкал показателей.\n3. Запуск обновленных инсайтов и баллов активности для всех пользователей.",
-        "status": "progress",
-        "date": "12 мая 2026"
-    },
-    {
-        "id": 1773776694649,
-        "title": "Multi-device: NEEM и умные весы + фикс онбординга + онбординг весов + история использования NEEM",
-        "desc": "1. Вывод NEEM и умных весов в мультидевайсный контур.\n2. Возврат онбординга с обновленными целями пользователя.\n3. Добавление отдельного онбординга для умных весов.\n4. Запуск истории использования NEEM.",
-        "status": "progress",
-        "date": "29 июня 2026"
-    },
-    {
-        "id": 1773777223820,
-        "title": "Energy Balance Transparency + ЭКГ + Long-term data",
-        "desc": "1. Энергобаланс: разделение прихода и расхода, а также вывод накопленного показателя за неделю.\n2. Добавление данных за месяц и год.\n3. ЭКГ: снятие показаний и вывод результатов в интерфейс.",
-        "status": "planned",
-        "date": "31 августа 2026"
-    },
-    {
-        "id": 1773777519158,
-        "title": "Complex indicator + аритмия + поддержка iOS и Android",
-        "desc": "1. Комплексный показатель по энергобалансу помогает оценить прогресс пользователя на пути к цели.\n2. Вывод признаков аритмии с указанием времени и количества событий.\n3. Поддержка релиза на iOS и Android.",
-        "status": "planned",
-        "date": "26 октября 2026"
-    },
-    {
-        "id": 1773778008956,
-        "title": "Weight Trend + ВСР + темная тема + NEEM OTA + Usage history + уведомления браслет - телефон",
-        "desc": "1. Рефакторинг блока веса и трендов.\n2. Добавление ВСР и диаграммы Пуанкаре.\n3. Поддержка темной темы.\n4. OTA для NEEM, история использования и уведомления между браслетом и телефоном.",
-        "status": "planned",
-        "date": "23 декабря 2026"
-    }
-]; 
+        const INITIAL_DATA = [];
         /* DATA_END */
 
         const APP_VERSION = 'v-1775266213';
+
+        const QUERY = new URLSearchParams(window.location.search);
+        const DRAFT_ID = QUERY.get('draft');
+        const AUTO_ACTION = QUERY.get('action');
+        const IS_DRAFT_MODE = Boolean(DRAFT_ID);
+        const DRAFT_REGISTRY_KEY = 'healbe_roadmap_draft_registry';
+        const DRAFT_RECORD_KEY = IS_DRAFT_MODE ? `healbe_roadmap_draft_record_${DRAFT_ID}` : '';
+
 
         const STATUS_MAP = {
             done: { label: '✅ Сделано', class: 'status-done' },
@@ -1082,9 +1051,9 @@
         ];
 
         const PAGE_KEY_PREFIX = getPageKeyPrefix();
-        const STORAGE_KEY = `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
-        const TITLE_STORAGE_KEY = `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
-        const VERSION_KEY = `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
+        const STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
+        const TITLE_STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
+        const VERSION_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
         const lastViewportMode = { mobile: isMobileView() };
 
         let milestones = [];
@@ -1092,8 +1061,65 @@
         let dragStartIndex = -1;
 
         function getPageKeyPrefix() {
+            if (IS_DRAFT_MODE) {
+                return `draft_${String(DRAFT_ID).replace(/[^a-z0-9а-яё]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase()}`;
+            }
             const raw = decodeURIComponent(window.location.pathname || 'roadmap');
             return raw.replace(/[^a-z0-9а-яё]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'roadmap';
+        }
+
+        function getDraftRegistry() {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(DRAFT_REGISTRY_KEY) || '[]');
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function setDraftRegistry(items) {
+            localStorage.setItem(DRAFT_REGISTRY_KEY, JSON.stringify(items));
+        }
+
+        function upsertDraftRegistry(payload) {
+            if (!IS_DRAFT_MODE) return;
+            const items = getDraftRegistry();
+            const index = items.findIndex(item => item.id === DRAFT_ID);
+            const nextItem = {
+                id: DRAFT_ID,
+                title: payload.title,
+                createdAt: payload.createdAt,
+                updatedAt: payload.updatedAt,
+                fileName: `${slugify(payload.title || 'roadmap')}.html`,
+                stats: payload.stats
+            };
+
+            if (index >= 0) {
+                items[index] = { ...items[index], ...nextItem };
+            } else {
+                items.unshift(nextItem);
+            }
+
+            setDraftRegistry(items);
+        }
+
+        function buildDraftRecord(titleValue = '', list = milestones, currentCreatedAt = Date.now()) {
+            const title = (titleValue || document.getElementById('roadmapTitle')?.innerText || '[Новая дорожная карта]').trim() || '[Новая дорожная карта]';
+            const stats = {
+                total: list.length,
+                done: list.filter(item => item.status === 'done').length,
+                progress: list.filter(item => item.status === 'progress').length,
+                planned: list.filter(item => item.status === 'planned').length
+            };
+
+            return {
+                id: DRAFT_ID,
+                title,
+                milestones: list,
+                createdAt: currentCreatedAt,
+                updatedAt: Date.now(),
+                stats
+            };
         }
 
         function getCurrentFileName() {
@@ -1103,11 +1129,39 @@
             return '';
         }
 
+        function guessHubPath() {
+            const remembered = localStorage.getItem('healbe_roadmap_last_hub');
+            if (remembered) {
+                return `./${remembered}`;
+            }
+
+            const currentName = getCurrentFileName();
+            if (currentName && /^roadmap_builder/i.test(currentName)) {
+                return `./${currentName.replace(/^roadmap_builder/i, 'index')}`;
+            }
+
+            try {
+                const ref = document.referrer ? new URL(document.referrer) : null;
+                const refName = ref ? decodeURIComponent(ref.pathname).split('/').pop() : '';
+                if (refName) return `./${refName}`;
+            } catch (error) {
+            }
+
+            return './index.html';
+        }
+
+        function applyBackLink() {
+            const backLink = document.getElementById('backToHubLink');
+            if (!backLink) return;
+            backLink.href = guessHubPath();
+        }
+
         function isMobileView() {
             return window.matchMedia('(max-width: 920px)').matches;
         }
 
         function init() {
+            applyBackLink();
             migrateStorageIfNeeded();
             restoreState();
             bindStaticEvents();
@@ -1116,9 +1170,14 @@
             setupViewportWatcher();
             setupHeaderScroll();
             updateHeaderCompactState();
+
+            if (AUTO_ACTION === 'export') {
+                setTimeout(() => exportHTML(), 220);
+            }
         }
 
         function migrateStorageIfNeeded() {
+            if (IS_DRAFT_MODE) return;
             const savedVersion = localStorage.getItem(VERSION_KEY);
             if (savedVersion !== APP_VERSION) {
                 localStorage.removeItem(STORAGE_KEY);
@@ -1130,6 +1189,29 @@
 
         function restoreState() {
             const titleEl = document.getElementById('roadmapTitle');
+
+            if (IS_DRAFT_MODE) {
+                const storedDraft = localStorage.getItem(DRAFT_RECORD_KEY);
+                if (storedDraft) {
+                    try {
+                        const parsed = JSON.parse(storedDraft);
+                        milestones = Array.isArray(parsed.milestones) ? parsed.milestones : [...INITIAL_DATA];
+                        titleEl.innerText = (parsed.title || titleEl.innerText || '[Новая дорожная карта]').trim();
+                        document.title = `${titleEl.innerText.trim()} Roadmap`;
+                        upsertDraftRegistry(buildDraftRecord(titleEl.innerText.trim(), milestones, parsed.createdAt || Date.now()));
+                        return;
+                    } catch (error) {
+                    }
+                }
+
+                milestones = [...INITIAL_DATA];
+                titleEl.innerText = titleEl.innerText.trim() || '[Новая дорожная карта]';
+                document.title = `${titleEl.innerText.trim()} Roadmap`;
+                const initialRecord = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(initialRecord));
+                upsertDraftRegistry(initialRecord);
+                return;
+            }
 
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
@@ -1157,8 +1239,13 @@
             titleEl.addEventListener('blur', () => {
                 const newTitle = titleEl.innerText.trim() || '[Новая дорожная карта]';
                 titleEl.innerText = newTitle;
-                localStorage.setItem(TITLE_STORAGE_KEY, newTitle);
                 document.title = `${newTitle} Roadmap`;
+
+                if (IS_DRAFT_MODE) {
+                    saveToStorage();
+                } else {
+                    localStorage.setItem(TITLE_STORAGE_KEY, newTitle);
+                }
             });
 
             titleEl.addEventListener('keydown', (event) => {
@@ -1229,6 +1316,22 @@
         }
 
         function saveToStorage() {
+            if (IS_DRAFT_MODE) {
+                let createdAt = Date.now();
+                const existing = localStorage.getItem(DRAFT_RECORD_KEY);
+                if (existing) {
+                    try {
+                        createdAt = JSON.parse(existing).createdAt || createdAt;
+                    } catch (error) {
+                    }
+                }
+
+                const record = buildDraftRecord(document.getElementById('roadmapTitle').innerText.trim(), milestones, createdAt);
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(record));
+                upsertDraftRegistry(record);
+                return;
+            }
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
         }
 
@@ -1493,8 +1596,24 @@
         }
 
         function resetLocalData() {
-            const ok = confirm('Очистить локально сохраненные данные этой страницы и перезагрузить ее?');
+            const message = IS_DRAFT_MODE
+                ? 'Очистить этот черновик и вернуть его к пустому состоянию?'
+                : 'Очистить локально сохраненные данные этой страницы и перезагрузить ее?';
+
+            const ok = confirm(message);
             if (!ok) return;
+
+            if (IS_DRAFT_MODE) {
+                const titleEl = document.getElementById('roadmapTitle');
+                titleEl.innerText = '[Новая дорожная карта]';
+                milestones = [];
+                const record = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(record));
+                upsertDraftRegistry(record);
+                editingId = null;
+                render();
+                return;
+            }
 
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(TITLE_STORAGE_KEY);
@@ -1541,7 +1660,11 @@
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = getCurrentFileName() || `${slugify(currentTitle)}.html`;
+            const currentFileName = getCurrentFileName();
+            const downloadName = (IS_DRAFT_MODE || /^roadmap_builder/i.test(currentFileName || ''))
+                ? `${slugify(currentTitle)}.html`
+                : (getCurrentFileName() || `${slugify(currentTitle)}.html`);
+            a.download = downloadName;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -1905,6 +2028,14 @@
                     slider.scrollLeft += event.deltaY;
                 }
             };
+        }
+
+
+        if (IS_DRAFT_MODE) {
+            const subtitleEl = document.querySelector('.subtitle');
+            const workspaceTitle = document.querySelector('.workspace-title');
+            if (subtitleEl) subtitleEl.textContent = 'Черновик хранится локально в браузере. После сборки карты нажми «Сохранить как HTML» и залей файл на GitHub.';
+            if (workspaceTitle) workspaceTitle.textContent = 'Таймлайн черновика';
         }
 
         init();

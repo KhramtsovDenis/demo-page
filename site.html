@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Общее окно релизов] Roadmap</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
     <style>
         :root {
             --bg: #f4f7fb;
@@ -28,6 +29,14 @@
             --planned: #3b82f6;
             --planned-bg: #dbeafe;
             --planned-text: #1e40af;
+
+            --brand: #6f63d9;
+            --brand-2: #8f84e8;
+            --brand-soft: rgba(111, 99, 217, 0.10);
+            --brand-border: rgba(143, 132, 232, 0.28);
+            --success: #0f766e;
+            --success-2: #10b981;
+            --success-soft: rgba(16, 185, 129, 0.12);
 
             --header-height: 88px;
             --mobile-header-peek: 56px;
@@ -95,12 +104,12 @@
             gap: 8px;
             padding: 10px 14px;
             border-radius: 999px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            color: var(--text);
+            background: rgba(255,255,255,0.94);
+            border: 1px solid var(--brand-border);
+            color: var(--brand);
             text-decoration: none;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             box-shadow: var(--shadow-soft);
             white-space: nowrap;
         }
@@ -130,8 +139,8 @@
         }
 
         #roadmapTitle:hover, #roadmapTitle:focus {
-            background: #f8fbff;
-            border-color: #bfdbfe;
+            background: #f7f5ff;
+            border-color: #d9d3ff;
         }
 
         .subtitle {
@@ -184,32 +193,34 @@
         }
 
         .btn-primary {
-            background: #0f172a;
+            background: linear-gradient(135deg, var(--brand), var(--brand-2));
             color: white;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 10px 22px rgba(111, 99, 217, 0.18);
         }
 
-        .btn-primary:hover { background: #1e293b; }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #6658d0, #8478e5);
+        }
 
         .btn-secondary {
-            background: var(--panel);
-            color: var(--text);
-            border: 1px solid var(--border);
+            background: #faf7ff;
+            color: #5b4fcf;
+            border: 1px solid #ddd6fe;
         }
 
         .btn-secondary:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
+            background: #f5f3ff;
+            border-color: #c4b5fd;
         }
 
         .btn-success {
-            background: #0f766e;
+            background: linear-gradient(135deg, var(--success), var(--success-2));
             color: white;
-            box-shadow: var(--shadow-soft);
+            box-shadow: 0 10px 22px rgba(16, 185, 129, 0.18);
         }
 
         .btn-success:hover {
-            background: #115e59;
+            background: linear-gradient(135deg, #0f6a63, #0ea774);
         }
 
         .btn-danger-lite {
@@ -222,6 +233,19 @@
             background: #ffedd5;
         }
 
+
+        .btn-docx {
+            background: #f5f3ff;
+            color: #5b4fcf;
+            border: 1px solid #ddd6fe;
+        }
+
+        .btn-docx:hover {
+            background: #ede9fe;
+            border-color: #c4b5fd;
+        }
+
+
         .page-shell {
             width: calc(100% - 24px);
             margin: 16px auto 24px;
@@ -232,8 +256,8 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(59,130,246,0.10), rgba(255,255,255,0.96) 40%, rgba(16,185,129,0.06));
-            border: 1px solid rgba(191, 219, 254, 0.75);
+            background: linear-gradient(135deg, rgba(111,99,217,0.12), rgba(255,255,255,0.96) 42%, rgba(16,185,129,0.06));
+            border: 1px solid rgba(217, 211, 255, 0.85);
             border-radius: 24px;
             padding: 18px 20px;
             box-shadow: var(--shadow-soft);
@@ -943,10 +967,11 @@
 
             <div class="toolbar">
                 <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display:none;">
-                <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV"><span class="btn-icon" aria-hidden="true">⇪</span><span class="btn-text">Импорт (DOCX/CSV)</span></button>
+                <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV"><span class="btn-icon" aria-hidden="true">⇪</span><span class="btn-text">Импорт файла</span></button>
                 <button class="btn-primary" id="addBtn"><span class="btn-icon" aria-hidden="true">＋</span><span class="btn-text">Добавить веху</span></button>
+                <button class="btn-docx" id="exportDocxBtn"><span class="btn-icon" aria-hidden="true">▣</span><span class="btn-text">Экспорт DOCX</span></button>
+                <button class="btn-success" id="exportBtn"><span class="btn-icon" aria-hidden="true">💾</span><span class="btn-text">Сохранить HTML</span></button>
                 <button class="btn-danger-lite" id="resetStorageBtn"><span class="btn-icon" aria-hidden="true">↺</span><span class="btn-text">Сбросить данные</span></button>
-                <button class="btn-success" id="exportBtn"><span class="btn-icon" aria-hidden="true">💾</span><span class="btn-text">Сохранить как HTML</span></button>
             </div>
         </div>
     </header>
@@ -1042,7 +1067,7 @@
 ]; 
         /* DATA_END */
 
-        const APP_VERSION = 'v-1775261814';
+        const APP_VERSION = 'v-1775266213';
 
         const STATUS_MAP = {
             done: { label: '✅ Сделано', class: 'status-done' },
@@ -1146,8 +1171,9 @@
             document.getElementById('addBtn').addEventListener('click', addMilestone);
             document.getElementById('importBtn').addEventListener('click', () => document.getElementById('fileInput').click());
             document.getElementById('fileInput').addEventListener('change', handleImport);
-            document.getElementById('resetStorageBtn').addEventListener('click', resetLocalData);
+            document.getElementById('exportDocxBtn').addEventListener('click', exportDOCX);
             document.getElementById('exportBtn').addEventListener('click', exportHTML);
+            document.getElementById('resetStorageBtn').addEventListener('click', resetLocalData);
         }
 
         function setupViewportWatcher() {
@@ -1492,7 +1518,7 @@
 
             const scripts = clone.querySelectorAll('script');
             scripts.forEach(script => {
-                if (script.id !== 'app-script' && !(script.src || '').includes('mammoth')) {
+                if (script.id !== 'app-script' && !(script.src || '').includes('mammoth') && !(script.src || '').includes('jszip')) {
                     script.remove();
                 }
             });
@@ -1520,6 +1546,150 @@
             a.click();
             a.remove();
             URL.revokeObjectURL(url);
+        }
+
+
+        async function exportDOCX() {
+            const rows = [
+                ['Название', 'Краткое описание', 'Статус', 'Примерный срок'],
+                ...milestones.map(item => [
+                    item.title || '',
+                    item.desc || '',
+                    statusCodeToText(item.status),
+                    item.date || ''
+                ])
+            ];
+
+            if (typeof JSZip === 'undefined') {
+                alert('Не удалось подготовить DOCX. Проверь подключение к интернету и обнови страницу.');
+                return;
+            }
+
+            try {
+                const blob = await createDocxBlob(rows);
+                downloadBlob(blob, `${slugify(document.getElementById('roadmapTitle').innerText.trim() || 'roadmap')}.docx`);
+            } catch (error) {
+                console.error(error);
+                alert('Ошибка при формировании DOCX-файла.');
+            }
+        }
+
+        function statusCodeToText(code) {
+            if (code === 'done') return 'Сделано';
+            if (code === 'progress') return 'В работе';
+            return 'Запланировано';
+        }
+
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        async function createDocxBlob(rows) {
+            const zip = new JSZip();
+            zip.file('[Content_Types].xml', getDocxContentTypes());
+            zip.folder('_rels').file('.rels', getDocxRootRels());
+            zip.folder('word').file('document.xml', getDocxDocument(rows));
+            return zip.generateAsync({ type: 'blob' });
+        }
+
+        function getDocxContentTypes() {
+            return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`;
+        }
+
+        function getDocxRootRels() {
+            return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`;
+        }
+
+        function getDocxDocument(rows) {
+            const widths = [3200, 6400, 2400, 2600];
+            const tblGrid = widths.map(width => `<w:gridCol w:w="${width}"/>`).join('');
+            const bodyRows = rows.map((row, rowIndex) => `
+                <w:tr>${row.map((cell, index) => buildDocxCell(cell, widths[index] || 2400, rowIndex === 0)).join('')}</w:tr>`).join('');
+
+            return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+ xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"
+ xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing"
+ xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+ xmlns:w10="urn:schemas-microsoft-com:office:word"
+ xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+ xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"
+ xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup"
+ xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
+ xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
+ xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
+ mc:Ignorable="w14 wp14">
+  <w:body>
+    <w:tbl>
+      <w:tblPr>
+        <w:tblW w:w="0" w:type="auto"/>
+        <w:tblBorders>
+          <w:top w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+          <w:left w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+          <w:bottom w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+          <w:right w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+          <w:insideH w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+          <w:insideV w:val="single" w:sz="8" w:space="0" w:color="D8DFF0"/>
+        </w:tblBorders>
+      </w:tblPr>
+      <w:tblGrid>${tblGrid}</w:tblGrid>${bodyRows}
+    </w:tbl>
+    <w:sectPr>
+      <w:pgSz w:w="11906" w:h="16838"/>
+      <w:pgMar w:top="1134" w:right="850" w:bottom="1134" w:left="850" w:header="708" w:footer="708" w:gutter="0"/>
+    </w:sectPr>
+  </w:body>
+</w:document>`;
+        }
+
+        function buildDocxCell(value, width, isHeader) {
+            const content = String(value || '').split(/\n+/).map(part => escapeXml(part)).filter(Boolean);
+            const runs = (content.length ? content : ['']).map((part, index) => {
+                const prefix = index > 0 ? '<w:br/>' : '';
+                return `${prefix}<w:t xml:space="preserve">${part}</w:t>`;
+            }).join('');
+
+            return `
+                <w:tc>
+                    <w:tcPr>
+                        <w:tcW w:w="${width}" w:type="dxa"/>
+                        ${isHeader ? '<w:shd w:fill="F5F3FF"/>' : ''}
+                    </w:tcPr>
+                    <w:p>
+                        <w:r>
+                            ${isHeader ? '<w:rPr><w:b/></w:rPr>' : ''}
+                            ${runs}
+                        </w:r>
+                    </w:p>
+                </w:tc>`;
+        }
+
+        function escapeXml(value) {
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&apos;');
         }
 
         function handleImport(event) {
