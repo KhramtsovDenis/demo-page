@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru"><head>
+<html lang="ru">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Общее окно релизов] Roadmap</title>
+    <title>[Новая дорожная карта] Roadmap</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"></script>
     <style>
@@ -32,10 +33,9 @@
             --brand: #6f63d9;
             --brand-2: #8f84e8;
             --brand-soft: rgba(111, 99, 217, 0.10);
-            --brand-border: rgba(143, 132, 232, 0.28);
+
             --success: #0f766e;
             --success-2: #10b981;
-            --success-soft: rgba(16, 185, 129, 0.12);
 
             --header-height: 88px;
             --mobile-header-peek: 56px;
@@ -48,19 +48,17 @@
             margin: 0;
             min-height: 100%;
             background:
-                radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 28%),
-                radial-gradient(circle at left top, rgba(16, 185, 129, 0.06), transparent 22%),
+                radial-gradient(circle at top right, rgba(111, 99, 217, 0.07), transparent 28%),
+                radial-gradient(circle at left top, rgba(143, 132, 232, 0.05), transparent 22%),
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
-            overflow: hidden;
         }
 
         body {
             display: flex;
             flex-direction: column;
             min-height: 100dvh;
-            overflow: hidden;
         }
 
         .page-header {
@@ -177,6 +175,13 @@
             line-height: 1;
         }
 
+        .btn-primary .btn-icon,
+        .btn-success .btn-icon,
+        .btn-save .btn-icon,
+        .btn-primary .btn-text,
+        .btn-success .btn-text,
+        .btn-save .btn-text { color: inherit; }
+
         button {
             appearance: none;
             border: none;
@@ -257,8 +262,8 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, rgba(111,99,217,0.12), rgba(255,255,255,0.96) 42%, rgba(16,185,129,0.06));
-            border: 1px solid rgba(217, 211, 255, 0.85);
+            background: linear-gradient(135deg, rgba(111, 99, 217, 0.10), rgba(255,255,255,0.96) 40%, rgba(143, 132, 232, 0.05));
+            border: 1px solid rgba(216, 180, 254, 0.72);
             border-radius: 24px;
             padding: 18px 20px;
             box-shadow: var(--shadow-soft);
@@ -442,9 +447,8 @@
         }
 
         .roadmap-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(111, 99, 217, 0.46);
+            background: rgba(111, 99, 217, 0.48);
         }
-
 
         .roadmap-container.desktop {
             position: relative;
@@ -551,7 +555,6 @@
             gap: 12px;
             overflow: hidden;
             position: relative;
-            cursor: default;
         }
 
         .card:hover {
@@ -574,9 +577,9 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            color: var(--muted);
+            background: #faf5ff;
+            border: 1px solid #e9d5ff;
+            color: #6f63d9;
             font-size: 14px;
             font-weight: 900;
             flex: 0 0 auto;
@@ -649,35 +652,12 @@
             font-size: 13px;
             line-height: 1.55;
             white-space: pre-wrap;
-            word-break: break-word;
             overflow: auto;
             min-height: 0;
             flex: 1 1 auto;
             max-height: none;
-            padding-right: 8px;
-            display: block;
-            scrollbar-gutter: stable;
-            scrollbar-width: thin;
-            overscroll-behavior: contain;
+            padding-right: 4px;
         }
-
-        .card-desc::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .card-desc::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .card-desc::-webkit-scrollbar-thumb {
-            background: rgba(203, 213, 225, 0.95);
-            border-radius: 999px;
-        }
-
-        .card-desc::-webkit-scrollbar-thumb:hover {
-            background: rgba(148, 163, 184, 0.95);
-        }
-
 
         .card.editing {
             max-height: min(62vh, 520px);
@@ -762,7 +742,7 @@
             border-radius: 12px;
         }
 
-        .btn-save { background: #0f172a; color: white; }
+        .btn-save { background: linear-gradient(135deg, var(--brand), var(--brand-2)); color: white; }
         .btn-cancel { background: white; border: 1px solid var(--border); color: var(--text); }
 
         .dragging {
@@ -775,8 +755,7 @@
             flex-direction: column;
             gap: 12px;
             min-width: 100%;
-            padding: 0 12px 18px 12px;
-            box-sizing: border-box;
+            padding-left: 0;
         }
 
         .roadmap-container.mobile .mobile-line {
@@ -812,8 +791,7 @@
         }
 
         .mobile-row .card-desc {
-            -webkit-line-clamp: 8;
-            max-height: none;
+            max-height: 160px;
         }
 
         .empty-state {
@@ -900,7 +878,6 @@
             top: 0;
             right: 0;
             bottom: 0;
-            height: auto;
             width: min(440px, calc(100% - 48px));
             background: rgba(255, 255, 255, 0.98);
             border-left: 1px solid rgba(226, 232, 240, 0.95);
@@ -974,83 +951,6 @@
             color: var(--text);
             background: white;
         }
-
-        .detail-header-actions {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            flex: 0 0 auto;
-        }
-
-        .detail-edit-btn {
-            min-height: 34px;
-            padding: 0 12px;
-            border-radius: 12px;
-            background: #f5f3ff;
-            border: 1px solid #ddd6fe;
-            color: #5b4fcf;
-            font-size: 13px;
-            font-weight: 800;
-            box-shadow: none;
-        }
-
-        .detail-edit-btn:hover {
-            background: #ede9fe;
-            border-color: #c4b5fd;
-        }
-
-        .detail-edit-form {
-            display: grid;
-            gap: 12px;
-        }
-
-        .detail-edit-field {
-            display: grid;
-            gap: 6px;
-        }
-
-        .detail-edit-label {
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .detail-edit-form input,
-        .detail-edit-form textarea {
-            width: 100%;
-            font: inherit;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            background: white;
-            color: var(--text);
-            padding: 10px 12px;
-        }
-
-        .detail-edit-form textarea {
-            min-height: 120px;
-            resize: vertical;
-            white-space: pre-wrap;
-        }
-
-        .detail-edit-form input:focus,
-        .detail-edit-form textarea:focus {
-            outline: none;
-            border-color: #93c5fd;
-            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.18);
-        }
-
-        .detail-edit-actions {
-            display: flex;
-            gap: 8px;
-            padding-top: 4px;
-        }
-
-        .detail-edit-actions button {
-            min-height: 42px;
-        }
-
 
         .detail-drawer-body {
             flex: 1;
@@ -1131,55 +1031,111 @@
             font-size: 14px;
         }
 
-        .detail-visual-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .detail-visual-card {
-            min-height: 180px;
-            border-radius: 16px;
-            border: 1px solid rgba(217, 211, 255, 0.72);
-            background:
-                linear-gradient(180deg, rgba(111,99,217,0.10), rgba(111,99,217,0.02)),
-                linear-gradient(180deg, #fbfcff, #f4f6fd);
-            padding: 12px;
+        .detail-header-actions {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
         }
 
-        .detail-visual-label {
-            font-size: 11px;
+        .detail-edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #ddd6fe;
+            background: #faf5ff;
+            color: #5b4fcf;
+            font: inherit;
+            font-size: 13px;
             font-weight: 700;
-            color: var(--muted);
+            cursor: pointer;
+            box-shadow: none;
         }
 
-        .detail-visual-lines {
+        .detail-edit-btn:hover {
+            background: #f5f3ff;
+            border-color: #c4b5fd;
+        }
+
+        .detail-save-btn:hover {
+            background: linear-gradient(135deg, #6658d0, #8478e5);
+            color: white;
+            border: none;
+        }
+
+        .detail-cancel-btn:hover {
+            background: white;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .detail-edit-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .detail-field {
             display: grid;
             gap: 8px;
         }
 
-        .detail-visual-line {
-            height: 12px;
-            border-radius: 999px;
-            background: rgba(111,99,217,0.14);
+        .detail-field span {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
         }
 
-        .detail-visual-line.short { width: 54%; }
-        .detail-visual-line.mid { width: 74%; }
-        .detail-visual-line.long { width: 96%; }
-
-        .detail-visual-chart {
-            height: 72px;
-            border-radius: 14px;
-            border: 1px solid rgba(59,130,246,0.12);
-            background:
-                linear-gradient(180deg, rgba(59,130,246,0.10), rgba(59,130,246,0.03)),
-                white;
+        .detail-field input,
+        .detail-field textarea {
+            width: 100%;
+            font: inherit;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f8fafc;
+            color: var(--text);
+            padding: 10px 12px;
         }
 
+        .detail-field textarea {
+            min-height: 112px;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+
+        .detail-field input:focus,
+        .detail-field textarea:focus {
+            outline: none;
+            border-color: #93c5fd;
+            background: white;
+        }
+
+        .detail-edit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .detail-save-btn {
+            background: linear-gradient(135deg, var(--brand), var(--brand-2));
+            color: white;
+            border: none;
+        }
+
+        .detail-save-btn,
+        .detail-save-btn:hover,
+        .detail-cancel-btn,
+        .detail-cancel-btn:hover {
+            box-shadow: none;
+        }
+
+        .detail-cancel-btn {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
 
         @media (max-width: 1180px) {
             .hero {
@@ -1192,10 +1148,6 @@
         }
 
         @media (max-width: 920px) {
-            html, body {
-                overflow: auto;
-            }
-
             .header-inner {
                 padding: 14px 14px 16px;
             }
@@ -1235,12 +1187,13 @@
             }
 
             .roadmap-wrapper {
-                padding: 16px 12px 34px;
+                padding: 16px 0 10px;
                 cursor: default;
             }
 
-            .detail-drawer {
-                width: min(420px, calc(100% - 16px));
+            .roadmap-container.mobile {
+                padding: 0 12px 18px;
+                box-sizing: border-box;
             }
         }
 
@@ -1344,23 +1297,7 @@
 
             .card-desc {
                 font-size: 13px;
-                -webkit-line-clamp: 8;
-                max-height: none;
-            }
-
-            .detail-drawer {
-                width: 100vw;
-                border-left: none;
-            }
-
-            .detail-drawer-header,
-            .detail-drawer-body {
-                padding-left: 14px;
-                padding-right: 14px;
-            }
-
-            .detail-visual-grid {
-                grid-template-columns: 1fr;
+                max-height: 180px;
             }
         }
     </style>
@@ -1369,13 +1306,13 @@
     <header class="page-header">
         <div class="header-inner">
             <div class="header-left">
-                <a class="back-link" href="index.html" aria-label="Вернуться на главную">
+                <a class="back-link" href="./index.html" id="backToHubLink" aria-label="Вернуться на главную">
                     <span aria-hidden="true">←</span>
-                    <span>Назад на главную</span>
+                    <span>Назад в хаб</span>
                 </a>
                 <div class="page-title-wrap">
-                    <h1 id="roadmapTitle" contenteditable="true" title="Кликни, чтобы изменить название">[Общее окно релизов]</h1>
-                    <p class="subtitle">Планирование релизов сайта, витрины, интернет-магазина и ключевых проектных вех в одном месте.</p>
+                    <h1 id="roadmapTitle" contenteditable="true" title="Кликни, чтобы изменить название">[Новая дорожная карта]</h1>
+                    <p class="subtitle">Создание новой дорожной карты с нуля или через импорт файла. Черновик сохраняется локально и потом экспортируется в отдельный HTML.</p>
                 </div>
             </div>
 
@@ -1393,116 +1330,72 @@
     <main class="page-shell">
         <section class="hero">
             <div>
-                <h2>Рабочая дорожная карта по сайту и релизам</h2>
+                <h2>Конструктор новой дорожной карты</h2>
                 <p>
-                    Здесь удобно вести релизы сайта, обновления витрины, интернет-магазина и другие важные этапы. Файл запоминает локальные правки в браузере, но при публикации новой версии на GitHub корректно обновляется и не тянет старое состояние из других страниц.
+                    Здесь можно быстро собрать новую дорожную карту: добавить вехи вручную, импортировать DOCX или CSV, выгрузить DOCX для правок или скачать готовую HTML-страницу для публикации. Черновики хранятся локально в браузере и отображаются на главной странице в блоке черновиков.
                 </p>
             </div>
 
             <div class="stats">
                 <div class="stat stat-total">
                     <div class="stat-label">Всего вех</div>
-                    <div class="stat-value" id="statTotal">6</div>
+                    <div class="stat-value" id="statTotal">0</div>
                 </div>
                 <div class="stat stat-done">
                     <div class="stat-label">Сделано</div>
-                    <div class="stat-value" id="statDone">1</div>
+                    <div class="stat-value" id="statDone">0</div>
                 </div>
                 <div class="stat stat-progress">
                     <div class="stat-label">В работе</div>
-                    <div class="stat-value" id="statProgress">2</div>
+                    <div class="stat-value" id="statProgress">0</div>
                 </div>
                 <div class="stat stat-planned">
                     <div class="stat-label">Запланировано</div>
-                    <div class="stat-value" id="statPlanned">3</div>
+                    <div class="stat-value" id="statPlanned">0</div>
                 </div>
             </div>
         </section>
 
         <section class="workspace">
             <div class="workspace-head">
-                <div class="workspace-title">Таймлайн релизов</div>
-                <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. На телефоне страница переходит в вертикальный режим.</div>
+                <div class="workspace-title">Таймлайн дорожной карты</div>
+                <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. Пустую карту можно начать вручную или заполнить через импорт файла.</div>
             </div>
 
-            <div class="roadmap-wrapper" id="scrollWrapper" style="cursor: grab;">
+            <div class="roadmap-wrapper" id="scrollWrapper">
                 <div class="roadmap-container desktop" id="roadmapContainer"></div>
             </div>
 
             <div class="detail-overlay" id="detailOverlay" hidden></div>
             <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
-        
-        <div class="detail-drawer-header">
-            <div>
-                <h2 class="detail-drawer-title" id="detailDrawerTitle">Детали релиза</h2>
-                <div class="detail-meta" id="detailMeta"></div>
-            </div>
-            <div class="detail-header-actions">
-                <button class="detail-edit-btn" id="detailEditBtn" type="button">Редактировать</button>
-                <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
-            </div>
-        </div>
-        <div class="detail-drawer-body" id="detailDrawerBody">
-            <div class="detail-empty">Нажми «Подробнее» в любой вехе, чтобы открыть правую панель с деталями релиза.</div>
-        </div>
-    </aside>
+                <div class="detail-drawer-header">
+                    <div>
+                        <h3 class="detail-drawer-title" id="detailDrawerTitle">Детали вехи</h3>
+                        <div class="detail-meta" id="detailMeta"></div>
+                    </div>
+                    <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
+                </div>
+                <div class="detail-drawer-body" id="detailDrawerBody">
+                    <div class="detail-empty">Выбери веху и нажми «Подробнее», чтобы открыть детали.</div>
+                </div>
+            </aside>
         </section>
     </main>
 
-
     <script id="app-script">
         /* DATA_START */
-        const INITIAL_DATA = [
-    {
-        "id": 1775252680977,
-        "title": "Релиз обновленных инсайтов и баллов активности",
-        "desc": "Адаптация после переноса сервисов в РФ и стабилизация работы обновленного блока.",
-        "status": "progress",
-        "date": "15 апреля 2026"
-    },
-    {
-        "id": 1775252680972,
-        "title": "Сокращенный дизайн магазина для запуска",
-        "desc": "Первое обновление карточки товара: обновленный первый экран и более понятная подача ключевых характеристик.",
-        "status": "progress",
-        "date": "20 апреля 2026"
-    },
-    {
-        "id": 1775252680973,
-        "title": "Релиз витрины магазина",
-        "desc": "Запуск основной страницы категорий интернет-магазина с базовой структурой витрины.",
-        "status": "progress",
-        "date": "20 апреля 2026"
-    },
-    {
-        "id": 1775252680976,
-        "title": "Интеграция Mindbox",
-        "desc": "Подключение маркетингового инструмента Mindbox и подготовка базы для дальнейших коммуникационных сценариев.",
-        "status": "progress",
-        "date": "22 апреля 2026"
-    },
-    {
-        "id": 1775252680975,
-        "title": "Интеграция 1С: отправка заказов",
-        "desc": "Первая итерация передачи данных из интернет-магазина с РУ в базу 1С.",
-        "status": "progress",
-        "date": "23 апреля 2026"
-    },
-    {
-        "id": 1775252680974,
-        "title": "Полный релиз карточки товара",
-        "desc": "Полное обновление карточки товара: перенос всех предусмотренных дизайн-макетом блоков в верстку и финальная сборка страницы.",
-        "status": "planned",
-        "date": "12 мая 2026"
-    }
-];
+        const INITIAL_DATA = [];
         /* DATA_END */
 
-        /* DETAIL_DATA_START */
-        const INITIAL_DETAIL_DATA = {};
-        /* DETAIL_DATA_END */
+        const APP_VERSION = 'v-1775266213';
 
-        const APP_VERSION = 'v-1775319000000';
+        const QUERY = new URLSearchParams(window.location.search);
+        const DRAFT_ID = QUERY.get('draft');
+        const AUTO_ACTION = QUERY.get('action');
+        const IS_DRAFT_MODE = Boolean(DRAFT_ID);
+        const DRAFT_REGISTRY_KEY = 'healbe_roadmap_draft_registry';
+        const DRAFT_RECORD_KEY = IS_DRAFT_MODE ? `healbe_roadmap_draft_record_${DRAFT_ID}` : '';
+
 
         const STATUS_MAP = {
             done: { label: '✅ Сделано', class: 'status-done' },
@@ -1517,10 +1410,10 @@
         ];
 
         const PAGE_KEY_PREFIX = getPageKeyPrefix();
-        const STORAGE_KEY = `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
-        const TITLE_STORAGE_KEY = `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
-        const DETAIL_STORAGE_KEY = `healbe_roadmap_detail_data_${PAGE_KEY_PREFIX}`;
-        const VERSION_KEY = `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
+        const STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
+        const TITLE_STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
+        const DETAIL_STORAGE_KEY = IS_DRAFT_MODE ? `healbe_roadmap_draft_detail_record_${DRAFT_ID}` : `healbe_roadmap_detail_data_${PAGE_KEY_PREFIX}`;
+        const VERSION_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
         const lastViewportMode = { mobile: isMobileView() };
 
         let milestones = [];
@@ -1531,8 +1424,65 @@
         let detailEditingId = null;
 
         function getPageKeyPrefix() {
+            if (IS_DRAFT_MODE) {
+                return `draft_${String(DRAFT_ID).replace(/[^a-z0-9а-яё]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase()}`;
+            }
             const raw = decodeURIComponent(window.location.pathname || 'roadmap');
             return raw.replace(/[^a-z0-9а-яё]+/gi, '_').replace(/^_+|_+$/g, '').toLowerCase() || 'roadmap';
+        }
+
+        function getDraftRegistry() {
+            try {
+                const parsed = JSON.parse(localStorage.getItem(DRAFT_REGISTRY_KEY) || '[]');
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function setDraftRegistry(items) {
+            localStorage.setItem(DRAFT_REGISTRY_KEY, JSON.stringify(items));
+        }
+
+        function upsertDraftRegistry(payload) {
+            if (!IS_DRAFT_MODE) return;
+            const items = getDraftRegistry();
+            const index = items.findIndex(item => item.id === DRAFT_ID);
+            const nextItem = {
+                id: DRAFT_ID,
+                title: payload.title,
+                createdAt: payload.createdAt,
+                updatedAt: payload.updatedAt,
+                fileName: `${slugify(payload.title || 'roadmap')}.html`,
+                stats: payload.stats
+            };
+
+            if (index >= 0) {
+                items[index] = { ...items[index], ...nextItem };
+            } else {
+                items.unshift(nextItem);
+            }
+
+            setDraftRegistry(items);
+        }
+
+        function buildDraftRecord(titleValue = '', list = milestones, currentCreatedAt = Date.now()) {
+            const title = (titleValue || document.getElementById('roadmapTitle')?.innerText || '[Новая дорожная карта]').trim() || '[Новая дорожная карта]';
+            const stats = {
+                total: list.length,
+                done: list.filter(item => item.status === 'done').length,
+                progress: list.filter(item => item.status === 'progress').length,
+                planned: list.filter(item => item.status === 'planned').length
+            };
+
+            return {
+                id: DRAFT_ID,
+                title,
+                milestones: list,
+                createdAt: currentCreatedAt,
+                updatedAt: Date.now(),
+                stats
+            };
         }
 
         function getCurrentFileName() {
@@ -1542,17 +1492,43 @@
             return '';
         }
 
+        function guessHubPath() {
+            const remembered = localStorage.getItem('healbe_roadmap_last_hub');
+            if (remembered) {
+                return `./${remembered}`;
+            }
+
+            const currentName = getCurrentFileName();
+            if (currentName && /^roadmap_builder/i.test(currentName)) {
+                return `./${currentName.replace(/^roadmap_builder/i, 'index')}`;
+            }
+
+            try {
+                const ref = document.referrer ? new URL(document.referrer) : null;
+                const refName = ref ? decodeURIComponent(ref.pathname).split('/').pop() : '';
+                if (refName) return `./${refName}`;
+            } catch (error) {
+            }
+
+            return './index.html';
+        }
+
+        function applyBackLink() {
+            const backLink = document.getElementById('backToHubLink');
+            if (!backLink) return;
+            backLink.href = guessHubPath();
+        }
+
         function isMobileView() {
             return window.matchMedia('(max-width: 920px)').matches;
         }
-
 
         function buildInitialDetailData(items) {
             return items.reduce((acc, item) => {
                 acc[item.id] = {
                     features: splitDetailFeatures(item.desc),
-                    impact: 'Пользователь увидит изменения, заявленные в описании релиза, в рамках текущей вехи.',
-                    notes: 'Детали релиза пока не заполнены.',
+                    impact: 'Пользователь увидит изменения, заявленные в описании вехи, в рамках текущего черновика.',
+                    notes: 'Детали вехи пока не заполнены.',
                     owner: inferDetailOwner(item.title, item.desc)
                 };
                 return acc;
@@ -1567,15 +1543,15 @@
                     : (Array.isArray(fallback.features) ? fallback.features : []),
                 impact: String((detail && detail.impact) || fallback.impact || 'Пользовательские изменения пока не описаны.').trim()
                     || 'Пользовательские изменения пока не описаны.',
-                notes: normalizeNotesText((detail && detail.notes) || fallback.notes || 'Детали релиза пока не заполнены.')
-                    || 'Детали релиза пока не заполнены.'
+                notes: normalizeNotesText((detail && detail.notes) || fallback.notes || 'Детали вехи пока не заполнены.')
+                    || 'Детали вехи пока не заполнены.'
             };
         }
 
         function splitDetailFeatures(text) {
             const source = String(text || '').split(/\n+/).map(part => part.trim()).filter(Boolean);
             if (!source.length) {
-                return ['Состав релиза пока не заполнен.'];
+                return ['Состав вехи пока не заполнен.'];
             }
             return source;
         }
@@ -1583,10 +1559,22 @@
         function inferDetailOwner(title, desc) {
             const probe = `${title || ''} ${desc || ''}`.toLowerCase();
             const parts = [];
-            if (probe.includes('ios') || probe.includes('android') || probe.includes('прилож')) parts.push('MA');
             if (probe.includes('дизайн') || probe.includes('интерф') || probe.includes('онбординг')) parts.push('UX/UI');
-            if (probe.includes('экг') || probe.includes('аритм') || probe.includes('вср') || probe.includes('energy balance')) parts.push('Product');
+            if (probe.includes('ios') || probe.includes('android') || probe.includes('прилож') || probe.includes('сайт')) parts.push('MA');
+            if (probe.includes('аналит') || probe.includes('метрик')) parts.push('Analytics');
             return parts.length ? [...new Set(parts)].join(' + ') : 'Product';
+        }
+
+        function normalizeNotesText(text) {
+            const lines = String(text || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
+            return lines.join('\n');
+        }
+
+        function saveDetailData() {
+            localStorage.setItem(DETAIL_STORAGE_KEY, JSON.stringify(milestoneDetails));
         }
 
         function syncDetailDataWithMilestones() {
@@ -1600,7 +1588,7 @@
                 if (!nextDetails[item.id].features.length) {
                     nextDetails[item.id].features = Array.isArray(fallback.features) && fallback.features.length
                         ? fallback.features
-                        : ['Состав релиза пока не заполнен.'];
+                        : ['Состав вехи пока не заполнен.'];
                 }
             });
 
@@ -1608,26 +1596,25 @@
             saveDetailData();
         }
 
-        function ensureActiveDetailState() {
-            const activeStillExists = activeDetailId !== null && milestones.some(item => item.id === activeDetailId);
+        function restoreDetailState() {
+            const fallbackInitialDetails = buildInitialDetailData(milestones);
+            const storedDetailData = localStorage.getItem(DETAIL_STORAGE_KEY);
 
-            if (!activeStillExists) {
-                if (activeDetailId !== null || detailEditingId !== null) {
-                    closeDetail();
+            if (storedDetailData) {
+                try {
+                    milestoneDetails = JSON.parse(storedDetailData);
+                } catch (error) {
+                    milestoneDetails = fallbackInitialDetails;
                 }
-                return;
+            } else {
+                milestoneDetails = fallbackInitialDetails;
             }
 
-            if (detailEditingId !== null && detailEditingId !== activeDetailId) {
-                detailEditingId = activeDetailId;
+            if (!milestoneDetails || typeof milestoneDetails !== 'object') {
+                milestoneDetails = {};
             }
 
-            renderDetailDrawer();
-            syncActiveDetailCards();
-        }
-
-        function saveDetailData() {
-            localStorage.setItem(DETAIL_STORAGE_KEY, JSON.stringify(milestoneDetails));
+            syncDetailDataWithMilestones();
         }
 
         function ensureDetailDrawerElements() {
@@ -1636,40 +1623,14 @@
                 drawer: document.getElementById('detailDrawer'),
                 title: document.getElementById('detailDrawerTitle'),
                 meta: document.getElementById('detailMeta'),
-                body: document.getElementById('detailDrawerBody'),
-                editBtn: document.getElementById('detailEditBtn')
+                body: document.getElementById('detailDrawerBody')
             };
         }
-
-
 
         function getDetailById(id) {
             const item = milestones.find(entry => entry.id === id);
             if (!item) return null;
             return milestoneDetails[id] || buildInitialDetailData([item])[id];
-        }
-
-        function getFeatureLinesForEdit(detail) {
-            return (detail.features || []).join('\n');
-        }
-
-        function getNotesLinesForEdit(detail) {
-            return String(detail.notes || '').split(/\n+/).map(line => line.trim()).filter(Boolean).join('\n');
-        }
-
-        function normalizeFeatureLines(text) {
-            return String(text || '')
-                .split(/\n+/)
-                .map(line => line.trim())
-                .filter(Boolean);
-        }
-
-        function normalizeNotesText(text) {
-            const lines = String(text || '')
-                .split(/\n+/)
-                .map(line => line.trim())
-                .filter(Boolean);
-            return lines.join('\n');
         }
 
         function renderDetailView(item, detail) {
@@ -1681,14 +1642,9 @@
                 </li>
             `).join('');
 
-            if (elements.editBtn) {
-                elements.editBtn.hidden = false;
-                elements.editBtn.textContent = 'Редактировать';
-            }
-
             elements.body.innerHTML = `
                 <section class="detail-section">
-                    <h3>Что входит в релиз</h3>
+                    <h3>Что входит в веху</h3>
                     <ul class="detail-feature-list">${features}</ul>
                 </section>
                 <section class="detail-section">
@@ -1697,52 +1653,49 @@
                 </section>
                 <section class="detail-section">
                     <h3>Примечания</h3>
-                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
+                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Детали вехи пока не заполнены.')}</p>
                 </section>
             `;
-
         }
 
         function renderDetailEditForm(item, detail) {
             const elements = ensureDetailDrawerElements();
-
-            if (elements.editBtn) {
-                elements.editBtn.hidden = true;
-            }
-
             elements.body.innerHTML = `
-                <div class="detail-edit-form">
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailOwnerInput">Контур релиза</label>
-                        <input id="detailOwnerInput" type="text" value="${escapeHTML(detail.owner || '')}" placeholder="Например: Product + MA + UX/UI">
-                    </div>
-<div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailFeaturesInput">Состав релиза</label>
-                        <textarea id="detailFeaturesInput" placeholder="Одна строка = один пункт&#10;Формат: Название пункта | Описание пункта">${escapeHTML(getFeatureLinesForEdit(detail))}</textarea>
-                    </div>
-
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailImpactInput">Что изменится для пользователя</label>
-                        <textarea id="detailImpactInput" placeholder="Что увидит и почувствует пользователь">${escapeHTML(detail.impact || '')}</textarea>
-                    </div>
-
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailNotesInput">Примечания</label>
-                        <textarea id="detailNotesInput" placeholder="Одна строка = одно примечание">${escapeHTML(getNotesLinesForEdit(detail))}</textarea>
-                    </div>
-
+                <form class="detail-edit-form" id="detailEditForm">
+                    <label class="detail-field">
+                        <span>Контур релиза</span>
+                        <input id="detailEditOwner" type="text" value="${escapeHTML(detail.owner || 'Product')}" placeholder="Например: Product + UX/UI">
+                    </label>
+                    <label class="detail-field">
+                        <span>Что входит в веху</span>
+                        <textarea id="detailEditFeatures" rows="6" placeholder="Одна строка = один пункт">${escapeHTML((detail.features || []).join('\n'))}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Что изменится для пользователя</span>
+                        <textarea id="detailEditImpact" rows="5" placeholder="Опиши пользовательские изменения">${escapeHTML(detail.impact || '')}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Примечания</span>
+                        <textarea id="detailEditNotes" rows="6" placeholder="Одна строка = одно примечание">${escapeHTML(detail.notes || '')}</textarea>
+                    </label>
                     <div class="detail-edit-actions">
-                        <button class="btn secondary" id="detailCancelBtn" type="button">Отмена</button>
-                        <button class="btn primary" id="detailSaveBtn" type="button">Сохранить</button>
+                        <button class="detail-edit-btn detail-cancel-btn" id="detailEditCancelBtn" type="button">Отмена</button>
+                        <button class="detail-edit-btn detail-save-btn" id="detailEditSaveBtn" type="submit">Сохранить</button>
                     </div>
-                </div>
+                </form>
             `;
 
-            const saveBtn = document.getElementById('detailSaveBtn');
-            const cancelBtn = document.getElementById('detailCancelBtn');
-
-            if (saveBtn) saveBtn.addEventListener('click', saveDetailEdit);
-            if (cancelBtn) cancelBtn.addEventListener('click', cancelDetailEdit);
+            const form = document.getElementById('detailEditForm');
+            const cancelBtn = document.getElementById('detailEditCancelBtn');
+            if (form) {
+                form.addEventListener('submit', saveDetailEdit);
+            }
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    detailEditingId = null;
+                    renderDetailDrawer();
+                });
+            }
         }
 
         function renderDetailDrawer() {
@@ -1755,50 +1708,65 @@
             const elements = ensureDetailDrawerElements();
             if (!elements.drawer) return;
 
-            elements.title.textContent = item.title || 'Детали релиза';
+            elements.title.textContent = item.title || 'Детали вехи';
             elements.meta.innerHTML = `
                 <span class="detail-meta-chip">${escapeHTML(STATUS_MAP[item.status].label)}</span>
                 <span class="detail-meta-chip">Плановая дата: ${escapeHTML(item.date || 'Не указана')}</span>
                 <span class="detail-meta-chip">Контур: ${escapeHTML(detail.owner || 'Product')}</span>
             `;
 
-            if (detailEditingId === activeDetailId) {
+            const header = elements.drawer.querySelector('.detail-drawer-header');
+            if (header) {
+                let actions = header.querySelector('.detail-header-actions');
+                if (!actions) {
+                    actions = document.createElement('div');
+                    actions.className = 'detail-header-actions';
+                    const closeBtn = header.querySelector('#detailCloseBtn');
+                    if (closeBtn) {
+                        header.appendChild(actions);
+                        actions.appendChild(closeBtn);
+                    } else {
+                        header.appendChild(actions);
+                    }
+                }
+                if (!header.querySelector('#detailEditBtn')) {
+                    const editBtn = document.createElement('button');
+                    editBtn.id = 'detailEditBtn';
+                    editBtn.type = 'button';
+                    editBtn.className = 'detail-edit-btn';
+                    editBtn.textContent = 'Редактировать';
+                    editBtn.addEventListener('click', () => {
+                        detailEditingId = item.id;
+                        renderDetailDrawer();
+                    });
+                    actions.insertBefore(editBtn, actions.firstChild || null);
+                }
+            }
+
+            if (detailEditingId === item.id) {
                 renderDetailEditForm(item, detail);
             } else {
                 renderDetailView(item, detail);
             }
         }
 
-        function startDetailEdit(event) {
-            if (event) event.preventDefault();
-            if (activeDetailId === null) return;
-            detailEditingId = activeDetailId;
-            renderDetailDrawer();
-        }
-
-        function cancelDetailEdit(event) {
-            if (event) event.preventDefault();
-            detailEditingId = null;
-            renderDetailDrawer();
-        }
-
         function saveDetailEdit(event) {
-            if (event) event.preventDefault();
+            event.preventDefault();
             if (activeDetailId === null) return;
-            const current = getDetailById(activeDetailId);
-            if (!current) return;
 
-            milestoneDetails[activeDetailId] = {
-                ...current,
-                owner: (document.getElementById('detailOwnerInput')?.value || '').trim() || 'Product',
-                features: normalizeFeatureLines(document.getElementById('detailFeaturesInput')?.value || ''),
-                impact: (document.getElementById('detailImpactInput')?.value || '').trim() || 'Пользовательские изменения пока не описаны.',
-                notes: normalizeNotesText(document.getElementById('detailNotesInput')?.value || '') || 'Дополнительные примечания пока не заполнены.'
-            };
+            const currentDetail = getDetailById(activeDetailId) || {};
+            const features = String(document.getElementById('detailEditFeatures')?.value || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
 
-            if (!milestoneDetails[activeDetailId].features.length) {
-                milestoneDetails[activeDetailId].features = ['Состав релиза пока не заполнен.'];
-            }
+            milestoneDetails[activeDetailId] = sanitizeDetailData({
+                ...currentDetail,
+                owner: String(document.getElementById('detailEditOwner')?.value || '').trim() || 'Product',
+                features,
+                impact: String(document.getElementById('detailEditImpact')?.value || '').trim() || 'Пользовательские изменения пока не описаны.',
+                notes: normalizeNotesText(document.getElementById('detailEditNotes')?.value || '') || 'Детали вехи пока не заполнены.'
+            }, currentDetail);
 
             saveDetailData();
             detailEditingId = null;
@@ -1827,7 +1795,6 @@
             elements.overlay.classList.add('is-open');
             elements.drawer.classList.add('is-open');
             elements.drawer.setAttribute('aria-hidden', 'false');
-            document.body.classList.add('detail-drawer-open');
 
             renderDetailDrawer();
             syncActiveDetailCards();
@@ -1841,7 +1808,6 @@
             elements.overlay.classList.remove('is-open');
             elements.drawer.classList.remove('is-open');
             elements.drawer.setAttribute('aria-hidden', 'true');
-            document.body.classList.remove('detail-drawer-open');
             window.setTimeout(() => {
                 if (!elements.overlay.classList.contains('is-open')) {
                     elements.overlay.hidden = true;
@@ -1850,8 +1816,26 @@
             syncActiveDetailCards();
         }
 
+        function ensureActiveDetailState() {
+            const activeStillExists = activeDetailId !== null && milestones.some(item => item.id === activeDetailId);
+
+            if (!activeStillExists) {
+                if (activeDetailId !== null) {
+                    closeDetail();
+                }
+                return;
+            }
+
+            if (detailEditingId !== null && detailEditingId !== activeDetailId) {
+                detailEditingId = null;
+            }
+
+            renderDetailDrawer();
+            syncActiveDetailCards();
+        }
 
         function init() {
+            applyBackLink();
             migrateStorageIfNeeded();
             restoreState();
             bindStaticEvents();
@@ -1860,9 +1844,14 @@
             setupViewportWatcher();
             setupHeaderScroll();
             updateHeaderCompactState();
+
+            if (AUTO_ACTION === 'export') {
+                setTimeout(() => exportHTML(), 220);
+            }
         }
 
         function migrateStorageIfNeeded() {
+            if (IS_DRAFT_MODE) return;
             const savedVersion = localStorage.getItem(VERSION_KEY);
             if (savedVersion !== APP_VERSION) {
                 localStorage.removeItem(STORAGE_KEY);
@@ -1875,6 +1864,31 @@
         function restoreState() {
             const titleEl = document.getElementById('roadmapTitle');
 
+            if (IS_DRAFT_MODE) {
+                const storedDraft = localStorage.getItem(DRAFT_RECORD_KEY);
+                if (storedDraft) {
+                    try {
+                        const parsed = JSON.parse(storedDraft);
+                        milestones = Array.isArray(parsed.milestones) ? parsed.milestones : [...INITIAL_DATA];
+                        titleEl.innerText = (parsed.title || titleEl.innerText || '[Новая дорожная карта]').trim();
+                        document.title = `${titleEl.innerText.trim()} Roadmap`;
+                        upsertDraftRegistry(buildDraftRecord(titleEl.innerText.trim(), milestones, parsed.createdAt || Date.now()));
+                        restoreDetailState();
+                        return;
+                    } catch (error) {
+                    }
+                }
+
+                milestones = [...INITIAL_DATA];
+                titleEl.innerText = titleEl.innerText.trim() || '[Новая дорожная карта]';
+                document.title = `${titleEl.innerText.trim()} Roadmap`;
+                const initialRecord = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(initialRecord));
+                upsertDraftRegistry(initialRecord);
+                restoreDetailState();
+                return;
+            }
+
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
@@ -1886,24 +1900,6 @@
                 milestones = [...INITIAL_DATA];
             }
 
-            const fallbackInitialDetails = (typeof INITIAL_DETAIL_DATA === 'object' && INITIAL_DETAIL_DATA) ? INITIAL_DETAIL_DATA : {};
-            const storedDetailData = localStorage.getItem(DETAIL_STORAGE_KEY);
-            if (storedDetailData) {
-                try {
-                    milestoneDetails = JSON.parse(storedDetailData);
-                } catch (error) {
-                    milestoneDetails = fallbackInitialDetails;
-                }
-            } else {
-                milestoneDetails = fallbackInitialDetails;
-            }
-
-            if (!milestoneDetails || typeof milestoneDetails !== 'object') {
-                milestoneDetails = {};
-            }
-
-            syncDetailDataWithMilestones();
-
             const storedTitle = localStorage.getItem(TITLE_STORAGE_KEY);
             if (storedTitle) {
                 titleEl.innerText = storedTitle;
@@ -1911,6 +1907,8 @@
             } else {
                 document.title = `${titleEl.innerText.trim()} Roadmap`;
             }
+
+            restoreDetailState();
         }
 
         function bindStaticEvents() {
@@ -1919,8 +1917,13 @@
             titleEl.addEventListener('blur', () => {
                 const newTitle = titleEl.innerText.trim() || '[Новая дорожная карта]';
                 titleEl.innerText = newTitle;
-                localStorage.setItem(TITLE_STORAGE_KEY, newTitle);
                 document.title = `${newTitle} Roadmap`;
+
+                if (IS_DRAFT_MODE) {
+                    saveToStorage();
+                } else {
+                    localStorage.setItem(TITLE_STORAGE_KEY, newTitle);
+                }
             });
 
             titleEl.addEventListener('keydown', (event) => {
@@ -1939,17 +1942,8 @@
 
             const overlay = document.getElementById('detailOverlay');
             const closeBtn = document.getElementById('detailCloseBtn');
-            const editBtn = document.getElementById('detailEditBtn');
-            if (overlay) {
-                overlay.addEventListener('click', closeDetail);
-            }
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeDetail);
-            }
-            if (editBtn) {
-                editBtn.addEventListener('click', startDetailEdit);
-            }
-
+            if (overlay) overlay.addEventListener('click', closeDetail);
+            if (closeBtn) closeBtn.addEventListener('click', closeDetail);
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && activeDetailId !== null) {
                     closeDetail();
@@ -2011,6 +2005,22 @@
         }
 
         function saveToStorage() {
+            if (IS_DRAFT_MODE) {
+                let createdAt = Date.now();
+                const existing = localStorage.getItem(DRAFT_RECORD_KEY);
+                if (existing) {
+                    try {
+                        createdAt = JSON.parse(existing).createdAt || createdAt;
+                    } catch (error) {
+                    }
+                }
+
+                const record = buildDraftRecord(document.getElementById('roadmapTitle').innerText.trim(), milestones, createdAt);
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(record));
+                upsertDraftRegistry(record);
+                return;
+            }
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(milestones));
         }
 
@@ -2155,8 +2165,7 @@
                         <span>${escapeHTML(item.date)}</span>
                     </div>
                     <button class="card-detail-link" type="button" onclick="openDetail(${item.id}, event)">
-                        <span>Подробнее</span>
-                        <span aria-hidden="true">→</span>
+                        Подробнее <span aria-hidden="true">→</span>
                     </button>
                 </div>
             `;
@@ -2196,13 +2205,10 @@
             if (!confirm('Удалить эту веху?')) return;
             milestones = milestones.filter(item => item.id !== id);
             if (editingId === id) editingId = null;
-            if (activeDetailId === id) {
-                detailEditingId = null;
-            }
             syncDetailDataWithMilestones();
             saveToStorage();
-            render();
             ensureActiveDetailState();
+            render();
         };
 
         window.startEdit = function(id, event) {
@@ -2224,10 +2230,6 @@
             event.stopPropagation();
             editingId = null;
             render();
-            if (activeDetailId !== null) {
-                renderDetailDrawer();
-                syncActiveDetailCards();
-            }
         };
 
         window.saveEdit = function(id, event) {
@@ -2246,8 +2248,8 @@
             }
 
             editingId = null;
-            render();
             ensureActiveDetailState();
+            render();
         };
 
         function handleDragStart(event) {
@@ -2282,7 +2284,9 @@
 
             const moved = milestones.splice(dragStartIndex, 1)[0];
             milestones.splice(dropIndex, 0, moved);
+            syncDetailDataWithMilestones();
             saveToStorage();
+            ensureActiveDetailState();
             render();
         }
 
@@ -2294,8 +2298,27 @@
         }
 
         function resetLocalData() {
-            const ok = confirm('Очистить локально сохраненные данные этой страницы и перезагрузить ее?');
+            const message = IS_DRAFT_MODE
+                ? 'Очистить этот черновик и вернуть его к пустому состоянию?'
+                : 'Очистить локально сохраненные данные этой страницы и перезагрузить ее?';
+
+            const ok = confirm(message);
             if (!ok) return;
+
+            if (IS_DRAFT_MODE) {
+                const titleEl = document.getElementById('roadmapTitle');
+                titleEl.innerText = '[Новая дорожная карта]';
+                milestones = [];
+                const record = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
+                localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(record));
+                upsertDraftRegistry(record);
+                localStorage.removeItem(DETAIL_STORAGE_KEY);
+                milestoneDetails = {};
+                activeDetailId = null;
+                editingId = null;
+                render();
+                return;
+            }
 
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(TITLE_STORAGE_KEY);
@@ -2327,12 +2350,9 @@
 
             const appScript = clone.querySelector('#app-script');
             if (appScript) {
-                syncDetailDataWithMilestones();
                 const stateStr = JSON.stringify(milestones, null, 4);
-                const detailStr = JSON.stringify(milestoneDetails, null, 4);
                 let scriptText = appScript.textContent;
                 scriptText = scriptText.replace(/\/\* DATA_START \*\/[\s\S]*?\/\* DATA_END \*\//, `/* DATA_START */\n        const INITIAL_DATA = ${stateStr};\n        /* DATA_END */`);
-                scriptText = scriptText.replace(/\/\* DETAIL_DATA_START \*\/[\s\S]*?\/\* DETAIL_DATA_END \*\//, `/* DETAIL_DATA_START */\n        const INITIAL_DETAIL_DATA = ${detailStr};\n        /* DETAIL_DATA_END */`);
                 scriptText = scriptText.replace(/const APP_VERSION = '.*?';/, `const APP_VERSION = 'v-${Date.now()}';`);
                 appScript.textContent = scriptText;
             }
@@ -2346,7 +2366,11 @@
 
             const a = document.createElement('a');
             a.href = url;
-            a.download = getCurrentFileName() || `${slugify(currentTitle)}.html`;
+            const currentFileName = getCurrentFileName();
+            const downloadName = (IS_DRAFT_MODE || /^roadmap_builder/i.test(currentFileName || ''))
+                ? `${slugify(currentTitle)}.html`
+                : (getCurrentFileName() || `${slugify(currentTitle)}.html`);
+            a.download = downloadName;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -2576,15 +2600,10 @@
             const replace = confirm('Заменить текущую дорожную карту данными из файла?\n\nОК - заменить всё\nОтмена - добавить в конец');
             milestones = replace ? newMilestones : milestones.concat(newMilestones);
             editingId = null;
-
-            if (replace) {
-                detailEditingId = null;
-            }
-
             syncDetailDataWithMilestones();
             saveToStorage();
-            render();
             ensureActiveDetailState();
+            render();
 
             const wrapper = document.getElementById('scrollWrapper');
             setTimeout(() => {
@@ -2719,8 +2738,15 @@
             };
         }
 
+
+        if (IS_DRAFT_MODE) {
+            const subtitleEl = document.querySelector('.subtitle');
+            const workspaceTitle = document.querySelector('.workspace-title');
+            if (subtitleEl) subtitleEl.textContent = 'Черновик хранится локально в браузере. После сборки карты нажми «Сохранить как HTML» и залей файл на GitHub.';
+            if (workspaceTitle) workspaceTitle.textContent = 'Таймлайн черновика';
+        }
+
         init();
     </script>
-
-
-</body></html>
+</body>
+</html>
