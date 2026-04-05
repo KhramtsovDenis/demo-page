@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
+<html lang="ru"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Релизы в приложении] Roadmap</title>
@@ -54,12 +53,14 @@
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
+            overflow: hidden;
         }
 
         body {
             display: flex;
             flex-direction: column;
             min-height: 100dvh;
+            overflow: hidden;
         }
 
         .page-header {
@@ -375,6 +376,8 @@
 
         .workspace {
             position: relative;
+            display: flex;
+            flex-direction: column;
             flex: 1;
             min-height: 0;
             background: rgba(255,255,255,0.66);
@@ -413,12 +416,35 @@
             flex: 1;
             min-height: 0;
             overflow: auto;
-            padding: 24px 22px 30px;
+            padding: 24px 0 0;
             cursor: grab;
             touch-action: pan-x pan-y;
+            scrollbar-gutter: stable both-edges;
+            overscroll-behavior: contain;
         }
 
         .roadmap-wrapper:active { cursor: grabbing; }
+
+        .roadmap-wrapper::-webkit-scrollbar {
+            height: 14px;
+            width: 14px;
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-track {
+            background: rgba(226, 232, 240, 0.72);
+            border-radius: 999px;
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(111, 99, 217, 0.34);
+            border-radius: 999px;
+            border: 3px solid rgba(226, 232, 240, 0.72);
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(111, 99, 217, 0.46);
+        }
+
 
         .roadmap-container.desktop {
             position: relative;
@@ -428,7 +454,8 @@
             width: max-content;
             min-width: 100%;
             min-height: 760px;
-            padding: 12px 0;
+            padding: 12px 22px 18px;
+            box-sizing: border-box;
         }
 
         .roadmap-container.desktop .timeline-line {
@@ -524,6 +551,7 @@
             gap: 12px;
             overflow: hidden;
             position: relative;
+            cursor: default;
         }
 
         .card:hover {
@@ -621,12 +649,35 @@
             font-size: 13px;
             line-height: 1.55;
             white-space: pre-wrap;
+            word-break: break-word;
             overflow: auto;
             min-height: 0;
             flex: 1 1 auto;
             max-height: none;
-            padding-right: 4px;
+            padding-right: 8px;
+            display: block;
+            scrollbar-gutter: stable;
+            scrollbar-width: thin;
+            overscroll-behavior: contain;
         }
+
+        .card-desc::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .card-desc::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .card-desc::-webkit-scrollbar-thumb {
+            background: rgba(203, 213, 225, 0.95);
+            border-radius: 999px;
+        }
+
+        .card-desc::-webkit-scrollbar-thumb:hover {
+            background: rgba(148, 163, 184, 0.95);
+        }
+
 
         .card.editing {
             max-height: min(78vh, 620px);
@@ -724,7 +775,8 @@
             flex-direction: column;
             gap: 12px;
             min-width: 100%;
-            padding-left: 0;
+            padding: 0 12px 18px 12px;
+            box-sizing: border-box;
         }
 
         .roadmap-container.mobile .mobile-line {
@@ -760,7 +812,8 @@
         }
 
         .mobile-row .card-desc {
-            max-height: 160px;
+            -webkit-line-clamp: 8;
+            max-height: none;
         }
 
         .empty-state {
@@ -791,6 +844,339 @@
             line-height: 1.6;
         }
 
+
+        .card.active-detail {
+            border-color: rgba(111, 99, 217, 0.28);
+            box-shadow: 0 16px 30px rgba(111, 99, 217, 0.16);
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 8px;
+        }
+
+        .card-detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+            border: none;
+            background: none;
+            color: var(--brand);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .card-detail-link:hover {
+            color: #5b4fcf;
+            text-decoration: underline;
+            transform: none;
+        }
+
+        .detail-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.24);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            z-index: 29;
+        }
+
+        .detail-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .detail-drawer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            height: auto;
+            width: min(440px, calc(100% - 48px));
+            background: rgba(255, 255, 255, 0.98);
+            border-left: 1px solid rgba(226, 232, 240, 0.95);
+            box-shadow: -16px 0 36px rgba(15, 23, 42, 0.16);
+            transform: translateX(100%);
+            transition: transform 0.24s ease;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+        }
+
+        .detail-drawer.is-open {
+            transform: translateX(0);
+        }
+
+        .detail-drawer-header {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.92);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .detail-drawer-title {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            line-height: 1.18;
+            letter-spacing: -0.02em;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-meta-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .detail-close-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            box-shadow: none;
+            flex: 0 0 auto;
+        }
+
+        .detail-close-btn:hover {
+            color: var(--text);
+            background: white;
+        }
+
+        .detail-header-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex: 0 0 auto;
+        }
+
+        .detail-edit-btn {
+            min-height: 34px;
+            padding: 0 12px;
+            border-radius: 12px;
+            background: #f5f3ff;
+            border: 1px solid #ddd6fe;
+            color: #5b4fcf;
+            font-size: 13px;
+            font-weight: 800;
+            box-shadow: none;
+        }
+
+        .detail-edit-btn:hover {
+            background: #ede9fe;
+            border-color: #c4b5fd;
+        }
+
+        .detail-edit-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .detail-edit-field {
+            display: grid;
+            gap: 6px;
+        }
+
+        .detail-edit-label {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .detail-edit-form input,
+        .detail-edit-form textarea {
+            width: 100%;
+            font: inherit;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: white;
+            color: var(--text);
+            padding: 10px 12px;
+        }
+
+        .detail-edit-form textarea {
+            min-height: 120px;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+
+        .detail-edit-form input:focus,
+        .detail-edit-form textarea:focus {
+            outline: none;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.18);
+        }
+
+        .detail-edit-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 4px;
+        }
+
+        .detail-edit-actions button {
+            min-height: 42px;
+        }
+
+
+        .detail-drawer-body {
+            flex: 1;
+            overflow: auto;
+            padding: 18px;
+            scrollbar-gutter: stable;
+            overscroll-behavior: contain;
+        }
+
+        .detail-section {
+            background: rgba(248, 250, 252, 0.74);
+            border: 1px solid rgba(226, 232, 240, 0.88);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+        }
+
+        .detail-section p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .detail-feature-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .detail-feature-item {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+        }
+
+        .detail-feature-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand-soft);
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .detail-feature-text {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+
+        .detail-empty {
+            margin: auto;
+            max-width: 320px;
+            text-align: center;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .detail-visual-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .detail-visual-card {
+            min-height: 180px;
+            border-radius: 16px;
+            border: 1px solid rgba(217, 211, 255, 0.72);
+            background:
+                linear-gradient(180deg, rgba(111,99,217,0.10), rgba(111,99,217,0.02)),
+                linear-gradient(180deg, #fbfcff, #f4f6fd);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .detail-visual-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+        }
+
+        .detail-visual-lines {
+            display: grid;
+            gap: 8px;
+        }
+
+        .detail-visual-line {
+            height: 12px;
+            border-radius: 999px;
+            background: rgba(111,99,217,0.14);
+        }
+
+        .detail-visual-line.short { width: 54%; }
+        .detail-visual-line.mid { width: 74%; }
+        .detail-visual-line.long { width: 96%; }
+
+        .detail-visual-chart {
+            height: 72px;
+            border-radius: 14px;
+            border: 1px solid rgba(59,130,246,0.12);
+            background:
+                linear-gradient(180deg, rgba(59,130,246,0.10), rgba(59,130,246,0.03)),
+                white;
+        }
+
+
         @media (max-width: 1180px) {
             .hero {
                 grid-template-columns: 1fr;
@@ -802,6 +1188,10 @@
         }
 
         @media (max-width: 920px) {
+            html, body {
+                overflow: auto;
+            }
+
             .header-inner {
                 padding: 14px 14px 16px;
             }
@@ -841,8 +1231,12 @@
             }
 
             .roadmap-wrapper {
-                padding: 16px 12px 20px;
+                padding: 16px 12px 34px;
                 cursor: default;
+            }
+
+            .detail-drawer {
+                width: min(420px, calc(100% - 16px));
             }
         }
 
@@ -946,7 +1340,23 @@
 
             .card-desc {
                 font-size: 13px;
-                max-height: 180px;
+                -webkit-line-clamp: 8;
+                max-height: none;
+            }
+
+            .detail-drawer {
+                width: 100vw;
+                border-left: none;
+            }
+
+            .detail-drawer-header,
+            .detail-drawer-body {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .detail-visual-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -990,19 +1400,19 @@
             <div class="stats">
                 <div class="stat stat-total">
                     <div class="stat-label">Всего вех</div>
-                    <div class="stat-value" id="statTotal">0</div>
+                    <div class="stat-value" id="statTotal">6</div>
                 </div>
                 <div class="stat stat-done">
                     <div class="stat-label">Сделано</div>
-                    <div class="stat-value" id="statDone">0</div>
+                    <div class="stat-value" id="statDone">1</div>
                 </div>
                 <div class="stat stat-progress">
                     <div class="stat-label">В работе</div>
-                    <div class="stat-value" id="statProgress">0</div>
+                    <div class="stat-value" id="statProgress">2</div>
                 </div>
                 <div class="stat stat-planned">
                     <div class="stat-label">Запланировано</div>
-                    <div class="stat-value" id="statPlanned">0</div>
+                    <div class="stat-value" id="statPlanned">3</div>
                 </div>
             </div>
         </section>
@@ -1013,11 +1423,30 @@
                 <div class="workspace-hint">Двойной клик по карточке или кнопка ✎ для редактирования. На телефоне страница переходит в вертикальный режим.</div>
             </div>
 
-            <div class="roadmap-wrapper" id="scrollWrapper">
+            <div class="roadmap-wrapper" id="scrollWrapper" style="cursor: grab;">
                 <div class="roadmap-container desktop" id="roadmapContainer"></div>
             </div>
+
+            <div class="detail-overlay" id="detailOverlay" hidden></div>
+            <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+        
+        <div class="detail-drawer-header">
+            <div>
+                <h2 class="detail-drawer-title" id="detailDrawerTitle">Детали релиза</h2>
+                <div class="detail-meta" id="detailMeta"></div>
+            </div>
+            <div class="detail-header-actions">
+                <button class="detail-edit-btn" id="detailEditBtn" type="button">Редактировать</button>
+                <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
+            </div>
+        </div>
+        <div class="detail-drawer-body" id="detailDrawerBody">
+            <div class="detail-empty">Нажми «Подробнее» в любой вехе, чтобы открыть правую панель с деталями релиза.</div>
+        </div>
+    </aside>
         </section>
     </main>
+
 
     <script id="app-script">
         /* DATA_START */
@@ -1064,10 +1493,14 @@
         "status": "planned",
         "date": "23 декабря 2026"
     }
-]; 
+];
         /* DATA_END */
 
-        const APP_VERSION = 'v-1775266213';
+        /* DETAIL_DATA_START */
+        const INITIAL_DETAIL_DATA = {};
+        /* DETAIL_DATA_END */
+
+        const APP_VERSION = 'v-1775306487904';
 
         const STATUS_MAP = {
             done: { label: '✅ Сделано', class: 'status-done' },
@@ -1084,12 +1517,16 @@
         const PAGE_KEY_PREFIX = getPageKeyPrefix();
         const STORAGE_KEY = `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
         const TITLE_STORAGE_KEY = `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
+        const DETAIL_STORAGE_KEY = `healbe_roadmap_detail_data_${PAGE_KEY_PREFIX}`;
         const VERSION_KEY = `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
         const lastViewportMode = { mobile: isMobileView() };
 
         let milestones = [];
+        let milestoneDetails = {};
         let editingId = null;
         let dragStartIndex = -1;
+        let activeDetailId = null;
+        let detailEditingId = null;
 
         function getPageKeyPrefix() {
             const raw = decodeURIComponent(window.location.pathname || 'roadmap');
@@ -1106,6 +1543,277 @@
         function isMobileView() {
             return window.matchMedia('(max-width: 920px)').matches;
         }
+
+
+        function buildInitialDetailData(items) {
+            return items.reduce((acc, item) => {
+                acc[item.id] = {
+                    summary: item.desc || 'Подробное описание релиза пока не заполнено.',
+                    features: splitDetailFeatures(item.desc),
+                    impact: 'Пользователь увидит изменения, заявленные в описании релиза, в рамках текущей вехи.',
+                    notes: 'Детали релиза пока не заполнены.',
+                    owner: inferDetailOwner(item.title, item.desc)
+                };
+                return acc;
+            }, {});
+        }
+
+        function splitDetailFeatures(text) {
+            const source = String(text || '').split(/\n+/).map(part => part.trim()).filter(Boolean);
+            if (!source.length) {
+                return ['Состав релиза пока не заполнен.'];
+            }
+            return source;
+        }
+
+        function inferDetailOwner(title, desc) {
+            const probe = `${title || ''} ${desc || ''}`.toLowerCase();
+            const parts = [];
+            if (probe.includes('ios') || probe.includes('android') || probe.includes('прилож')) parts.push('MA');
+            if (probe.includes('дизайн') || probe.includes('интерф') || probe.includes('онбординг')) parts.push('UX/UI');
+            if (probe.includes('экг') || probe.includes('аритм') || probe.includes('вср') || probe.includes('energy balance')) parts.push('Product');
+            return parts.length ? [...new Set(parts)].join(' + ') : 'Product';
+        }
+
+        function syncDetailDataWithMilestones() {
+            const nextDetails = {};
+            const defaults = buildInitialDetailData(milestones);
+
+            milestones.forEach(item => {
+                nextDetails[item.id] = {
+                    ...defaults[item.id],
+                    ...(milestoneDetails[item.id] || {})
+                };
+            });
+
+            milestoneDetails = nextDetails;
+            saveDetailData();
+        }
+
+        function saveDetailData() {
+            localStorage.setItem(DETAIL_STORAGE_KEY, JSON.stringify(milestoneDetails));
+        }
+
+        function ensureDetailDrawerElements() {
+            return {
+                overlay: document.getElementById('detailOverlay'),
+                drawer: document.getElementById('detailDrawer'),
+                title: document.getElementById('detailDrawerTitle'),
+                meta: document.getElementById('detailMeta'),
+                body: document.getElementById('detailDrawerBody'),
+                editBtn: document.getElementById('detailEditBtn')
+            };
+        }
+
+
+
+        function getDetailById(id) {
+            const item = milestones.find(entry => entry.id === id);
+            if (!item) return null;
+            return milestoneDetails[id] || buildInitialDetailData([item])[id];
+        }
+
+        function getFeatureLinesForEdit(detail) {
+            return (detail.features || []).join('\n');
+        }
+
+        function getNotesLinesForEdit(detail) {
+            return String(detail.notes || '').split(/\n+/).map(line => line.trim()).filter(Boolean).join('\n');
+        }
+
+        function normalizeFeatureLines(text) {
+            return String(text || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
+        }
+
+        function normalizeNotesText(text) {
+            const lines = String(text || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
+            return lines.join('\n');
+        }
+
+        function renderDetailView(item, detail) {
+            const elements = ensureDetailDrawerElements();
+            const features = (detail.features || []).map((feature, index) => `
+                <li class="detail-feature-item">
+                    <span class="detail-feature-num">${index + 1}</span>
+                    <span class="detail-feature-text">${escapeHTML(feature)}</span>
+                </li>
+            `).join('');
+
+            if (elements.editBtn) {
+                elements.editBtn.hidden = false;
+                elements.editBtn.textContent = 'Редактировать';
+            }
+
+            elements.body.innerHTML = `
+                <section class="detail-section">
+                    <h3>Что входит в релиз</h3>
+                    <ul class="detail-feature-list">${features}</ul>
+                </section>
+                <section class="detail-section">
+                    <h3>Что изменится для пользователя</h3>
+                    <p>${escapeHTML(detail.impact || 'Пользовательские изменения пока не описаны.')}</p>
+                </section>
+                <section class="detail-section">
+                    <h3>Примечания</h3>
+                    <p>${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
+                </section>
+            `;
+
+        }
+
+        function renderDetailEditForm(item, detail) {
+            const elements = ensureDetailDrawerElements();
+
+            if (elements.editBtn) {
+                elements.editBtn.hidden = true;
+            }
+
+            elements.body.innerHTML = `
+                <div class="detail-edit-form">
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailOwnerInput">Контур релиза</label>
+                        <input id="detailOwnerInput" type="text" value="${escapeHTML(detail.owner || '')}" placeholder="Например: Product + MA + UX/UI">
+                    </div>
+<div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailFeaturesInput">Состав релиза</label>
+                        <textarea id="detailFeaturesInput" placeholder="Одна строка = один пункт&#10;Формат: Название пункта | Описание пункта">${escapeHTML(getFeatureLinesForEdit(detail))}</textarea>
+                    </div>
+
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailImpactInput">Что изменится для пользователя</label>
+                        <textarea id="detailImpactInput" placeholder="Что увидит и почувствует пользователь">${escapeHTML(detail.impact || '')}</textarea>
+                    </div>
+
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailNotesInput">Примечания</label>
+                        <textarea id="detailNotesInput" placeholder="Одна строка = одно примечание">${escapeHTML(getNotesLinesForEdit(detail))}</textarea>
+                    </div>
+
+                    <div class="detail-edit-actions">
+                        <button class="btn secondary" id="detailCancelBtn" type="button">Отмена</button>
+                        <button class="btn primary" id="detailSaveBtn" type="button">Сохранить</button>
+                    </div>
+                </div>
+            `;
+
+            const saveBtn = document.getElementById('detailSaveBtn');
+            const cancelBtn = document.getElementById('detailCancelBtn');
+
+            if (saveBtn) saveBtn.addEventListener('click', saveDetailEdit);
+            if (cancelBtn) cancelBtn.addEventListener('click', cancelDetailEdit);
+        }
+
+        function renderDetailDrawer() {
+            if (activeDetailId === null) return;
+
+            const item = milestones.find(entry => entry.id === activeDetailId);
+            if (!item) return;
+
+            const detail = getDetailById(activeDetailId);
+            const elements = ensureDetailDrawerElements();
+            if (!elements.drawer) return;
+
+            elements.title.textContent = item.title || 'Детали релиза';
+            elements.meta.innerHTML = `
+                <span class="detail-meta-chip">${escapeHTML(STATUS_MAP[item.status].label)}</span>
+                <span class="detail-meta-chip">Плановая дата: ${escapeHTML(item.date || 'Не указана')}</span>
+                <span class="detail-meta-chip">Контур: ${escapeHTML(detail.owner || 'Product')}</span>
+            `;
+
+            if (detailEditingId === activeDetailId) {
+                renderDetailEditForm(item, detail);
+            } else {
+                renderDetailView(item, detail);
+            }
+        }
+
+        function startDetailEdit(event) {
+            if (event) event.preventDefault();
+            if (activeDetailId === null) return;
+            detailEditingId = activeDetailId;
+            renderDetailDrawer();
+        }
+
+        function cancelDetailEdit(event) {
+            if (event) event.preventDefault();
+            detailEditingId = null;
+            renderDetailDrawer();
+        }
+
+        function saveDetailEdit(event) {
+            if (event) event.preventDefault();
+            if (activeDetailId === null) return;
+            const current = getDetailById(activeDetailId);
+            if (!current) return;
+
+            milestoneDetails[activeDetailId] = {
+                ...current,
+                owner: (document.getElementById('detailOwnerInput')?.value || '').trim() || 'Product',
+                features: normalizeFeatureLines(document.getElementById('detailFeaturesInput')?.value || ''),
+                impact: (document.getElementById('detailImpactInput')?.value || '').trim() || 'Пользовательские изменения пока не описаны.',
+                notes: normalizeNotesText(document.getElementById('detailNotesInput')?.value || '') || 'Дополнительные примечания пока не заполнены.'
+            };
+
+            if (!milestoneDetails[activeDetailId].features.length) {
+                milestoneDetails[activeDetailId].features = ['Состав релиза пока не заполнен.'];
+            }
+
+            saveDetailData();
+            detailEditingId = null;
+            renderDetailDrawer();
+        }
+
+        function syncActiveDetailCards() {
+            document.querySelectorAll('.card[data-card-id]').forEach((card) => {
+                const id = Number(card.getAttribute('data-card-id'));
+                card.classList.toggle('active-detail', activeDetailId === id);
+            });
+        }
+
+        function openDetail(id, event) {
+            if (event) event.stopPropagation();
+            const item = milestones.find(entry => entry.id === id);
+            if (!item) return;
+
+            activeDetailId = id;
+            detailEditingId = null;
+
+            const elements = ensureDetailDrawerElements();
+            if (!elements.overlay || !elements.drawer) return;
+
+            elements.overlay.hidden = false;
+            elements.overlay.classList.add('is-open');
+            elements.drawer.classList.add('is-open');
+            elements.drawer.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('detail-drawer-open');
+
+            renderDetailDrawer();
+            syncActiveDetailCards();
+        }
+
+        function closeDetail() {
+            activeDetailId = null;
+            detailEditingId = null;
+            const elements = ensureDetailDrawerElements();
+            if (!elements.overlay || !elements.drawer) return;
+            elements.overlay.classList.remove('is-open');
+            elements.drawer.classList.remove('is-open');
+            elements.drawer.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('detail-drawer-open');
+            window.setTimeout(() => {
+                if (!elements.overlay.classList.contains('is-open')) {
+                    elements.overlay.hidden = true;
+                }
+            }, 220);
+            syncActiveDetailCards();
+        }
+
 
         function init() {
             migrateStorageIfNeeded();
@@ -1142,6 +1850,19 @@
                 milestones = [...INITIAL_DATA];
             }
 
+            const storedDetailData = localStorage.getItem(DETAIL_STORAGE_KEY);
+            if (storedDetailData) {
+                try {
+                    milestoneDetails = JSON.parse(storedDetailData);
+                } catch (error) {
+                    milestoneDetails = buildInitialDetailData(milestones);
+                }
+            } else {
+                milestoneDetails = buildInitialDetailData(milestones);
+            }
+
+            syncDetailDataWithMilestones();
+
             const storedTitle = localStorage.getItem(TITLE_STORAGE_KEY);
             if (storedTitle) {
                 titleEl.innerText = storedTitle;
@@ -1174,6 +1895,25 @@
             document.getElementById('exportDocxBtn').addEventListener('click', exportDOCX);
             document.getElementById('exportBtn').addEventListener('click', exportHTML);
             document.getElementById('resetStorageBtn').addEventListener('click', resetLocalData);
+
+            const overlay = document.getElementById('detailOverlay');
+            const closeBtn = document.getElementById('detailCloseBtn');
+            const editBtn = document.getElementById('detailEditBtn');
+            if (overlay) {
+                overlay.addEventListener('click', closeDetail);
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeDetail);
+            }
+            if (editBtn) {
+                editBtn.addEventListener('click', startDetailEdit);
+            }
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && activeDetailId !== null) {
+                    closeDetail();
+                }
+            });
         }
 
         function setupViewportWatcher() {
@@ -1215,6 +1955,7 @@
 
             milestones.push(newItem);
             editingId = newItem.id;
+            syncDetailDataWithMilestones();
             saveToStorage();
             render();
 
@@ -1268,6 +2009,7 @@
             }
 
             updateStats();
+            syncActiveDetailCards();
         }
 
         function renderDesktop(container) {
@@ -1329,7 +2071,7 @@
 
         function buildCardShellHTML(item) {
             return `
-                <div class="card ${editingId === item.id ? 'editing' : ''}" data-card-id="${item.id}">
+                <div class="card ${editingId === item.id ? 'editing' : ''} ${activeDetailId === item.id ? 'active-detail' : ''}" data-card-id="${item.id}">
                     ${editingId === item.id ? getEditFormHTML(item) : getCardHTML(item)}
                 </div>
             `;
@@ -1361,14 +2103,20 @@
                     <div class="card-title" title="${escapeHTML(item.title)}">${escapeHTML(item.title)}</div>
                     <div class="card-desc" title="${escapeHTML(item.desc)}">${escapeHTML(item.desc)}</div>
                 </div>
-                <div class="card-date">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span>${escapeHTML(item.date)}</span>
+                <div class="card-footer">
+                    <div class="card-date">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>${escapeHTML(item.date)}</span>
+                    </div>
+                    <button class="card-detail-link" type="button" onclick="openDetail(${item.id}, event)">
+                        <span>Подробнее</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
                 </div>
             `;
         }
@@ -1406,6 +2154,8 @@
             event.stopPropagation();
             if (!confirm('Удалить эту веху?')) return;
             milestones = milestones.filter(item => item.id !== id);
+            if (activeDetailId === id) closeDetail();
+            syncDetailDataWithMilestones();
             saveToStorage();
             if (editingId === id) editingId = null;
             render();
@@ -1429,6 +2179,9 @@
             event.stopPropagation();
             editingId = null;
             render();
+            if (activeDetailId === id) {
+                renderDetailDrawer();
+            }
         };
 
         window.saveEdit = function(id, event) {
@@ -1442,6 +2195,7 @@
             const index = milestones.findIndex(item => item.id === id);
             if (index !== -1) {
                 milestones[index] = { ...milestones[index], title, desc, status, date };
+                syncDetailDataWithMilestones();
                 saveToStorage();
             }
 
@@ -1498,6 +2252,7 @@
 
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(TITLE_STORAGE_KEY);
+            localStorage.removeItem(DETAIL_STORAGE_KEY);
             localStorage.removeItem(VERSION_KEY);
             LEGACY_KEYS.forEach(key => localStorage.removeItem(key));
             location.reload();
@@ -1526,8 +2281,10 @@
             const appScript = clone.querySelector('#app-script');
             if (appScript) {
                 const stateStr = JSON.stringify(milestones, null, 4);
+                const detailStr = JSON.stringify(milestoneDetails, null, 4);
                 let scriptText = appScript.textContent;
                 scriptText = scriptText.replace(/\/\* DATA_START \*\/[\s\S]*?\/\* DATA_END \*\//, `/* DATA_START */\n        const INITIAL_DATA = ${stateStr};\n        /* DATA_END */`);
+                scriptText = scriptText.replace(/\/\* DETAIL_DATA_START \*\/[\s\S]*?\/\* DETAIL_DATA_END \*\//, `/* DETAIL_DATA_START */\n        const INITIAL_DETAIL_DATA = ${detailStr};\n        /* DETAIL_DATA_END */`);
                 scriptText = scriptText.replace(/const APP_VERSION = '.*?';/, `const APP_VERSION = 'v-${Date.now()}';`);
                 appScript.textContent = scriptText;
             }
@@ -1909,5 +2666,6 @@
 
         init();
     </script>
-</body>
-</html>
+
+
+</body></html>
