@@ -53,6 +53,8 @@
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
@@ -426,6 +428,8 @@
             touch-action: pan-x pan-y;
             scrollbar-gutter: stable both-edges;
             overscroll-behavior: contain;
+        
+            -webkit-overflow-scrolling: touch;
         }
 
         .roadmap-wrapper:active { cursor: grabbing; }
@@ -652,11 +656,16 @@
             font-size: 13px;
             line-height: 1.55;
             white-space: pre-wrap;
+            word-break: break-word;
             overflow: auto;
             min-height: 0;
             flex: 1 1 auto;
             max-height: none;
-            padding-right: 4px;
+            padding-right: 8px;
+            display: block;
+            scrollbar-gutter: stable;
+            scrollbar-width: thin;
+            overscroll-behavior: contain;
         }
 
         .card.editing {
@@ -954,6 +963,7 @@
 
         .detail-drawer-body {
             flex: 1;
+            min-height: 0;
             overflow: auto;
             padding: 18px;
             scrollbar-gutter: stable;
@@ -1074,6 +1084,7 @@
         .detail-edit-form {
             display: grid;
             gap: 12px;
+                    align-content: start;
         }
 
         .detail-field {
@@ -1113,9 +1124,13 @@
 
         .detail-edit-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 4px;
-            flex-wrap: wrap;
+            gap: 8px;
+            padding-top: 10px;
+            padding-bottom: 4px;
+            margin-top: 8px;
+            position: static;
+            background: transparent;
+            z-index: auto;
         }
 
         .detail-save-btn {
@@ -1148,6 +1163,11 @@
         }
 
         @media (max-width: 920px) {
+            html, body {
+                overflow: auto !important;
+                height: auto;
+            }
+
             .header-inner {
                 padding: 14px 14px 16px;
             }
@@ -1174,6 +1194,8 @@
 
             .workspace {
                 border-radius: 20px;
+                overflow: visible;
+                min-height: auto;
             }
 
             .workspace-head {
@@ -1187,13 +1209,28 @@
             }
 
             .roadmap-wrapper {
-                padding: 16px 0 10px;
+                padding: 16px 12px 34px;
                 cursor: default;
+                overflow: visible !important;
+                touch-action: auto !important;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: auto !important;
             }
 
-            .roadmap-container.mobile {
-                padding: 0 12px 18px;
-                box-sizing: border-box;
+            .card-main {
+                overflow: visible !important;
+            }
+
+            .card-desc,
+            .mobile-row .card-desc {
+                overflow: visible !important;
+                overscroll-behavior: auto !important;
+                padding-right: 0;
+                scrollbar-width: auto;
+            }
+
+            .detail-drawer {
+                width: min(420px, calc(100% - 16px));
             }
         }
 
@@ -1297,8 +1334,153 @@
 
             .card-desc {
                 font-size: 13px;
-                max-height: 180px;
+                -webkit-line-clamp: 8;
+                max-height: none;
             }
+
+            .detail-drawer {
+                width: 100vw;
+                border-left: none;
+            }
+
+            .detail-drawer-header,
+            .detail-drawer-body {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .detail-drawer-header {
+                padding: 16px 14px 14px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                background: linear-gradient(180deg, #f7f8fc 0%, #f2f4f8 100%);
+                border-bottom: 1px solid rgba(226, 232, 240, 0.92);
+            }
+
+            .detail-drawer-header > div:first-child {
+                min-width: 0;
+            }
+
+            .detail-header-actions {
+                align-self: flex-end;
+                gap: 8px;
+                order: -1;
+            }
+
+            .detail-drawer-title {
+                margin: 0;
+                font-size: 19px;
+                line-height: 1.18;
+                letter-spacing: -0.02em;
+                max-width: 100%;
+            }
+
+            .detail-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 2px;
+            }
+
+            .detail-meta-chip {
+                display: inline-flex;
+                align-items: center;
+                min-height: 34px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: #eef2f7;
+                border: 1px solid #d9e1ea;
+                color: #5b667a;
+                font-size: 12px;
+                line-height: 1.25;
+                font-weight: 700;
+                max-width: 100%;
+                white-space: normal;
+            }
+
+            .detail-edit-btn {
+                min-height: 38px;
+                padding: 0 14px;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 800;
+                box-shadow: none;
+            }
+
+            .detail-close-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+                flex: 0 0 38px;
+            }
+
+            .detail-visual-grid {
+                grid-template-columns: 1fr;
+            }
+        
+
+            body.detail-drawer-open {
+                overflow: hidden !important;
+            }
+
+            .detail-overlay {
+                position: fixed;
+                inset: 0;
+            }
+
+            .detail-drawer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                height: 100dvh;
+                max-height: 100dvh;
+                border-left: none;
+                border-radius: 0;
+            }
+
+            .detail-drawer-header {
+                padding: 14px 14px 12px;
+            }
+
+            .detail-drawer-body {
+                flex: 1;
+                min-height: 0;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                padding: 14px 14px calc(20px + env(safe-area-inset-bottom));
+            }
+
+            .detail-drawer-title,
+            .detail-section p,
+            .detail-feature-text,
+            .detail-notes-text,
+            .detail-edit-form textarea,
+            .detail-edit-form input {
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .detail-meta {
+                gap: 6px;
+            }
+
+            .detail-meta-chip {
+                max-width: 100%;
+                white-space: normal;
+            }
+
+            .detail-section {
+                padding: 14px;
+                overflow: hidden;
+            }
+
         }
     </style>
 </head>
@@ -1642,9 +1824,16 @@
                 </li>
             `).join('');
 
+            if (elements.editBtn) {
+                elements.editBtn.hidden = false;
+                elements.editBtn.textContent = 'Редактировать';
+                elements.editBtn.classList.remove('is-back');
+                delete elements.editBtn.dataset.mode;
+            }
+
             elements.body.innerHTML = `
                 <section class="detail-section">
-                    <h3>Что входит в веху</h3>
+                    <h3>Что входит в релиз</h3>
                     <ul class="detail-feature-list">${features}</ul>
                 </section>
                 <section class="detail-section">
@@ -1653,49 +1842,59 @@
                 </section>
                 <section class="detail-section">
                     <h3>Примечания</h3>
-                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Детали вехи пока не заполнены.')}</p>
+                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
                 </section>
             `;
+
         }
 
         function renderDetailEditForm(item, detail) {
             const elements = ensureDetailDrawerElements();
+
+            if (elements.editBtn) {
+                elements.editBtn.hidden = true;
+                elements.editBtn.classList.remove('is-back');
+                delete elements.editBtn.dataset.mode;
+            }
+
             elements.body.innerHTML = `
-                <form class="detail-edit-form" id="detailEditForm">
-                    <label class="detail-field">
-                        <span>Контур релиза</span>
-                        <input id="detailEditOwner" type="text" value="${escapeHTML(detail.owner || 'Product')}" placeholder="Например: Product + UX/UI">
-                    </label>
-                    <label class="detail-field">
-                        <span>Что входит в веху</span>
-                        <textarea id="detailEditFeatures" rows="6" placeholder="Одна строка = один пункт">${escapeHTML((detail.features || []).join('\n'))}</textarea>
-                    </label>
-                    <label class="detail-field">
-                        <span>Что изменится для пользователя</span>
-                        <textarea id="detailEditImpact" rows="5" placeholder="Опиши пользовательские изменения">${escapeHTML(detail.impact || '')}</textarea>
-                    </label>
-                    <label class="detail-field">
-                        <span>Примечания</span>
-                        <textarea id="detailEditNotes" rows="6" placeholder="Одна строка = одно примечание">${escapeHTML(detail.notes || '')}</textarea>
-                    </label>
-                    <div class="detail-edit-actions">
-                        <button class="detail-edit-btn detail-cancel-btn" id="detailEditCancelBtn" type="button">Отмена</button>
-                        <button class="detail-edit-btn detail-save-btn" id="detailEditSaveBtn" type="submit">Сохранить</button>
+                <div class="detail-edit-form">
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailOwnerInput">Контур релиза</label>
+                        <input id="detailOwnerInput" type="text" value="${escapeHTML(detail.owner || '')}" placeholder="Например: Product + MA + UX/UI">
                     </div>
-                </form>
+<div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailFeaturesInput">Состав релиза</label>
+                        <textarea id="detailFeaturesInput" placeholder="Одна строка = один пункт&#10;Формат: Название пункта | Описание пункта">${escapeHTML(getFeatureLinesForEdit(detail))}</textarea>
+                    </div>
+
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailImpactInput">Что изменится для пользователя</label>
+                        <textarea id="detailImpactInput" placeholder="Что увидит и почувствует пользователь">${escapeHTML(detail.impact || '')}</textarea>
+                    </div>
+
+                    <div class="detail-edit-field">
+                        <label class="detail-edit-label" for="detailNotesInput">Примечания</label>
+                        <textarea id="detailNotesInput" placeholder="Одна строка = одно примечание">${escapeHTML(getNotesLinesForEdit(detail))}</textarea>
+                    </div>
+
+                    <div class="detail-edit-actions">
+                        <button class="btn secondary" id="detailCancelBtn" type="button">Отмена</button>
+                        <button class="btn primary" id="detailSaveBtn" type="button">Сохранить</button>
+                    </div>
+                </div>
             `;
 
-            const form = document.getElementById('detailEditForm');
-            const cancelBtn = document.getElementById('detailEditCancelBtn');
-            if (form) {
-                form.addEventListener('submit', saveDetailEdit);
-            }
-            if (cancelBtn) {
-                cancelBtn.addEventListener('click', () => {
-                    detailEditingId = null;
-                    renderDetailDrawer();
-                });
-            }
+            const saveBtn = document.getElementById('detailSaveBtn');
+            const cancelBtn = document.getElementById('detailCancelBtn');
+
+            if (saveBtn) saveBtn.addEventListener('click', saveDetailEdit);
+            if (cancelBtn) cancelBtn.addEventListener('click', cancelDetailEdit);
+
+            elements.body.scrollTop = 0;
+            requestAnimationFrame(() => {
+                elements.body.scrollTop = 0;
+            });
         }
 
         function renderDetailDrawer() {
@@ -2687,13 +2886,14 @@
 
         function setupPanScroll() {
             const slider = document.getElementById('scrollWrapper');
-            slider.onmousedown = null;
-            slider.onmousemove = null;
-            slider.onmouseup = null;
-            slider.onmouseleave = null;
-            slider.onwheel = null;
+            if (!slider) return;
 
-            if (isMobileView()) {
+            if (window.matchMedia('(max-width: 920px)').matches) {
+                slider.onmousedown = null;
+                slider.onmousemove = null;
+                slider.onmouseup = null;
+                slider.onmouseleave = null;
+                slider.onwheel = null;
                 slider.style.cursor = 'default';
                 return;
             }
@@ -2724,7 +2924,6 @@
 
             slider.onmousemove = (event) => {
                 if (!isDown) return;
-                event.preventDefault();
                 const x = event.pageX - slider.offsetLeft;
                 const walk = (x - startX) * 1.75;
                 slider.scrollLeft = scrollLeft - walk;
@@ -2732,7 +2931,6 @@
 
             slider.onwheel = (event) => {
                 if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-                    event.preventDefault();
                     slider.scrollLeft += event.deltaY;
                 }
             };

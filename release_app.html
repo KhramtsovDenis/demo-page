@@ -53,15 +53,15 @@
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
             display: flex;
             flex-direction: column;
             min-height: 100dvh;
-            overflow: hidden;
-        }
+}
 
         .page-header {
             position: sticky;
@@ -421,6 +421,8 @@
             touch-action: pan-x pan-y;
             scrollbar-gutter: stable both-edges;
             overscroll-behavior: contain;
+        
+            -webkit-overflow-scrolling: touch;
         }
 
         .roadmap-wrapper:active { cursor: grabbing; }
@@ -1002,6 +1004,7 @@
         .detail-edit-form {
             display: grid;
             gap: 12px;
+                    align-content: start;
         }
 
         .detail-edit-field {
@@ -1044,7 +1047,12 @@
         .detail-edit-actions {
             display: flex;
             gap: 8px;
-            padding-top: 4px;
+            padding-top: 10px;
+            padding-bottom: 4px;
+            margin-top: 8px;
+            position: static;
+            background: transparent;
+            z-index: auto;
         }
 
         .detail-edit-actions button {
@@ -1054,6 +1062,7 @@
 
         .detail-drawer-body {
             flex: 1;
+            min-height: 0;
             overflow: auto;
             padding: 18px;
             scrollbar-gutter: stable;
@@ -1189,7 +1198,8 @@
 
         @media (max-width: 920px) {
             html, body {
-                overflow: auto;
+                overflow: auto !important;
+                height: auto;
             }
 
             .header-inner {
@@ -1218,6 +1228,8 @@
 
             .workspace {
                 border-radius: 20px;
+                overflow: visible;
+                min-height: auto;
             }
 
             .workspace-head {
@@ -1233,6 +1245,22 @@
             .roadmap-wrapper {
                 padding: 16px 12px 34px;
                 cursor: default;
+                overflow: visible !important;
+                touch-action: auto !important;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: auto !important;
+            }
+
+            .card-main {
+                overflow: visible !important;
+            }
+
+            .card-desc,
+            .mobile-row .card-desc {
+                overflow: visible !important;
+                overscroll-behavior: auto !important;
+                padding-right: 0;
+                scrollbar-width: auto;
             }
 
             .detail-drawer {
@@ -1355,9 +1383,138 @@
                 padding-right: 14px;
             }
 
+            .detail-drawer-header {
+                padding: 16px 14px 14px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+                background: linear-gradient(180deg, #f7f8fc 0%, #f2f4f8 100%);
+                border-bottom: 1px solid rgba(226, 232, 240, 0.92);
+            }
+
+            .detail-drawer-header > div:first-child {
+                min-width: 0;
+            }
+
+            .detail-header-actions {
+                align-self: flex-end;
+                gap: 8px;
+                order: -1;
+            }
+
+            .detail-drawer-title {
+                margin: 0;
+                font-size: 19px;
+                line-height: 1.18;
+                letter-spacing: -0.02em;
+                max-width: 100%;
+            }
+
+            .detail-meta {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 2px;
+            }
+
+            .detail-meta-chip {
+                display: inline-flex;
+                align-items: center;
+                min-height: 34px;
+                padding: 8px 12px;
+                border-radius: 999px;
+                background: #eef2f7;
+                border: 1px solid #d9e1ea;
+                color: #5b667a;
+                font-size: 12px;
+                line-height: 1.25;
+                font-weight: 700;
+                max-width: 100%;
+                white-space: normal;
+            }
+
+            .detail-edit-btn {
+                min-height: 38px;
+                padding: 0 14px;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 800;
+                box-shadow: none;
+            }
+
+            .detail-close-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+                flex: 0 0 38px;
+            }
+
             .detail-visual-grid {
                 grid-template-columns: 1fr;
             }
+        
+
+            body.detail-drawer-open {
+                overflow: hidden !important;
+            }
+
+            .detail-overlay {
+                position: fixed;
+                inset: 0;
+            }
+
+            .detail-drawer {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                width: 100vw;
+                height: 100dvh;
+                max-height: 100dvh;
+                border-left: none;
+                border-radius: 0;
+            }
+
+            .detail-drawer-header {
+                padding: 14px 14px 12px;
+            }
+
+            .detail-drawer-body {
+                flex: 1;
+                min-height: 0;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                padding: 14px 14px calc(20px + env(safe-area-inset-bottom));
+            }
+
+            .detail-drawer-title,
+            .detail-section p,
+            .detail-feature-text,
+            .detail-notes-text,
+            .detail-edit-form textarea,
+            .detail-edit-form input {
+                overflow-wrap: anywhere;
+                word-break: break-word;
+            }
+
+            .detail-meta {
+                gap: 6px;
+            }
+
+            .detail-meta-chip {
+                max-width: 100%;
+                white-space: normal;
+            }
+
+            .detail-section {
+                padding: 14px;
+                overflow: hidden;
+            }
+
         }
     </style>
 </head>
@@ -1648,6 +1805,8 @@
             if (elements.editBtn) {
                 elements.editBtn.hidden = false;
                 elements.editBtn.textContent = 'Редактировать';
+                elements.editBtn.classList.remove('is-back');
+                delete elements.editBtn.dataset.mode;
             }
 
             elements.body.innerHTML = `
@@ -1661,7 +1820,7 @@
                 </section>
                 <section class="detail-section">
                     <h3>Примечания</h3>
-                    <p>${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
+                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
                 </section>
             `;
 
@@ -1672,6 +1831,8 @@
 
             if (elements.editBtn) {
                 elements.editBtn.hidden = true;
+                elements.editBtn.classList.remove('is-back');
+                delete elements.editBtn.dataset.mode;
             }
 
             elements.body.innerHTML = `
@@ -1707,6 +1868,11 @@
 
             if (saveBtn) saveBtn.addEventListener('click', saveDetailEdit);
             if (cancelBtn) cancelBtn.addEventListener('click', cancelDetailEdit);
+
+            elements.body.scrollTop = 0;
+            requestAnimationFrame(() => {
+                elements.body.scrollTop = 0;
+            });
         }
 
         function renderDetailDrawer() {
@@ -2613,13 +2779,14 @@
 
         function setupPanScroll() {
             const slider = document.getElementById('scrollWrapper');
-            slider.onmousedown = null;
-            slider.onmousemove = null;
-            slider.onmouseup = null;
-            slider.onmouseleave = null;
-            slider.onwheel = null;
+            if (!slider) return;
 
-            if (isMobileView()) {
+            if (window.matchMedia('(max-width: 920px)').matches) {
+                slider.onmousedown = null;
+                slider.onmousemove = null;
+                slider.onmouseup = null;
+                slider.onmouseleave = null;
+                slider.onwheel = null;
                 slider.style.cursor = 'default';
                 return;
             }
@@ -2650,7 +2817,6 @@
 
             slider.onmousemove = (event) => {
                 if (!isDown) return;
-                event.preventDefault();
                 const x = event.pageX - slider.offsetLeft;
                 const walk = (x - startX) * 1.75;
                 slider.scrollLeft = scrollLeft - walk;
@@ -2658,7 +2824,6 @@
 
             slider.onwheel = (event) => {
                 if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-                    event.preventDefault();
                     slider.scrollLeft += event.deltaY;
                 }
             };
