@@ -381,6 +381,8 @@
 
         .workspace {
             position: relative;
+            display: flex;
+            flex-direction: column;
             flex: 1;
             min-height: 0;
             background: rgba(255,255,255,0.66);
@@ -419,12 +421,34 @@
             flex: 1;
             min-height: 0;
             overflow: auto;
-            padding: 24px 22px 30px;
+            padding: 24px 0 0;
             cursor: grab;
             touch-action: pan-x pan-y;
+            scrollbar-gutter: stable both-edges;
+            overscroll-behavior: contain;
         }
 
         .roadmap-wrapper:active { cursor: grabbing; }
+
+        .roadmap-wrapper::-webkit-scrollbar {
+            height: 14px;
+            width: 14px;
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-track {
+            background: rgba(226, 232, 240, 0.72);
+            border-radius: 999px;
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-thumb {
+            background: rgba(111, 99, 217, 0.34);
+            border-radius: 999px;
+            border: 3px solid rgba(226, 232, 240, 0.72);
+        }
+
+        .roadmap-wrapper::-webkit-scrollbar-thumb:hover {
+            background: rgba(111, 99, 217, 0.48);
+        }
 
         .roadmap-container.desktop {
             position: relative;
@@ -434,7 +458,8 @@
             width: max-content;
             min-width: 100%;
             min-height: 760px;
-            padding: 12px 0;
+            padding: 12px 22px 18px;
+            box-sizing: border-box;
         }
 
         .roadmap-container.desktop .timeline-line {
@@ -797,6 +822,321 @@
             line-height: 1.6;
         }
 
+
+        .card.active-detail {
+            border-color: rgba(111, 99, 217, 0.28);
+            box-shadow: 0 16px 30px rgba(111, 99, 217, 0.16);
+        }
+
+        .card-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 8px;
+        }
+
+        .card-detail-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0;
+            border: none;
+            background: none;
+            color: var(--brand);
+            font: inherit;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .card-detail-link:hover {
+            color: #5b4fcf;
+            text-decoration: underline;
+            transform: none;
+        }
+
+        .detail-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.24);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.22s ease;
+            z-index: 29;
+        }
+
+        .detail-overlay.is-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .detail-drawer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(440px, calc(100% - 48px));
+            background: rgba(255, 255, 255, 0.98);
+            border-left: 1px solid rgba(226, 232, 240, 0.95);
+            box-shadow: -16px 0 36px rgba(15, 23, 42, 0.16);
+            transform: translateX(100%);
+            transition: transform 0.24s ease;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
+        }
+
+        .detail-drawer.is-open {
+            transform: translateX(0);
+        }
+
+        .detail-drawer-header {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 18px 18px 14px;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.92);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .detail-drawer-title {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            line-height: 1.18;
+            letter-spacing: -0.02em;
+        }
+
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .detail-meta-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--panel-soft);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .detail-close-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            box-shadow: none;
+            flex: 0 0 auto;
+        }
+
+        .detail-close-btn:hover {
+            color: var(--text);
+            background: white;
+        }
+
+        .detail-drawer-body {
+            flex: 1;
+            overflow: auto;
+            padding: 18px;
+            scrollbar-gutter: stable;
+            overscroll-behavior: contain;
+        }
+
+        .detail-section {
+            background: rgba(248, 250, 252, 0.74);
+            border: 1px solid rgba(226, 232, 240, 0.88);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .detail-section h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+        }
+
+        .detail-section p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .detail-notes-text {
+            white-space: pre-wrap;
+        }
+
+        .detail-feature-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .detail-feature-item {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+        }
+
+        .detail-feature-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brand-soft);
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .detail-feature-text {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.55;
+            white-space: pre-wrap;
+        }
+
+        .detail-empty {
+            margin: auto;
+            max-width: 320px;
+            text-align: center;
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .detail-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #ddd6fe;
+            background: #faf5ff;
+            color: #5b4fcf;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: none;
+        }
+
+        .detail-edit-btn:hover {
+            background: #f5f3ff;
+            border-color: #c4b5fd;
+        }
+
+        .detail-save-btn:hover {
+            background: linear-gradient(135deg, #6658d0, #8478e5);
+            color: white;
+            border: none;
+        }
+
+        .detail-cancel-btn:hover {
+            background: white;
+            color: var(--text);
+            border-color: var(--border);
+        }
+
+        .detail-edit-form {
+            display: grid;
+            gap: 12px;
+        }
+
+        .detail-field {
+            display: grid;
+            gap: 8px;
+        }
+
+        .detail-field span {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .detail-field input,
+        .detail-field textarea {
+            width: 100%;
+            font: inherit;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f8fafc;
+            color: var(--text);
+            padding: 10px 12px;
+        }
+
+        .detail-field textarea {
+            min-height: 112px;
+            resize: vertical;
+            white-space: pre-wrap;
+        }
+
+        .detail-field input:focus,
+        .detail-field textarea:focus {
+            outline: none;
+            border-color: #93c5fd;
+            background: white;
+        }
+
+        .detail-edit-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .detail-save-btn {
+            background: linear-gradient(135deg, var(--brand), var(--brand-2));
+            color: white;
+            border: none;
+        }
+
+        .detail-save-btn,
+        .detail-save-btn:hover,
+        .detail-cancel-btn,
+        .detail-cancel-btn:hover {
+            box-shadow: none;
+        }
+
+        .detail-cancel-btn {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
         @media (max-width: 1180px) {
             .hero {
                 grid-template-columns: 1fr;
@@ -847,8 +1187,13 @@
             }
 
             .roadmap-wrapper {
-                padding: 16px 12px 20px;
+                padding: 16px 0 10px;
                 cursor: default;
+            }
+
+            .roadmap-container.mobile {
+                padding: 0 12px 18px;
+                box-sizing: border-box;
             }
         }
 
@@ -1020,6 +1365,20 @@
             <div class="roadmap-wrapper" id="scrollWrapper">
                 <div class="roadmap-container desktop" id="roadmapContainer"></div>
             </div>
+
+            <div class="detail-overlay" id="detailOverlay" hidden></div>
+            <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+                <div class="detail-drawer-header">
+                    <div>
+                        <h3 class="detail-drawer-title" id="detailDrawerTitle">Детали вехи</h3>
+                        <div class="detail-meta" id="detailMeta"></div>
+                    </div>
+                    <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
+                </div>
+                <div class="detail-drawer-body" id="detailDrawerBody">
+                    <div class="detail-empty">Выбери веху и нажми «Подробнее», чтобы открыть детали.</div>
+                </div>
+            </aside>
         </section>
     </main>
 
@@ -1053,12 +1412,16 @@
         const PAGE_KEY_PREFIX = getPageKeyPrefix();
         const STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_data_${PAGE_KEY_PREFIX}`;
         const TITLE_STORAGE_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_title_${PAGE_KEY_PREFIX}`;
+        const DETAIL_STORAGE_KEY = IS_DRAFT_MODE ? `healbe_roadmap_draft_detail_record_${DRAFT_ID}` : `healbe_roadmap_detail_data_${PAGE_KEY_PREFIX}`;
         const VERSION_KEY = IS_DRAFT_MODE ? '' : `healbe_roadmap_version_${PAGE_KEY_PREFIX}`;
         const lastViewportMode = { mobile: isMobileView() };
 
         let milestones = [];
+        let milestoneDetails = {};
         let editingId = null;
         let dragStartIndex = -1;
+        let activeDetailId = null;
+        let detailEditingId = null;
 
         function getPageKeyPrefix() {
             if (IS_DRAFT_MODE) {
@@ -1160,6 +1523,317 @@
             return window.matchMedia('(max-width: 920px)').matches;
         }
 
+        function buildInitialDetailData(items) {
+            return items.reduce((acc, item) => {
+                acc[item.id] = {
+                    features: splitDetailFeatures(item.desc),
+                    impact: 'Пользователь увидит изменения, заявленные в описании вехи, в рамках текущего черновика.',
+                    notes: 'Детали вехи пока не заполнены.',
+                    owner: inferDetailOwner(item.title, item.desc)
+                };
+                return acc;
+            }, {});
+        }
+
+        function sanitizeDetailData(detail, fallback = {}) {
+            return {
+                owner: String((detail && detail.owner) || fallback.owner || 'Product').trim() || 'Product',
+                features: Array.isArray(detail && detail.features)
+                    ? detail.features.map(item => String(item || '').trim()).filter(Boolean)
+                    : (Array.isArray(fallback.features) ? fallback.features : []),
+                impact: String((detail && detail.impact) || fallback.impact || 'Пользовательские изменения пока не описаны.').trim()
+                    || 'Пользовательские изменения пока не описаны.',
+                notes: normalizeNotesText((detail && detail.notes) || fallback.notes || 'Детали вехи пока не заполнены.')
+                    || 'Детали вехи пока не заполнены.'
+            };
+        }
+
+        function splitDetailFeatures(text) {
+            const source = String(text || '').split(/\n+/).map(part => part.trim()).filter(Boolean);
+            if (!source.length) {
+                return ['Состав вехи пока не заполнен.'];
+            }
+            return source;
+        }
+
+        function inferDetailOwner(title, desc) {
+            const probe = `${title || ''} ${desc || ''}`.toLowerCase();
+            const parts = [];
+            if (probe.includes('дизайн') || probe.includes('интерф') || probe.includes('онбординг')) parts.push('UX/UI');
+            if (probe.includes('ios') || probe.includes('android') || probe.includes('прилож') || probe.includes('сайт')) parts.push('MA');
+            if (probe.includes('аналит') || probe.includes('метрик')) parts.push('Analytics');
+            return parts.length ? [...new Set(parts)].join(' + ') : 'Product';
+        }
+
+        function normalizeNotesText(text) {
+            const lines = String(text || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
+            return lines.join('\n');
+        }
+
+        function saveDetailData() {
+            localStorage.setItem(DETAIL_STORAGE_KEY, JSON.stringify(milestoneDetails));
+        }
+
+        function syncDetailDataWithMilestones() {
+            const nextDetails = {};
+            const defaults = buildInitialDetailData(milestones);
+
+            milestones.forEach(item => {
+                const fallback = defaults[item.id] || {};
+                const stored = milestoneDetails[item.id] || {};
+                nextDetails[item.id] = sanitizeDetailData(stored, fallback);
+                if (!nextDetails[item.id].features.length) {
+                    nextDetails[item.id].features = Array.isArray(fallback.features) && fallback.features.length
+                        ? fallback.features
+                        : ['Состав вехи пока не заполнен.'];
+                }
+            });
+
+            milestoneDetails = nextDetails;
+            saveDetailData();
+        }
+
+        function restoreDetailState() {
+            const fallbackInitialDetails = buildInitialDetailData(milestones);
+            const storedDetailData = localStorage.getItem(DETAIL_STORAGE_KEY);
+
+            if (storedDetailData) {
+                try {
+                    milestoneDetails = JSON.parse(storedDetailData);
+                } catch (error) {
+                    milestoneDetails = fallbackInitialDetails;
+                }
+            } else {
+                milestoneDetails = fallbackInitialDetails;
+            }
+
+            if (!milestoneDetails || typeof milestoneDetails !== 'object') {
+                milestoneDetails = {};
+            }
+
+            syncDetailDataWithMilestones();
+        }
+
+        function ensureDetailDrawerElements() {
+            return {
+                overlay: document.getElementById('detailOverlay'),
+                drawer: document.getElementById('detailDrawer'),
+                title: document.getElementById('detailDrawerTitle'),
+                meta: document.getElementById('detailMeta'),
+                body: document.getElementById('detailDrawerBody')
+            };
+        }
+
+        function getDetailById(id) {
+            const item = milestones.find(entry => entry.id === id);
+            if (!item) return null;
+            return milestoneDetails[id] || buildInitialDetailData([item])[id];
+        }
+
+        function renderDetailView(item, detail) {
+            const elements = ensureDetailDrawerElements();
+            const features = (detail.features || []).map((feature, index) => `
+                <li class="detail-feature-item">
+                    <span class="detail-feature-num">${index + 1}</span>
+                    <span class="detail-feature-text">${escapeHTML(feature)}</span>
+                </li>
+            `).join('');
+
+            elements.body.innerHTML = `
+                <section class="detail-section">
+                    <h3>Что входит в веху</h3>
+                    <ul class="detail-feature-list">${features}</ul>
+                </section>
+                <section class="detail-section">
+                    <h3>Что изменится для пользователя</h3>
+                    <p>${escapeHTML(detail.impact || 'Пользовательские изменения пока не описаны.')}</p>
+                </section>
+                <section class="detail-section">
+                    <h3>Примечания</h3>
+                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Детали вехи пока не заполнены.')}</p>
+                </section>
+            `;
+        }
+
+        function renderDetailEditForm(item, detail) {
+            const elements = ensureDetailDrawerElements();
+            elements.body.innerHTML = `
+                <form class="detail-edit-form" id="detailEditForm">
+                    <label class="detail-field">
+                        <span>Контур релиза</span>
+                        <input id="detailEditOwner" type="text" value="${escapeHTML(detail.owner || 'Product')}" placeholder="Например: Product + UX/UI">
+                    </label>
+                    <label class="detail-field">
+                        <span>Что входит в веху</span>
+                        <textarea id="detailEditFeatures" rows="6" placeholder="Одна строка = один пункт">${escapeHTML((detail.features || []).join('\n'))}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Что изменится для пользователя</span>
+                        <textarea id="detailEditImpact" rows="5" placeholder="Опиши пользовательские изменения">${escapeHTML(detail.impact || '')}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Примечания</span>
+                        <textarea id="detailEditNotes" rows="6" placeholder="Одна строка = одно примечание">${escapeHTML(detail.notes || '')}</textarea>
+                    </label>
+                    <div class="detail-edit-actions">
+                        <button class="detail-edit-btn detail-cancel-btn" id="detailEditCancelBtn" type="button">Отмена</button>
+                        <button class="detail-edit-btn detail-save-btn" id="detailEditSaveBtn" type="submit">Сохранить</button>
+                    </div>
+                </form>
+            `;
+
+            const form = document.getElementById('detailEditForm');
+            const cancelBtn = document.getElementById('detailEditCancelBtn');
+            if (form) {
+                form.addEventListener('submit', saveDetailEdit);
+            }
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    detailEditingId = null;
+                    renderDetailDrawer();
+                });
+            }
+        }
+
+        function renderDetailDrawer() {
+            if (activeDetailId === null) return;
+
+            const item = milestones.find(entry => entry.id === activeDetailId);
+            if (!item) return;
+
+            const detail = getDetailById(activeDetailId);
+            const elements = ensureDetailDrawerElements();
+            if (!elements.drawer) return;
+
+            elements.title.textContent = item.title || 'Детали вехи';
+            elements.meta.innerHTML = `
+                <span class="detail-meta-chip">${escapeHTML(STATUS_MAP[item.status].label)}</span>
+                <span class="detail-meta-chip">Плановая дата: ${escapeHTML(item.date || 'Не указана')}</span>
+                <span class="detail-meta-chip">Контур: ${escapeHTML(detail.owner || 'Product')}</span>
+            `;
+
+            const header = elements.drawer.querySelector('.detail-drawer-header');
+            if (header) {
+                let actions = header.querySelector('.detail-header-actions');
+                if (!actions) {
+                    actions = document.createElement('div');
+                    actions.className = 'detail-header-actions';
+                    const closeBtn = header.querySelector('#detailCloseBtn');
+                    if (closeBtn) {
+                        header.appendChild(actions);
+                        actions.appendChild(closeBtn);
+                    } else {
+                        header.appendChild(actions);
+                    }
+                }
+                if (!header.querySelector('#detailEditBtn')) {
+                    const editBtn = document.createElement('button');
+                    editBtn.id = 'detailEditBtn';
+                    editBtn.type = 'button';
+                    editBtn.className = 'detail-edit-btn';
+                    editBtn.textContent = 'Редактировать';
+                    editBtn.addEventListener('click', () => {
+                        detailEditingId = item.id;
+                        renderDetailDrawer();
+                    });
+                    actions.insertBefore(editBtn, actions.firstChild || null);
+                }
+            }
+
+            if (detailEditingId === item.id) {
+                renderDetailEditForm(item, detail);
+            } else {
+                renderDetailView(item, detail);
+            }
+        }
+
+        function saveDetailEdit(event) {
+            event.preventDefault();
+            if (activeDetailId === null) return;
+
+            const currentDetail = getDetailById(activeDetailId) || {};
+            const features = String(document.getElementById('detailEditFeatures')?.value || '')
+                .split(/\n+/)
+                .map(line => line.trim())
+                .filter(Boolean);
+
+            milestoneDetails[activeDetailId] = sanitizeDetailData({
+                ...currentDetail,
+                owner: String(document.getElementById('detailEditOwner')?.value || '').trim() || 'Product',
+                features,
+                impact: String(document.getElementById('detailEditImpact')?.value || '').trim() || 'Пользовательские изменения пока не описаны.',
+                notes: normalizeNotesText(document.getElementById('detailEditNotes')?.value || '') || 'Детали вехи пока не заполнены.'
+            }, currentDetail);
+
+            saveDetailData();
+            detailEditingId = null;
+            renderDetailDrawer();
+        }
+
+        function syncActiveDetailCards() {
+            document.querySelectorAll('.card[data-card-id]').forEach((card) => {
+                const id = Number(card.getAttribute('data-card-id'));
+                card.classList.toggle('active-detail', activeDetailId === id);
+            });
+        }
+
+        function openDetail(id, event) {
+            if (event) event.stopPropagation();
+            const item = milestones.find(entry => entry.id === id);
+            if (!item) return;
+
+            activeDetailId = id;
+            detailEditingId = null;
+
+            const elements = ensureDetailDrawerElements();
+            if (!elements.overlay || !elements.drawer) return;
+
+            elements.overlay.hidden = false;
+            elements.overlay.classList.add('is-open');
+            elements.drawer.classList.add('is-open');
+            elements.drawer.setAttribute('aria-hidden', 'false');
+
+            renderDetailDrawer();
+            syncActiveDetailCards();
+        }
+
+        function closeDetail() {
+            activeDetailId = null;
+            detailEditingId = null;
+            const elements = ensureDetailDrawerElements();
+            if (!elements.overlay || !elements.drawer) return;
+            elements.overlay.classList.remove('is-open');
+            elements.drawer.classList.remove('is-open');
+            elements.drawer.setAttribute('aria-hidden', 'true');
+            window.setTimeout(() => {
+                if (!elements.overlay.classList.contains('is-open')) {
+                    elements.overlay.hidden = true;
+                }
+            }, 220);
+            syncActiveDetailCards();
+        }
+
+        function ensureActiveDetailState() {
+            const activeStillExists = activeDetailId !== null && milestones.some(item => item.id === activeDetailId);
+
+            if (!activeStillExists) {
+                if (activeDetailId !== null) {
+                    closeDetail();
+                }
+                return;
+            }
+
+            if (detailEditingId !== null && detailEditingId !== activeDetailId) {
+                detailEditingId = null;
+            }
+
+            renderDetailDrawer();
+            syncActiveDetailCards();
+        }
+
         function init() {
             applyBackLink();
             migrateStorageIfNeeded();
@@ -1199,6 +1873,7 @@
                         titleEl.innerText = (parsed.title || titleEl.innerText || '[Новая дорожная карта]').trim();
                         document.title = `${titleEl.innerText.trim()} Roadmap`;
                         upsertDraftRegistry(buildDraftRecord(titleEl.innerText.trim(), milestones, parsed.createdAt || Date.now()));
+                        restoreDetailState();
                         return;
                     } catch (error) {
                     }
@@ -1210,6 +1885,7 @@
                 const initialRecord = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
                 localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(initialRecord));
                 upsertDraftRegistry(initialRecord);
+                restoreDetailState();
                 return;
             }
 
@@ -1231,6 +1907,8 @@
             } else {
                 document.title = `${titleEl.innerText.trim()} Roadmap`;
             }
+
+            restoreDetailState();
         }
 
         function bindStaticEvents() {
@@ -1261,6 +1939,16 @@
             document.getElementById('exportDocxBtn').addEventListener('click', exportDOCX);
             document.getElementById('exportBtn').addEventListener('click', exportHTML);
             document.getElementById('resetStorageBtn').addEventListener('click', resetLocalData);
+
+            const overlay = document.getElementById('detailOverlay');
+            const closeBtn = document.getElementById('detailCloseBtn');
+            if (overlay) overlay.addEventListener('click', closeDetail);
+            if (closeBtn) closeBtn.addEventListener('click', closeDetail);
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && activeDetailId !== null) {
+                    closeDetail();
+                }
+            });
         }
 
         function setupViewportWatcher() {
@@ -1302,6 +1990,7 @@
 
             milestones.push(newItem);
             editingId = newItem.id;
+            syncDetailDataWithMilestones();
             saveToStorage();
             render();
 
@@ -1371,6 +2060,7 @@
             }
 
             updateStats();
+            syncActiveDetailCards();
         }
 
         function renderDesktop(container) {
@@ -1432,7 +2122,7 @@
 
         function buildCardShellHTML(item) {
             return `
-                <div class="card ${editingId === item.id ? 'editing' : ''}" data-card-id="${item.id}">
+                <div class="card ${editingId === item.id ? 'editing' : ''} ${activeDetailId === item.id ? 'active-detail' : ''}" data-card-id="${item.id}">
                     ${editingId === item.id ? getEditFormHTML(item) : getCardHTML(item)}
                 </div>
             `;
@@ -1464,14 +2154,19 @@
                     <div class="card-title" title="${escapeHTML(item.title)}">${escapeHTML(item.title)}</div>
                     <div class="card-desc" title="${escapeHTML(item.desc)}">${escapeHTML(item.desc)}</div>
                 </div>
-                <div class="card-date">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span>${escapeHTML(item.date)}</span>
+                <div class="card-footer">
+                    <div class="card-date">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>${escapeHTML(item.date)}</span>
+                    </div>
+                    <button class="card-detail-link" type="button" onclick="openDetail(${item.id}, event)">
+                        Подробнее <span aria-hidden="true">→</span>
+                    </button>
                 </div>
             `;
         }
@@ -1509,8 +2204,10 @@
             event.stopPropagation();
             if (!confirm('Удалить эту веху?')) return;
             milestones = milestones.filter(item => item.id !== id);
-            saveToStorage();
             if (editingId === id) editingId = null;
+            syncDetailDataWithMilestones();
+            saveToStorage();
+            ensureActiveDetailState();
             render();
         };
 
@@ -1545,10 +2242,12 @@
             const index = milestones.findIndex(item => item.id === id);
             if (index !== -1) {
                 milestones[index] = { ...milestones[index], title, desc, status, date };
+                syncDetailDataWithMilestones();
                 saveToStorage();
             }
 
             editingId = null;
+            ensureActiveDetailState();
             render();
         };
 
@@ -1584,7 +2283,9 @@
 
             const moved = milestones.splice(dragStartIndex, 1)[0];
             milestones.splice(dropIndex, 0, moved);
+            syncDetailDataWithMilestones();
             saveToStorage();
+            ensureActiveDetailState();
             render();
         }
 
@@ -1610,6 +2311,9 @@
                 const record = buildDraftRecord(titleEl.innerText.trim(), milestones, Date.now());
                 localStorage.setItem(DRAFT_RECORD_KEY, JSON.stringify(record));
                 upsertDraftRegistry(record);
+                localStorage.removeItem(DETAIL_STORAGE_KEY);
+                milestoneDetails = {};
+                activeDetailId = null;
                 editingId = null;
                 render();
                 return;
@@ -1617,6 +2321,7 @@
 
             localStorage.removeItem(STORAGE_KEY);
             localStorage.removeItem(TITLE_STORAGE_KEY);
+            localStorage.removeItem(DETAIL_STORAGE_KEY);
             localStorage.removeItem(VERSION_KEY);
             LEGACY_KEYS.forEach(key => localStorage.removeItem(key));
             location.reload();
@@ -1894,7 +2599,9 @@
             const replace = confirm('Заменить текущую дорожную карту данными из файла?\n\nОК - заменить всё\nОтмена - добавить в конец');
             milestones = replace ? newMilestones : milestones.concat(newMilestones);
             editingId = null;
+            syncDetailDataWithMilestones();
             saveToStorage();
+            ensureActiveDetailState();
             render();
 
             const wrapper = document.getElementById('scrollWrapper');
