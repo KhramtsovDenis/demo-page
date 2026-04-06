@@ -48,8 +48,8 @@
             margin: 0;
             min-height: 100%;
             background:
-                radial-gradient(circle at top right, rgba(111, 99, 217, 0.07), transparent 28%),
-                radial-gradient(circle at left top, rgba(143, 132, 232, 0.05), transparent 22%),
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.08), transparent 28%),
+                radial-gradient(circle at left top, rgba(16, 185, 129, 0.06), transparent 22%),
                 var(--bg);
             color: var(--text);
             font-family: var(--font);
@@ -656,16 +656,11 @@
             font-size: 13px;
             line-height: 1.55;
             white-space: pre-wrap;
-            word-break: break-word;
             overflow: auto;
             min-height: 0;
             flex: 1 1 auto;
             max-height: none;
-            padding-right: 8px;
-            display: block;
-            scrollbar-gutter: stable;
-            scrollbar-width: thin;
-            overscroll-behavior: contain;
+            padding-right: 4px;
         }
 
         .card.editing {
@@ -682,6 +677,8 @@
             color: var(--text);
             font-size: 12px;
             font-weight: 700;
+            flex: 0 1 auto;
+            min-width: 0;
         }
 
         .card-date svg {
@@ -839,17 +836,19 @@
 
         .card-footer {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
             margin-top: auto;
             padding-top: 8px;
+            flex-wrap: wrap;
         }
 
         .card-detail-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            margin-left: auto;
             padding: 0;
             border: none;
             background: none;
@@ -858,7 +857,8 @@
             font-size: 13px;
             font-weight: 800;
             cursor: pointer;
-            align-self: flex-start;
+            text-align: right;
+            flex: 0 0 auto;
         }
 
         .card-detail-link:hover {
@@ -1084,7 +1084,6 @@
         .detail-edit-form {
             display: grid;
             gap: 12px;
-                    align-content: start;
         }
 
         .detail-field {
@@ -1124,13 +1123,9 @@
 
         .detail-edit-actions {
             display: flex;
-            gap: 8px;
-            padding-top: 10px;
-            padding-bottom: 4px;
-            margin-top: 8px;
-            position: static;
-            background: transparent;
-            z-index: auto;
+            gap: 10px;
+            margin-top: 4px;
+            flex-wrap: wrap;
         }
 
         .detail-save-btn {
@@ -1441,20 +1436,32 @@
                 max-height: 100dvh;
                 border-left: none;
                 border-radius: 0;
-            }
-
-            .detail-drawer-header {
-                padding: 14px 14px 12px;
-            }
-
-            .detail-drawer-body {
-                flex: 1;
-                min-height: 0;
                 overflow-y: auto;
                 overflow-x: hidden;
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
+            }
+
+            .detail-drawer-header {
+                position: sticky;
+                top: 0;
+                z-index: 3;
+                padding: 14px 14px 12px;
+            }
+
+            .detail-drawer-body {
+                flex: 0 0 auto;
+                min-height: auto;
+                overflow: visible;
                 padding: 14px 14px calc(20px + env(safe-area-inset-bottom));
+            }
+
+            .detail-edit-form {
+                overflow: visible;
+            }
+
+            .detail-edit-actions {
+                position: static;
             }
 
             .detail-drawer-title,
@@ -1501,7 +1508,7 @@
             <div class="toolbar">
                 <input type="file" id="fileInput" accept=".csv,.txt,.docx" style="display:none;">
                 <button class="btn-secondary" id="importBtn" title="Загрузить из DOCX или CSV"><span class="btn-icon" aria-hidden="true">⇪</span><span class="btn-text">Импорт файла</span></button>
-                <button class="btn-primary" id="addBtn"><span class="btn-icon" aria-hidden="true">＋</span><span class="btn-text">Добавить веху</span></button>
+                <button class="btn-primary" id="addBtn"><span class="btn-icon" aria-hidden="true">＋</span><span class="btn-text">Добавить релиз</span></button>
                 <button class="btn-docx" id="exportDocxBtn"><span class="btn-icon" aria-hidden="true">▣</span><span class="btn-text">Экспорт DOCX</span></button>
                 <button class="btn-success" id="exportBtn"><span class="btn-icon" aria-hidden="true">💾</span><span class="btn-text">Сохранить HTML</span></button>
                 <button class="btn-danger-lite" id="resetStorageBtn"><span class="btn-icon" aria-hidden="true">↺</span><span class="btn-text">Сбросить данные</span></button>
@@ -1520,7 +1527,7 @@
 
             <div class="stats">
                 <div class="stat stat-total">
-                    <div class="stat-label">Всего вех</div>
+                    <div class="stat-label">Всего релизов</div>
                     <div class="stat-value" id="statTotal">0</div>
                 </div>
                 <div class="stat stat-done">
@@ -1552,13 +1559,16 @@
             <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
                 <div class="detail-drawer-header">
                     <div>
-                        <h3 class="detail-drawer-title" id="detailDrawerTitle">Детали вехи</h3>
+                        <h3 class="detail-drawer-title" id="detailDrawerTitle">Детали релиза</h3>
                         <div class="detail-meta" id="detailMeta"></div>
                     </div>
-                    <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
+                    <div class="detail-header-actions">
+                        <button class="detail-edit-btn" id="detailEditBtn" type="button">Редактировать</button>
+                        <button class="detail-close-btn" id="detailCloseBtn" type="button" aria-label="Закрыть детали">×</button>
+                    </div>
                 </div>
                 <div class="detail-drawer-body" id="detailDrawerBody">
-                    <div class="detail-empty">Выбери веху и нажми «Подробнее», чтобы открыть детали.</div>
+                    <div class="detail-empty">Выбери релиз и нажми «Подробнее», чтобы открыть детали.</div>
                 </div>
             </aside>
         </section>
@@ -1709,8 +1719,9 @@
             return items.reduce((acc, item) => {
                 acc[item.id] = {
                     features: splitDetailFeatures(item.desc),
-                    impact: 'Пользователь увидит изменения, заявленные в описании вехи, в рамках текущего черновика.',
-                    notes: 'Детали вехи пока не заполнены.',
+                    featuresManual: false,
+                    impact: 'Пользователь увидит изменения, заявленные в описании релиза, в рамках текущего черновика.',
+                    notes: 'Детали релиза пока не заполнены.',
                     owner: inferDetailOwner(item.title, item.desc)
                 };
                 return acc;
@@ -1723,17 +1734,21 @@
                 features: Array.isArray(detail && detail.features)
                     ? detail.features.map(item => String(item || '').trim()).filter(Boolean)
                     : (Array.isArray(fallback.features) ? fallback.features : []),
+                featuresManual: Boolean(
+                    (detail && detail.featuresManual === true) ||
+                    (fallback && fallback.featuresManual === true)
+                ),
                 impact: String((detail && detail.impact) || fallback.impact || 'Пользовательские изменения пока не описаны.').trim()
                     || 'Пользовательские изменения пока не описаны.',
-                notes: normalizeNotesText((detail && detail.notes) || fallback.notes || 'Детали вехи пока не заполнены.')
-                    || 'Детали вехи пока не заполнены.'
+                notes: normalizeNotesText((detail && detail.notes) || fallback.notes || 'Детали релиза пока не заполнены.')
+                    || 'Детали релиза пока не заполнены.'
             };
         }
 
         function splitDetailFeatures(text) {
             const source = String(text || '').split(/\n+/).map(part => part.trim()).filter(Boolean);
             if (!source.length) {
-                return ['Состав вехи пока не заполнен.'];
+                return ['Состав релиза пока не заполнен.'];
             }
             return source;
         }
@@ -1770,7 +1785,7 @@
                 if (!nextDetails[item.id].features.length) {
                     nextDetails[item.id].features = Array.isArray(fallback.features) && fallback.features.length
                         ? fallback.features
-                        : ['Состав вехи пока не заполнен.'];
+                        : ['Состав релиза пока не заполнен.'];
                 }
             });
 
@@ -1805,9 +1820,12 @@
                 drawer: document.getElementById('detailDrawer'),
                 title: document.getElementById('detailDrawerTitle'),
                 meta: document.getElementById('detailMeta'),
-                body: document.getElementById('detailDrawerBody')
+                body: document.getElementById('detailDrawerBody'),
+                editBtn: document.getElementById('detailEditBtn')
             };
         }
+
+        
 
         function getDetailById(id) {
             const item = milestones.find(entry => entry.id === id);
@@ -1827,8 +1845,6 @@
             if (elements.editBtn) {
                 elements.editBtn.hidden = false;
                 elements.editBtn.textContent = 'Редактировать';
-                elements.editBtn.classList.remove('is-back');
-                delete elements.editBtn.dataset.mode;
             }
 
             elements.body.innerHTML = `
@@ -1842,60 +1858,64 @@
                 </section>
                 <section class="detail-section">
                     <h3>Примечания</h3>
-                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Дополнительные примечания пока не заполнены.')}</p>
+                    <p class="detail-notes-text">${escapeHTML(detail.notes || 'Детали релиза пока не заполнены.')}</p>
                 </section>
             `;
-
         }
+
+        
 
         function renderDetailEditForm(item, detail) {
             const elements = ensureDetailDrawerElements();
 
             if (elements.editBtn) {
                 elements.editBtn.hidden = true;
-                elements.editBtn.classList.remove('is-back');
-                delete elements.editBtn.dataset.mode;
             }
 
             elements.body.innerHTML = `
-                <div class="detail-edit-form">
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailOwnerInput">Контур релиза</label>
-                        <input id="detailOwnerInput" type="text" value="${escapeHTML(detail.owner || '')}" placeholder="Например: Product + MA + UX/UI">
-                    </div>
-<div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailFeaturesInput">Состав релиза</label>
-                        <textarea id="detailFeaturesInput" placeholder="Одна строка = один пункт&#10;Формат: Название пункта | Описание пункта">${escapeHTML(getFeatureLinesForEdit(detail))}</textarea>
-                    </div>
-
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailImpactInput">Что изменится для пользователя</label>
-                        <textarea id="detailImpactInput" placeholder="Что увидит и почувствует пользователь">${escapeHTML(detail.impact || '')}</textarea>
-                    </div>
-
-                    <div class="detail-edit-field">
-                        <label class="detail-edit-label" for="detailNotesInput">Примечания</label>
-                        <textarea id="detailNotesInput" placeholder="Одна строка = одно примечание">${escapeHTML(getNotesLinesForEdit(detail))}</textarea>
-                    </div>
-
+                <form class="detail-edit-form" id="detailEditForm">
+                    <label class="detail-field">
+                        <span>Контур релиза</span>
+                        <input id="detailEditOwner" type="text" value="${escapeHTML(detail.owner || 'Product')}" placeholder="Например: Product + UX/UI">
+                    </label>
+                    <label class="detail-field">
+                        <span>Что входит в релиз</span>
+                        <textarea id="detailEditFeatures" rows="6" placeholder="Одна строка = один пункт">${escapeHTML((detail.features || []).join('\n'))}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Что изменится для пользователя</span>
+                        <textarea id="detailEditImpact" rows="5" placeholder="Опиши пользовательские изменения">${escapeHTML(detail.impact || '')}</textarea>
+                    </label>
+                    <label class="detail-field">
+                        <span>Примечания</span>
+                        <textarea id="detailEditNotes" rows="6" placeholder="Одна строка = одно примечание">${escapeHTML(detail.notes || '')}</textarea>
+                    </label>
                     <div class="detail-edit-actions">
-                        <button class="btn secondary" id="detailCancelBtn" type="button">Отмена</button>
-                        <button class="btn primary" id="detailSaveBtn" type="button">Сохранить</button>
+                        <button class="detail-edit-btn detail-cancel-btn" id="detailEditCancelBtn" type="button">Отмена</button>
+                        <button class="detail-edit-btn detail-save-btn" id="detailEditSaveBtn" type="submit">Сохранить</button>
                     </div>
-                </div>
+                </form>
             `;
 
-            const saveBtn = document.getElementById('detailSaveBtn');
-            const cancelBtn = document.getElementById('detailCancelBtn');
-
-            if (saveBtn) saveBtn.addEventListener('click', saveDetailEdit);
-            if (cancelBtn) cancelBtn.addEventListener('click', cancelDetailEdit);
+            const form = document.getElementById('detailEditForm');
+            const cancelBtn = document.getElementById('detailEditCancelBtn');
+            if (form) {
+                form.addEventListener('submit', saveDetailEdit);
+            }
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    detailEditingId = null;
+                    renderDetailDrawer();
+                });
+            }
 
             elements.body.scrollTop = 0;
             requestAnimationFrame(() => {
                 elements.body.scrollTop = 0;
             });
         }
+
+        
 
         function renderDetailDrawer() {
             if (activeDetailId === null) return;
@@ -1907,47 +1927,28 @@
             const elements = ensureDetailDrawerElements();
             if (!elements.drawer) return;
 
-            elements.title.textContent = item.title || 'Детали вехи';
+            elements.title.textContent = item.title || 'Детали релиза';
             elements.meta.innerHTML = `
                 <span class="detail-meta-chip">${escapeHTML(STATUS_MAP[item.status].label)}</span>
                 <span class="detail-meta-chip">Плановая дата: ${escapeHTML(item.date || 'Не указана')}</span>
                 <span class="detail-meta-chip">Контур: ${escapeHTML(detail.owner || 'Product')}</span>
             `;
 
-            const header = elements.drawer.querySelector('.detail-drawer-header');
-            if (header) {
-                let actions = header.querySelector('.detail-header-actions');
-                if (!actions) {
-                    actions = document.createElement('div');
-                    actions.className = 'detail-header-actions';
-                    const closeBtn = header.querySelector('#detailCloseBtn');
-                    if (closeBtn) {
-                        header.appendChild(actions);
-                        actions.appendChild(closeBtn);
-                    } else {
-                        header.appendChild(actions);
-                    }
-                }
-                if (!header.querySelector('#detailEditBtn')) {
-                    const editBtn = document.createElement('button');
-                    editBtn.id = 'detailEditBtn';
-                    editBtn.type = 'button';
-                    editBtn.className = 'detail-edit-btn';
-                    editBtn.textContent = 'Редактировать';
-                    editBtn.addEventListener('click', () => {
-                        detailEditingId = item.id;
-                        renderDetailDrawer();
-                    });
-                    actions.insertBefore(editBtn, actions.firstChild || null);
-                }
-            }
-
-            if (detailEditingId === item.id) {
+            if (detailEditingId === activeDetailId) {
                 renderDetailEditForm(item, detail);
             } else {
                 renderDetailView(item, detail);
             }
         }
+
+        function startDetailEdit(event) {
+            if (event) event.preventDefault();
+            if (activeDetailId === null) return;
+            detailEditingId = activeDetailId;
+            renderDetailDrawer();
+        }
+
+        
 
         function saveDetailEdit(event) {
             event.preventDefault();
@@ -1963,8 +1964,9 @@
                 ...currentDetail,
                 owner: String(document.getElementById('detailEditOwner')?.value || '').trim() || 'Product',
                 features,
+                featuresManual: true,
                 impact: String(document.getElementById('detailEditImpact')?.value || '').trim() || 'Пользовательские изменения пока не описаны.',
-                notes: normalizeNotesText(document.getElementById('detailEditNotes')?.value || '') || 'Детали вехи пока не заполнены.'
+                notes: normalizeNotesText(document.getElementById('detailEditNotes')?.value || '') || 'Детали релиза пока не заполнены.'
             }, currentDetail);
 
             saveDetailData();
@@ -2006,6 +2008,9 @@
             if (!elements.overlay || !elements.drawer) return;
             elements.overlay.classList.remove('is-open');
             elements.drawer.classList.remove('is-open');
+            if (document.activeElement && elements.drawer.contains(document.activeElement)) {
+                document.activeElement.blur();
+            }
             elements.drawer.setAttribute('aria-hidden', 'true');
             window.setTimeout(() => {
                 if (!elements.overlay.classList.contains('is-open')) {
@@ -2141,14 +2146,18 @@
 
             const overlay = document.getElementById('detailOverlay');
             const closeBtn = document.getElementById('detailCloseBtn');
+            const editBtn = document.getElementById('detailEditBtn');
             if (overlay) overlay.addEventListener('click', closeDetail);
             if (closeBtn) closeBtn.addEventListener('click', closeDetail);
+            if (editBtn) editBtn.addEventListener('click', startDetailEdit);
             document.addEventListener('keydown', (event) => {
                 if (event.key === 'Escape' && activeDetailId !== null) {
                     closeDetail();
                 }
             });
         }
+
+        
 
         function setupViewportWatcher() {
             window.addEventListener('resize', debounce(() => {
@@ -2181,7 +2190,7 @@
         function addMilestone() {
             const newItem = {
                 id: Date.now(),
-                title: 'Новая веха',
+                title: 'Новый релиз',
                 desc: 'Описание задачи',
                 status: 'planned',
                 date: 'Месяц 2026'
@@ -2244,7 +2253,7 @@
                     <div class="empty-state">
                         <div class="empty-box">
                             <h3>Пока пусто</h3>
-                            <p>Добавь первую веху вручную или загрузи данные из DOCX / CSV, и таймлайн сразу соберется.</p>
+                            <p>Добавь первый релиз вручную или загрузи данные из DOCX / CSV, и таймлайн сразу соберется.</p>
                         </div>
                     </div>
                 `;
@@ -2355,11 +2364,14 @@
                 </div>
                 <div class="card-footer">
                     <div class="card-date">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="3.5" y="5" width="17" height="15.5" rx="3"></rect>
+                            <path d="M7.5 3.5V6.5"></path>
+                            <path d="M16.5 3.5V6.5"></path>
+                            <path d="M3.5 9H20.5"></path>
+                            <path d="M8 12.5H8.01"></path>
+                            <path d="M12 12.5H12.01"></path>
+                            <path d="M16 12.5H16.01"></path>
                         </svg>
                         <span>${escapeHTML(item.date)}</span>
                     </div>
@@ -2401,7 +2413,7 @@
 
         window.deleteItem = function(id, event) {
             event.stopPropagation();
-            if (!confirm('Удалить эту веху?')) return;
+            if (!confirm('Удалить этот релиз?')) return;
             milestones = milestones.filter(item => item.id !== id);
             if (editingId === id) editingId = null;
             syncDetailDataWithMilestones();
@@ -2442,6 +2454,17 @@
             const index = milestones.findIndex(item => item.id === id);
             if (index !== -1) {
                 milestones[index] = { ...milestones[index], title, desc, status, date };
+
+                const currentDetail = milestoneDetails[id] || buildInitialDetailData([milestones[index]])[id];
+                if (currentDetail.featuresManual !== true) {
+                    milestoneDetails[id] = sanitizeDetailData({
+                        ...currentDetail,
+                        features: splitDetailFeatures(desc),
+                        featuresManual: false
+                    }, currentDetail);
+                    saveDetailData();
+                }
+
                 syncDetailDataWithMilestones();
                 saveToStorage();
             }
