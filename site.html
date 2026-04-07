@@ -682,10 +682,17 @@
 
 
         .card.editing {
-            max-height: min(62vh, 520px);
-            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            max-height: clamp(280px, calc(100dvh - 420px), 340px);
+            overflow-y: auto;
+            overflow-x: hidden;
             overscroll-behavior: contain;
             scroll-behavior: smooth;
+            scrollbar-gutter: stable;
+            padding-bottom: 10px;
+            box-sizing: border-box;
         }
 
         .card-date {
@@ -719,8 +726,9 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            min-height: 100%;
-            flex: 1;
+            min-height: 0;
+            height: 100%;
+            flex: 1 1 auto;
         }
 
         .edit-form input,
@@ -734,12 +742,16 @@
             color: var(--text);
             padding: 10px 12px;
         }
-
         .edit-form textarea {
-            min-height: 160px;
+            min-height: 88px;
             resize: vertical;
             white-space: pre-wrap;
-            flex: 1 0 160px;
+            flex: 1 1 auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
 
         .edit-form input:focus,
@@ -754,10 +766,12 @@
             display: flex;
             gap: 8px;
             margin-top: auto;
+            flex-shrink: 0;
             position: sticky;
             bottom: 0;
             background: linear-gradient(to top, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
             padding-top: 8px;
+            padding-bottom: 2px;
             z-index: 1;
         }
 
@@ -2143,6 +2157,18 @@
                     closeDetail();
                 }
             });
+
+            document.addEventListener('wheel', (event) => {
+                const textarea = event.target.closest('.edit-form textarea');
+                if (!textarea) return;
+
+                const hasVerticalScroll = textarea.scrollHeight > textarea.clientHeight + 1;
+                if (!hasVerticalScroll) return;
+
+                event.preventDefault();
+                event.stopPropagation();
+                textarea.scrollTop += event.deltaY;
+            }, { passive: false });
         }
 
         function setupViewportWatcher() {
@@ -2903,7 +2929,12 @@
             };
 
             slider.onwheel = (event) => {
+                if (event.target.closest('.edit-form textarea')) {
+                    return;
+                }
+
                 if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
+                    event.preventDefault();
                     slider.scrollLeft += event.deltaY;
                 }
             };
