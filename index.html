@@ -155,6 +155,10 @@
       flex-wrap: wrap;
     }
 
+    .hero-actions {
+      display: none;
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -346,6 +350,171 @@
     .status-chip.progress { color: var(--progress-text); background: var(--progress-bg); }
     .status-chip.planned { color: var(--planned-text); background: var(--planned-bg); }
 
+    .report-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .report-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, #2563eb, #10b981);
+    }
+
+    .report-card .draft-top,
+    .report-card .draft-bottom {
+      padding-left: 6px;
+    }
+
+    .report-template-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      background: #eff6ff;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .command-center {
+      padding: 20px;
+    }
+
+    .command-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .command-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 100%;
+      padding: 18px;
+      border: 1px solid #dbe7f5;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+    }
+
+    .command-card strong {
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .command-card span {
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .command-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #reportGrid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .report-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-latest {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid #bfdbfe;
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08)),
+        #ffffff;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 8px;
+      max-height: 480px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .report-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(140px, 0.55fr) minmax(100px, 0.35fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid #dbe7f5;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.82);
+    }
+
+    .report-row-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .report-row-title strong {
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    .report-row-title span,
+    .report-cell {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .report-row-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .report-row-actions .btn {
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .report-archive-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .report-search {
+      min-height: 46px;
+      min-width: min(280px, 100%);
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid #cfe0f3;
+      background: rgba(255,255,255,0.92);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .report-search:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+    }
+
     .quick-note {
       margin-top: 18px;
       padding: 16px 18px;
@@ -456,9 +625,19 @@
 
     @media (max-width: 980px) {
       .hero-grid,
+      .command-grid,
       .card-grid,
       .draft-grid {
         grid-template-columns: 1fr;
+      }
+
+      .report-latest,
+      .report-row {
+        grid-template-columns: 1fr;
+      }
+
+      .report-row-actions {
+        justify-content: stretch;
       }
 
       .stat-grid {
@@ -499,9 +678,11 @@
           </p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="./site.html" id="siteLinkTop">Открыть RoadMap по сайту</a>
-            <a class="btn btn-primary" href="./release_app.html" id="releaseLinkTop">Открыть RoadMap по приложению</a>
-            <button class="btn btn-secondary" type="button" id="createDraftBtnTop">+ Создать новую дорожную карту</button>
+            <a class="btn btn-primary" href="./site.html">Открыть RoadMap по сайту</a>
+            <a class="btn btn-primary" href="./release_app.html">Открыть RoadMap по приложению</a>
+            <a class="btn btn-primary" href="./weekly_workboard.html">Открыть доску отчетов</a>
+            <button class="btn btn-secondary" type="button" data-open-report-modal="true">+ Создать отчет недели</button>
+            <button class="btn btn-secondary" type="button" data-open-draft-modal="true">+ Создать новую дорожную карту</button>
           </div>
         </div>
 
@@ -526,7 +707,47 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section command-center">
+      <div class="section-head">
+        <div>
+          <h2>Рабочий центр</h2>
+          <p>
+            Один вход для трех сценариев: открыть базовые дорожные карты, создать новую карту или собрать недельный отчет.
+            Действия не дублируются по странице, чтобы главный экран оставался спокойным.
+          </p>
+        </div>
+      </div>
+
+      <div class="command-grid">
+        <article class="command-card">
+          <strong>Дорожные карты</strong>
+          <span>Быстрый доступ к карте сайта и годовому плану релизов приложения.</span>
+          <div class="command-actions">
+            <a class="btn btn-primary" href="./site.html" id="siteLinkTop">Сайт</a>
+            <a class="btn btn-soft" href="./release_app.html" id="releaseLinkTop">Приложение</a>
+          </div>
+        </article>
+
+        <article class="command-card">
+          <strong>Недельные отчеты</strong>
+          <span>Создание новой недели на базе текущей доски: очищается только блок “Сделано”.</span>
+          <div class="command-actions">
+            <a class="btn btn-primary" href="./weekly_workboard.html" id="reportLinkTop">Открыть доску</a>
+            <button class="btn btn-soft" type="button" id="createReportBtnTop">Новая неделя</button>
+          </div>
+        </article>
+
+        <article class="command-card">
+          <strong>Новая roadmap</strong>
+          <span>Локальный черновик новой дорожной карты, который можно потом экспортировать в HTML.</span>
+          <div class="command-actions">
+            <button class="btn btn-secondary" type="button" id="createDraftBtnTop">Создать карту</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" hidden>
       <div class="section-head">
         <div>
           <h2>Основные дорожные карты</h2>
@@ -574,12 +795,50 @@
             <a class="btn btn-primary" href="./release_app.html" id="releaseLinkCard">Открыть RoadMap по приложению</a>
           </div>
         </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">Weekly workboard</span>
+            <h3>Недельная доска отчетов</h3>
+            <p>
+              Управленческий недельный срез по продуктовым направлениям, задачам, контрольным точкам и часам.
+              Подходит для быстрой рассылки, скриншотов и подготовки следующей недели на основе текущей.
+            </p>
+            <ul class="tool-list">
+              <li>верхняя матрица продуктовых направлений</li>
+              <li>детализация по проектам и ответственным</li>
+              <li>создание новой недели с очисткой блока «Сделано»</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./weekly_workboard.html" id="reportLinkCard">Открыть доску отчетов</a>
+            <button class="btn btn-soft" type="button" data-open-report-modal="true">Создать новую неделю</button>
+          </div>
+        </article>
       </div>
 
       <div class="quick-note">
         <strong>Небольшая подсказка.</strong> Если файл с релизами приложения называется не <code>release_app.html</code>,
         а иначе, здесь по умолчанию есть автоматическая проверка двух вариантов: <code>release_app.html</code> и <code>release_app</code>.
       </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Архив недельных отчетов</h2>
+          <p>
+            Компактный список недель: последний отчет сверху, остальные ниже архивом. Формат рассчитан на полный год,
+            чтобы 52 недели не превращались в огромную стену карточек.
+          </p>
+        </div>
+        <div class="section-actions">
+          <input class="report-search" id="reportSearchInput" type="search" placeholder="Найти неделю или дату">
+          <button class="btn btn-secondary" type="button" id="createReportBtnSection">+ Создать отчет недели</button>
+        </div>
+      </div>
+
+      <div class="draft-grid" id="reportGrid"></div>
     </section>
 
     <section class="section">
@@ -602,6 +861,37 @@
     <footer>
       Healbe Mini Release Hub. Основные RoadMap для работы и локальные черновики для быстрого старта новых карт.
     </footer>
+  </div>
+
+  <div class="modal" id="reportModal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Новый недельный отчет</h3>
+      <p class="modal-copy">
+        Создадим локальную копию доски отчетов для новой недели. Все проекты, направления, часы, статусы,
+        дорожные карты и контрольные точки сохранятся, а блок «Сделано» будет очищен для нового заполнения.
+      </p>
+
+      <form class="modal-form" id="reportForm">
+        <div class="field">
+          <label for="reportTitle">Название</label>
+          <input id="reportTitle" name="reportTitle" type="text" value="Недельный срез продуктовых работ Healbe" required>
+        </div>
+
+        <div class="field">
+          <label for="reportMeta">Неделя и дата</label>
+          <input id="reportMeta" name="reportMeta" type="text" placeholder="Например: Неделя №20 | 14 мая 2026" required>
+        </div>
+
+        <div class="report-template-note">
+          При первом открытии нового отчета редактор сам возьмет актуальный шаблон и очистит только недельные тексты в колонке «Сделано».
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-soft" type="button" id="closeReportModal">Отмена</button>
+          <button class="btn btn-primary" type="submit">Создать и открыть</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <div class="modal" id="draftModal" aria-hidden="true">
@@ -629,6 +919,10 @@
     (function () {
       const DRAFT_REGISTRY_KEY = 'healbe_roadmap_draft_registry';
       const DRAFT_RECORD_PREFIX = 'healbe_roadmap_draft_record_';
+      const REPORT_REGISTRY_KEY = 'healbe_weekly_report_registry';
+      const REPORT_RECORD_PREFIX = 'healbe_weekly_report_record_';
+      const REPORT_BUILDER_PATH = './weekly_workboard.html';
+
       function getCurrentFileName() {
         const raw = decodeURIComponent(window.location.pathname || '');
         return raw.split('/').pop() || 'index.html';
@@ -654,9 +948,15 @@
       const topLink = document.getElementById('releaseLinkTop');
       const cardLink = document.getElementById('releaseLinkCard');
       const draftGrid = document.getElementById('draftGrid');
+      const reportGrid = document.getElementById('reportGrid');
+      const reportSearchInput = document.getElementById('reportSearchInput');
       const draftModal = document.getElementById('draftModal');
       const draftTitleInput = document.getElementById('draftTitle');
       const draftForm = document.getElementById('draftForm');
+      const reportModal = document.getElementById('reportModal');
+      const reportTitleInput = document.getElementById('reportTitle');
+      const reportMetaInput = document.getElementById('reportMeta');
+      const reportForm = document.getElementById('reportForm');
 
       function getRegistry() {
         try {
@@ -671,8 +971,25 @@
         localStorage.setItem(DRAFT_REGISTRY_KEY, JSON.stringify(items));
       }
 
+      function getReportRegistry() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(REPORT_REGISTRY_KEY) || '[]');
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function setReportRegistry(items) {
+        localStorage.setItem(REPORT_REGISTRY_KEY, JSON.stringify(items));
+      }
+
       function getRecordKey(id) {
         return `${DRAFT_RECORD_PREFIX}${id}`;
+      }
+
+      function getReportRecordKey(id) {
+        return `${REPORT_RECORD_PREFIX}${id}`;
       }
 
       function getDraftRecord(id) {
@@ -794,6 +1111,118 @@
         `).join('');
       }
 
+      function syncReportRegistry() {
+        const registry = getReportRegistry();
+        const next = registry.map((item) => {
+          let record = null;
+          try {
+            record = JSON.parse(localStorage.getItem(getReportRecordKey(item.id)) || 'null');
+          } catch (error) {
+            record = null;
+          }
+
+          const tasks = Array.isArray(record?.tasks) ? record.tasks : [];
+          return {
+            ...item,
+            title: record?.title || item.title || 'Недельный отчет',
+            meta: record?.meta || item.meta || '',
+            taskCount: tasks.length || item.taskCount || 0,
+            createdAt: item.createdAt || record?.createdAt || Date.now(),
+            updatedAt: item.updatedAt || record?.updatedAt || item.createdAt || Date.now()
+          };
+        });
+
+        next.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        setReportRegistry(next);
+        return next;
+      }
+
+      function renderReports() {
+        const registry = syncReportRegistry();
+        const query = String(reportSearchInput?.value || '').trim().toLowerCase();
+        const visibleRegistry = query
+          ? registry.filter((item) => `${item.title || ''} ${item.meta || ''}`.toLowerCase().includes(query))
+          : registry;
+
+        if (!reportGrid) return;
+
+        if (!registry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Пока нет локальных недельных отчетов</h3>
+              <p>
+                Нажми «Создать отчет недели», укажи неделю и дату. Новый отчет откроется в доске отчетов
+                с сохраненной структурой проектов и пустым блоком «Сделано».
+              </p>
+              <div class="empty-actions">
+                <button class="btn btn-primary" type="button" data-open-report-modal="true">Создать первый отчет</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        if (!visibleRegistry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Ничего не найдено</h3>
+              <p>Попробуй другой номер недели, дату или часть названия отчета.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const [latest, ...archive] = visibleRegistry;
+        const renderReportActions = (item) => `
+          <a class="btn btn-primary" href="${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}">Открыть</a>
+          <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>
+        `;
+
+        reportGrid.innerHTML = `
+          <div class="report-stack">
+            <article class="report-latest">
+              <div class="report-row-title">
+                <span class="pill">Последний отчет</span>
+                <strong>${escapeHTML(latest.title)}</strong>
+                <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
+                <div class="draft-meta">
+                  <span class="meta-chip">обновлено: ${escapeHTML(formatDate(latest.updatedAt))}</span>
+                  <span class="meta-chip">задач: ${Number(latest.taskCount || 0)}</span>
+                </div>
+              </div>
+              <div class="report-row-actions">
+                ${renderReportActions(latest)}
+              </div>
+            </article>
+
+            <div class="report-archive-note">
+              Архив ниже остается компактным даже при 52 отчетах в году: одна строка на неделю, без больших карточек.
+            </div>
+
+            <div class="report-list" aria-label="Архив недельных отчетов">
+              ${archive.length ? archive.map((item) => `
+                <article class="report-row">
+                  <div class="report-row-title">
+                    <strong>${escapeHTML(item.title)}</strong>
+                    <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
+                  </div>
+                  <div class="report-cell">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</div>
+                  <div class="report-cell">задач: ${Number(item.taskCount || 0)}</div>
+                  <div class="report-row-actions">
+                    ${renderReportActions(item)}
+                  </div>
+                </article>
+              `).join('') : `
+                <div class="empty-box">
+                  <h3>Архив пока пуст</h3>
+                  <p>Когда появятся следующие недели, они будут добавляться сюда компактными строками.</p>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
       async function resolveLink(candidates, links) {
         for (const candidate of candidates) {
           try {
@@ -825,6 +1254,31 @@
         draftModal.setAttribute('aria-hidden', 'true');
       }
 
+      function openReportModal() {
+        if (!reportModal) return;
+        if (reportMetaInput && !reportMetaInput.value.trim()) {
+          reportMetaInput.value = guessNextReportMeta();
+        }
+        reportModal.classList.add('is-open');
+        reportModal.setAttribute('aria-hidden', 'false');
+        setTimeout(() => reportMetaInput?.focus(), 40);
+      }
+
+      function closeReportModal() {
+        if (!reportModal) return;
+        reportModal.classList.remove('is-open');
+        reportModal.setAttribute('aria-hidden', 'true');
+      }
+
+      function guessNextReportMeta() {
+        const reports = getReportRegistry();
+        const latest = reports.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+        const source = String(latest?.meta || '').trim();
+        const weekMatch = source.match(/Неделя\s*№?\s*(\d+)/i);
+        if (!weekMatch) return 'Неделя №20 | 14 мая 2026';
+        return source.replace(/Неделя\s*№?\s*\d+/i, `Неделя №${Number(weekMatch[1]) + 1}`);
+      }
+
       function createDraft(title) {
         const id = `draft_${Date.now()}`;
         const cleanTitle = (title || '[Новая дорожная карта]').trim() || '[Новая дорожная карта]';
@@ -853,6 +1307,29 @@
         location.href = `${BUILDER_PATH}?draft=${encodeURIComponent(id)}`;
       }
 
+      function createReport(title, meta) {
+        const id = `report_${Date.now()}`;
+        const cleanTitle = (title || 'Недельный срез продуктовых работ Healbe').trim() || 'Недельный срез продуктовых работ Healbe';
+        const cleanMeta = (meta || '').trim() || 'Неделя №20 | 14 мая 2026';
+        const now = Date.now();
+        const record = {
+          id,
+          title: cleanTitle,
+          meta: cleanMeta,
+          createdAt: now,
+          updatedAt: now,
+          taskCount: 0,
+          template: 'weekly_workboard.html',
+          resetWeeklyDone: true
+        };
+
+        localStorage.setItem(getReportRecordKey(id), JSON.stringify(record));
+        const registry = getReportRegistry();
+        registry.unshift(record);
+        setReportRegistry(registry);
+        location.href = `${REPORT_BUILDER_PATH}?report=${encodeURIComponent(id)}`;
+      }
+
       function deleteDraft(id) {
         const ok = confirm('Удалить этот локальный черновик?');
         if (!ok) return;
@@ -861,6 +1338,16 @@
         const next = getRegistry().filter(item => item.id !== id);
         setRegistry(next);
         renderDrafts();
+      }
+
+      function deleteReport(id) {
+        const ok = confirm('Удалить этот локальный недельный отчет?');
+        if (!ok) return;
+
+        localStorage.removeItem(getReportRecordKey(id));
+        const next = getReportRegistry().filter(item => item.id !== id);
+        setReportRegistry(next);
+        renderReports();
       }
 
       document.addEventListener('click', (event) => {
@@ -875,33 +1362,62 @@
           return;
         }
 
+        const openReportTrigger = event.target.closest('[data-open-report-modal="true"]');
+        if (openReportTrigger) {
+          openReportModal();
+          return;
+        }
+
         const deleteTrigger = event.target.closest('[data-delete-draft]');
         if (deleteTrigger) {
           deleteDraft(deleteTrigger.getAttribute('data-delete-draft'));
           return;
         }
 
+        const deleteReportTrigger = event.target.closest('[data-delete-report]');
+        if (deleteReportTrigger) {
+          deleteReport(deleteReportTrigger.getAttribute('data-delete-report'));
+          return;
+        }
+
         if (event.target === draftModal) {
           closeModal();
+        }
+
+        if (event.target === reportModal) {
+          closeReportModal();
         }
       });
 
       document.getElementById('createDraftBtnTop').addEventListener('click', openModal);
       document.getElementById('createDraftBtnSection').addEventListener('click', openModal);
       document.getElementById('closeDraftModal').addEventListener('click', closeModal);
+      document.getElementById('createReportBtnTop')?.addEventListener('click', openReportModal);
+      document.getElementById('createReportBtnSection')?.addEventListener('click', openReportModal);
+      document.getElementById('closeReportModal')?.addEventListener('click', closeReportModal);
+      reportSearchInput?.addEventListener('input', renderReports);
 
       draftForm.addEventListener('submit', (event) => {
         event.preventDefault();
         createDraft(draftTitleInput.value);
       });
 
+      reportForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        createReport(reportTitleInput.value, reportMetaInput.value);
+      });
+
       window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && draftModal.classList.contains('is-open')) {
           closeModal();
         }
+        if (event.key === 'Escape' && reportModal?.classList.contains('is-open')) {
+          closeReportModal();
+        }
       });
 
       resolveReleaseLink();
+      renderReports();
       renderDrafts();
     })();
   </script>
