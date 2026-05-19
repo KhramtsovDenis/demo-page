@@ -680,7 +680,7 @@
           <div class="hero-actions">
             <a class="btn btn-primary" href="./site.html">Открыть RoadMap по сайту</a>
             <a class="btn btn-primary" href="./release_app.html">Открыть RoadMap по приложению</a>
-            <a class="btn btn-primary" href="./weekly_workboard.html">Открыть доску отчетов</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html">Открыть доску отчетов</a>
             <button class="btn btn-secondary" type="button" data-open-report-modal="true">+ Создать отчет недели</button>
             <button class="btn btn-secondary" type="button" data-open-draft-modal="true">+ Создать новую дорожную карту</button>
           </div>
@@ -732,7 +732,7 @@
           <strong>Недельные отчеты</strong>
           <span>Создание новой недели на базе текущей доски: очищается только блок “Сделано”.</span>
           <div class="command-actions">
-            <a class="btn btn-primary" href="./weekly_workboard.html" id="reportLinkTop">Открыть доску</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop">Открыть доску</a>
             <button class="btn btn-soft" type="button" id="createReportBtnTop">Новая неделя</button>
           </div>
         </article>
@@ -811,7 +811,7 @@
             </ul>
           </div>
           <div class="tool-bottom">
-            <a class="btn btn-primary" href="./weekly_workboard.html" id="reportLinkCard">Открыть доску отчетов</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard">Открыть доску отчетов</a>
             <button class="btn btn-soft" type="button" data-open-report-modal="true">Создать новую неделю</button>
           </div>
         </article>
@@ -921,7 +921,9 @@
       const DRAFT_RECORD_PREFIX = 'healbe_roadmap_draft_record_';
       const REPORT_REGISTRY_KEY = 'healbe_weekly_report_registry';
       const REPORT_RECORD_PREFIX = 'healbe_weekly_report_record_';
-      const REPORT_BUILDER_PATH = './weekly_workboard.html';
+      const REPORT_BUILDER_PATH = './weekly-reports/weekly_workboard.html';
+      const PUBLIC_REPORTS_PATH = './weekly-reports/reports.json';
+      let publicReportRegistry = [];
 
       function getCurrentFileName() {
         const raw = decodeURIComponent(window.location.pathname || '');
@@ -1137,7 +1139,7 @@
         return next;
       }
 
-      function renderReports() {
+      function renderLocalReportsOnlyLegacy() {
         const registry = syncReportRegistry();
         const query = String(reportSearchInput?.value || '').trim().toLowerCase();
         const visibleRegistry = query
@@ -1208,6 +1210,171 @@
                   </div>
                   <div class="report-cell">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</div>
                   <div class="report-cell">задач: ${Number(item.taskCount || 0)}</div>
+                  <div class="report-row-actions">
+                    ${renderReportActions(item)}
+                  </div>
+                </article>
+              `).join('') : `
+                <div class="empty-box">
+                  <h3>Архив пока пуст</h3>
+                  <p>Когда появятся следующие недели, они будут добавляться сюда компактными строками.</p>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
+      function getReportSortTime(item) {
+        const raw = item?.updatedAt || item?.createdAt || item?.date || 0;
+        const numeric = Number(raw);
+        if (Number.isFinite(numeric) && numeric > 0) return numeric;
+
+        const date = new Date(raw);
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function resolvePublishedReportUrl(url) {
+        const raw = String(url || '').trim();
+        if (!raw) return '';
+        if (/^(https?:|\.\/|\.\.\/|\/)/i.test(raw)) return raw;
+        if (raw.startsWith('weekly-reports/')) return `./${raw}`;
+        return `./weekly-reports/${raw.replace(/^\/+/, '')}`;
+      }
+
+      function normalizePublishedReport(item, index) {
+        if (!item || typeof item !== 'object') return null;
+
+        const url = resolvePublishedReportUrl(item.url || item.href || item.file || item.fileName);
+        if (!url) return null;
+
+        const updatedAt = item.updatedAt || item.date || item.createdAt || '';
+        const createdAt = item.createdAt || updatedAt || '';
+        return {
+          id: item.id || `published_${index}_${url}`,
+          title: item.title || 'Недельный отчет',
+          meta: item.meta || item.subtitle || '',
+          taskCount: Number(item.taskCount || item.tasks || 0) || 0,
+          createdAt,
+          updatedAt,
+          url,
+          source: 'public'
+        };
+      }
+
+      async function loadPublicReports() {
+        try {
+          const response = await fetch(PUBLIC_REPORTS_PATH, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`reports.json ${response.status}`);
+
+          const payload = await response.json();
+          const list = Array.isArray(payload)
+            ? payload
+            : Array.isArray(payload?.reports)
+              ? payload.reports
+              : [];
+
+          publicReportRegistry = list
+            .map((item, index) => normalizePublishedReport(item, index))
+            .filter(Boolean);
+        } catch (error) {
+          publicReportRegistry = [];
+        }
+      }
+
+      function getCombinedReportRegistry() {
+        const localReports = syncReportRegistry().map((item) => ({
+          ...item,
+          source: 'local'
+        }));
+
+        return [...publicReportRegistry, ...localReports]
+          .sort((a, b) => getReportSortTime(b) - getReportSortTime(a));
+      }
+
+      function renderReports() {
+        const registry = getCombinedReportRegistry();
+        const query = String(reportSearchInput?.value || '').trim().toLowerCase();
+        const visibleRegistry = query
+          ? registry.filter((item) => `${item.title || ''} ${item.meta || ''} ${item.url || ''}`.toLowerCase().includes(query))
+          : registry;
+
+        if (!reportGrid) return;
+
+        if (!registry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Пока нет опубликованных недельных отчетов</h3>
+              <p>
+                Чтобы отчет появился у всех коллег, положи экспортированный HTML в папку <code>weekly-reports</code>
+                и добавь запись о нем в <code>weekly-reports/reports.json</code>.
+              </p>
+              <div class="empty-actions">
+                <button class="btn btn-primary" type="button" data-open-report-modal="true">Создать локальный отчет</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        if (!visibleRegistry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Ничего не найдено</h3>
+              <p>Попробуй другой номер недели, дату или часть названия отчета.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const renderTaskCount = (item) => {
+          const count = Number(item.taskCount || 0);
+          return count > 0 ? `задач: ${count}` : 'задач: н/д';
+        };
+
+        const renderReportActions = (item) => {
+          if (item.source === 'public') {
+            return `<a class="btn btn-primary" href="${escapeHTML(item.url)}">Открыть</a>`;
+          }
+
+          return `
+            <a class="btn btn-primary" href="${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}">Открыть</a>
+            <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>
+          `;
+        };
+
+        const [latest, ...archive] = visibleRegistry;
+
+        reportGrid.innerHTML = `
+          <div class="report-stack">
+            <article class="report-latest">
+              <div class="report-row-title">
+                <span class="pill">${latest.source === 'public' ? 'Опубликованный отчет' : 'Локальный отчет'}</span>
+                <strong>${escapeHTML(latest.title)}</strong>
+                <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
+                <div class="draft-meta">
+                  <span class="meta-chip">обновлено: ${escapeHTML(formatDate(latest.updatedAt))}</span>
+                  <span class="meta-chip">${renderTaskCount(latest)}</span>
+                </div>
+              </div>
+              <div class="report-row-actions">
+                ${renderReportActions(latest)}
+              </div>
+            </article>
+
+            <div class="report-archive-note">
+              Архив ниже остается компактным даже при 52 отчетах в году: одна строка на неделю, без больших карточек.
+            </div>
+
+            <div class="report-list" aria-label="Архив недельных отчетов">
+              ${archive.length ? archive.map((item) => `
+                <article class="report-row">
+                  <div class="report-row-title">
+                    <strong>${escapeHTML(item.title)}</strong>
+                    <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
+                  </div>
+                  <div class="report-cell">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</div>
+                  <div class="report-cell">${renderTaskCount(item)}</div>
                   <div class="report-row-actions">
                     ${renderReportActions(item)}
                   </div>
@@ -1319,7 +1486,7 @@
           createdAt: now,
           updatedAt: now,
           taskCount: 0,
-          template: 'weekly_workboard.html',
+          template: 'weekly-reports/weekly_workboard.html',
           resetWeeklyDone: true
         };
 
@@ -1418,6 +1585,7 @@
 
       resolveReleaseLink();
       renderReports();
+      loadPublicReports().finally(renderReports);
       renderDrafts();
     })();
   </script>
