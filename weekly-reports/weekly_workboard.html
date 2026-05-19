@@ -4624,6 +4624,313 @@
             }
         }
 
+        /* Action hub: compact grouped controls instead of a permanent button wall. */
+        .toolbar {
+            position: fixed !important;
+            top: 18px !important;
+            right: 18px !important;
+            z-index: 40 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            gap: 8px !important;
+            width: auto !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+
+        .toolbar-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 46px !important;
+            min-width: 46px !important;
+            height: 46px !important;
+            min-height: 46px !important;
+            padding: 0 !important;
+            border-radius: 16px !important;
+            border: 1px solid rgba(188, 205, 231, 0.95) !important;
+            background: linear-gradient(135deg, #ffffff, #eef6ff) !important;
+            color: #133a66 !important;
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14) !important;
+        }
+
+        .toolbar-toggle::after {
+            content: none !important;
+        }
+
+        .toolbar-toggle-icon {
+            font-size: 20px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .toolbar-toggle-text {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 180ms ease, opacity 160ms ease;
+        }
+
+        .toolbar:hover .toolbar-toggle,
+        .toolbar:focus-within .toolbar-toggle,
+        .toolbar.is-open .toolbar-toggle {
+            width: 128px !important;
+            justify-content: flex-start !important;
+            padding: 0 14px !important;
+        }
+
+        .toolbar:hover .toolbar-toggle-text,
+        .toolbar:focus-within .toolbar-toggle-text,
+        .toolbar.is-open .toolbar-toggle-text {
+            max-width: 96px;
+            opacity: 1;
+        }
+
+        .toolbar-panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            width: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0 solid rgba(205, 221, 243, 0.95);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.16);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            transform: translateY(-4px) scale(0.98);
+            transform-origin: top right;
+            pointer-events: none;
+            transition:
+                width 180ms ease,
+                max-height 180ms ease,
+                padding 180ms ease,
+                opacity 140ms ease,
+                transform 180ms ease,
+                border-width 180ms ease;
+        }
+
+        .toolbar:hover .toolbar-panel,
+        .toolbar:focus-within .toolbar-panel,
+        .toolbar.is-open .toolbar-panel {
+            width: min(440px, calc(100vw - 36px));
+            max-height: calc(100dvh - 92px);
+            padding: 10px;
+            overflow: auto;
+            border-width: 1px;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .toolbar-group {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+            padding: 8px;
+            border: 1px solid rgba(219, 228, 240, 0.9);
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(255, 255, 255, 0.96));
+        }
+
+        .toolbar-group-nav {
+            grid-template-columns: 1fr;
+        }
+
+        .toolbar-group-label {
+            grid-column: 1 / -1;
+            padding: 0 2px 2px;
+            color: #5b7292;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .toolbar .toolbar-btn,
+        .toolbar button.toolbar-btn,
+        .toolbar a.toolbar-btn {
+            width: 100% !important;
+            min-width: 0 !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            gap: 8px !important;
+            justify-content: flex-start !important;
+            padding: 0 10px !important;
+            border-radius: 13px !important;
+            text-align: left !important;
+            white-space: nowrap !important;
+            box-shadow: none !important;
+            transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .toolbar .toolbar-btn:hover,
+        .toolbar .toolbar-btn:focus-visible {
+            width: 100% !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        .toolbar .toolbar-icon {
+            flex: 0 0 24px !important;
+            width: 24px !important;
+            min-width: 24px !important;
+            height: 24px !important;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.72);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px !important;
+            line-height: 1;
+        }
+
+        .toolbar .toolbar-label {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 1 !important;
+            transform: none !important;
+            color: inherit;
+            font-size: 12px;
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        .toolbar .action-nav {
+            background: linear-gradient(135deg, #f8fbff, #eef6ff);
+            border-color: #c8daf3;
+            color: #244a75;
+        }
+
+        .toolbar .action-capture {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .toolbar .action-save {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-color: #16a34a;
+            color: #fff;
+        }
+
+        .toolbar .action-changes {
+            background: #f5f8ff;
+            border-color: #cad9f0;
+            color: #214b78;
+        }
+
+        .toolbar .action-edit {
+            background: #f8fbff;
+            border-color: #d7e3f4;
+            color: #365882;
+        }
+
+        .toolbar .action-danger {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            color: #9a3412;
+        }
+
+        body.capture-mode .toolbar {
+            padding: 0 !important;
+        }
+
+        body.capture-mode .toolbar-toggle,
+        body.capture-mode .toolbar-group-label,
+        body.capture-mode .toolbar-link,
+        body.capture-mode .toolbar-group:not(.toolbar-group-capture),
+        body.capture-mode #captureModeBtn {
+            display: none !important;
+        }
+
+        body.capture-mode .toolbar-panel {
+            width: auto !important;
+            max-height: none !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            border-width: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+        }
+
+        body.capture-mode .toolbar-group-capture {
+            display: flex !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        @media (max-width: 980px) {
+            .toolbar {
+                position: static !important;
+                width: 100% !important;
+                align-items: stretch !important;
+                margin-top: 4px;
+            }
+
+            .toolbar-toggle,
+            .toolbar:hover .toolbar-toggle,
+            .toolbar:focus-within .toolbar-toggle,
+            .toolbar.is-open .toolbar-toggle {
+                width: 100% !important;
+                justify-content: space-between !important;
+                padding: 0 14px !important;
+            }
+
+            .toolbar-toggle-text {
+                max-width: none;
+                opacity: 1;
+            }
+
+            .toolbar:not(.is-open):not(:focus-within) .toolbar-panel {
+                width: 100% !important;
+                max-height: 0 !important;
+                padding: 0 !important;
+                border-width: 0 !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+
+            .toolbar.is-open .toolbar-panel,
+            .toolbar:focus-within .toolbar-panel {
+                width: 100% !important;
+                max-height: 78dvh !important;
+                padding: 10px !important;
+                border-width: 1px !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .toolbar-group {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar .toolbar-btn,
+            .toolbar button.toolbar-btn,
+            .toolbar a.toolbar-btn {
+                flex-basis: auto !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                height: 42px !important;
+            }
+        }
+
     </style>
 </head>
 <body class="">
@@ -4633,58 +4940,80 @@
                 <h1 class="page-title" id="pageTitle">Недельный срез продуктовых работ Healbe</h1>
                 <p class="page-meta" id="pageMeta">Неделя №19 | 7 Мая 2026</p>
             </div>
-            <div class="toolbar">
+            <div class="toolbar" aria-label="Действия с отчетом">
                 <button class="btn-secondary toolbar-toggle" id="toolbarToggleBtn" type="button" aria-expanded="false" aria-label="Показать действия">
-                    <span>Действия</span>
+                    <span class="toolbar-toggle-icon" aria-hidden="true">☰</span>
+                    <span class="toolbar-toggle-text">Действия</span>
                 </button>
-                <button class="btn-secondary toolbar-btn" id="captureModeBtn" type="button" aria-label="Capture mode" title="Режим скрина">
-                    <span class="toolbar-icon" aria-hidden="true">[]</span>
-                    <span class="toolbar-label">Режим скрина</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="capturePngBtn" type="button" aria-label="Capture PNG" title="Capture PNG">
-                    <span class="toolbar-icon" aria-hidden="true">↓</span>
-                    <span class="toolbar-label">PNG</span>
-                </button>
-                <button class="btn-success toolbar-btn" id="saveStateBtn" type="button" aria-label="Сохранить" title="Сохранить">
-                    <span class="toolbar-icon" aria-hidden="true">↓</span>
-                    <span class="toolbar-label">Сохранить</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="showChangesBtn" type="button" aria-label="Показать изменения" title="Показать изменения">
-                    <span class="toolbar-icon" aria-hidden="true">Δ</span>
-                    <span class="toolbar-label">Показать изменения</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="downloadPatchBtn" type="button" aria-label="Скачать изменения" title="Скачать изменения">
-                    <span class="toolbar-icon" aria-hidden="true">⇩</span>
-                    <span class="toolbar-label">Скачать изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="importPatchBtn" type="button" aria-label="Импортировать изменения" title="Импортировать изменения">
-                    <span class="toolbar-icon" aria-hidden="true">⇧</span>
-                    <span class="toolbar-label">Импортировать изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="resetChangesBtn" type="button" aria-label="Сбросить изменения" title="Сбросить изменения">
-                    <span class="toolbar-icon" aria-hidden="true">↺</span>
-                    <span class="toolbar-label">Сбросить изменения</span>
-                </button>
-                <button class="btn-success toolbar-btn" id="acceptChangesBtn" type="button" aria-label="Принять изменения" title="Принять изменения">
-                    <span class="toolbar-icon" aria-hidden="true">✓</span>
-                    <span class="toolbar-label">Принять изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editMetaBtn" type="button" aria-label="Изменить заголовок" title="Изменить заголовок">
-                    <span class="toolbar-icon" aria-hidden="true">T</span>
-                    <span class="toolbar-label">Изменить заголовок</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editJsonBtn" type="button" aria-label="Редактировать данные" title="Редактировать данные">
-                    <span class="toolbar-icon" aria-hidden="true">{}</span>
-                    <span class="toolbar-label">Редактировать данные</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editDirectionsBtn" type="button" aria-label="Добавить направление" title="Добавить направление">
-                    <span class="toolbar-icon" aria-hidden="true">↔</span>
-                    <span class="toolbar-label">Добавить направление</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="addTaskBtn" type="button" aria-label="Добавить задачу" title="Добавить задачу">
-                    <span class="toolbar-icon" aria-hidden="true">+</span>
-                    <span class="toolbar-label">Добавить задачу</span>
-                </button>
+                <div class="toolbar-panel">
+                    <div class="toolbar-group toolbar-group-nav">
+                        <span class="toolbar-group-label">Навигация</span>
+                        <a class="btn-secondary toolbar-btn toolbar-link action-nav" href="../index.html" aria-label="Назад к архиву" title="Назад к архиву">
+                            <span class="toolbar-icon" aria-hidden="true">←</span>
+                            <span class="toolbar-label">Назад</span>
+                        </a>
+                    </div>
+                    <div class="toolbar-group toolbar-group-capture">
+                        <span class="toolbar-group-label">Скриншот</span>
+                        <button class="btn-secondary toolbar-btn action-capture" id="captureModeBtn" type="button" aria-label="Capture mode" title="Режим скрина">
+                            <span class="toolbar-icon" aria-hidden="true">□</span>
+                            <span class="toolbar-label">Режим скрина</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-capture" id="capturePngBtn" type="button" aria-label="Capture PNG" title="Capture PNG">
+                            <span class="toolbar-icon" aria-hidden="true">↓</span>
+                            <span class="toolbar-label">PNG</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-save">
+                        <span class="toolbar-group-label">Сохранение</span>
+                        <button class="btn-success toolbar-btn action-save" id="saveStateBtn" type="button" aria-label="Сохранить" title="Сохранить">
+                            <span class="toolbar-icon" aria-hidden="true">✓</span>
+                            <span class="toolbar-label">Сохранить HTML</span>
+                        </button>
+                        <button class="btn-success toolbar-btn action-save" id="acceptChangesBtn" type="button" aria-label="Принять изменения" title="Принять изменения">
+                            <span class="toolbar-icon" aria-hidden="true">✓</span>
+                            <span class="toolbar-label">Принять изменения</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-changes">
+                        <span class="toolbar-group-label">Изменения</span>
+                        <button class="btn-secondary toolbar-btn action-changes" id="showChangesBtn" type="button" aria-label="Показать изменения" title="Показать изменения">
+                            <span class="toolbar-icon" aria-hidden="true">Δ</span>
+                            <span class="toolbar-label">Показать изменения</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-changes" id="downloadPatchBtn" type="button" aria-label="Скачать изменения" title="Скачать изменения">
+                            <span class="toolbar-icon" aria-hidden="true">⇩</span>
+                            <span class="toolbar-label">Скачать изменения</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-changes" id="importPatchBtn" type="button" aria-label="Импортировать изменения" title="Импортировать изменения">
+                            <span class="toolbar-icon" aria-hidden="true">⇧</span>
+                            <span class="toolbar-label">Импортировать</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-danger" id="resetChangesBtn" type="button" aria-label="Сбросить изменения" title="Сбросить изменения">
+                            <span class="toolbar-icon" aria-hidden="true">↺</span>
+                            <span class="toolbar-label">Сбросить изменения</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-edit">
+                        <span class="toolbar-group-label">Редактирование</span>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editMetaBtn" type="button" aria-label="Изменить заголовок" title="Изменить заголовок">
+                            <span class="toolbar-icon" aria-hidden="true">T</span>
+                            <span class="toolbar-label">Заголовок</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editJsonBtn" type="button" aria-label="Редактировать данные" title="Редактировать данные">
+                            <span class="toolbar-icon" aria-hidden="true">{}</span>
+                            <span class="toolbar-label">JSON</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editDirectionsBtn" type="button" aria-label="Добавить направление" title="Добавить направление">
+                            <span class="toolbar-icon" aria-hidden="true">↔</span>
+                            <span class="toolbar-label">Направление</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-edit" id="addTaskBtn" type="button" aria-label="Добавить задачу" title="Добавить задачу">
+                            <span class="toolbar-icon" aria-hidden="true">+</span>
+                            <span class="toolbar-label">Задача</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <input id="patchImportInput" type="file" accept="application/json,.json" multiple hidden>
         </header>
@@ -4697,7 +5026,7 @@
                         <p class="executive-subtitle">Крупный срез по изменениям в продукте, ближайшим результатам, готовности, часам и рискам.</p>
                     </div>
                     <div class="executive-actions">
-                        <a class="release-map-link" href="release_app (2).html">
+                        <a class="release-map-link" href="../release_app.html">
                             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M7 3v3M17 3v3M4.5 9.5h15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                 <rect x="4" y="5" width="16" height="15" rx="3" stroke="currentColor" stroke-width="2"></rect>
@@ -5868,7 +6197,7 @@
                 title: "NEEM MVP + умные весы + инсайты",
                 date: "12.05.2026",
                 label: "12 мая",
-                releaseUrl: "release_app (2).html#1773776214811",
+                releaseUrl: "../release_app.html#1773776214811",
                 projectMatchers: ["NeeM MVP", "NEEM-2"]
             },
             {
@@ -5877,7 +6206,7 @@
                 title: "Multi-device + Usage history NEEM",
                 date: "29.06.2026",
                 label: "29 июня",
-                releaseUrl: "release_app (2).html#1773776694649",
+                releaseUrl: "../release_app.html#1773776694649",
                 projectMatchers: ["Multi device", "Multi-device", "Usage history", "NEEM-3", "мультидевайс"]
             },
             {
@@ -5886,7 +6215,7 @@
                 title: "Energy Balance Transparency + ЭКГ + Long-term data",
                 date: "31.08.2026",
                 label: "31 августа",
-                releaseUrl: "release_app (2).html#1773777223820",
+                releaseUrl: "../release_app.html#1773777223820",
                 projectMatchers: ["Energy Balance Transparency", "Long-term data", "ЭКГ"]
             },
             {
@@ -5895,7 +6224,7 @@
                 title: "Complex indicator + аритмия",
                 date: "26.10.2026",
                 label: "26 октября",
-                releaseUrl: "release_app (2).html#1773777519158",
+                releaseUrl: "../release_app.html#1773777519158",
                 projectMatchers: ["Complex indicator", "Аритмия"]
             },
             {
@@ -5904,7 +6233,7 @@
                 title: "Weight Trend + ВСР + темная тема + NEEM OTA",
                 date: "23.12.2026",
                 label: "23 декабря",
-                releaseUrl: "release_app (2).html#1773778008956",
+                releaseUrl: "../release_app.html#1773778008956",
                 projectMatchers: ["Weight Trend", "ВСР", "Индекс здоровья сердца"]
             }
         ];
@@ -6080,7 +6409,7 @@
             toolbar.addEventListener("click", (event) => {
                 const actionButton = event.target instanceof Element ? event.target.closest("button") : null;
                 if (!actionButton || actionButton === toggleButton) return;
-                if (window.matchMedia("(max-width: 640px)").matches) {
+                if (window.matchMedia("(max-width: 980px)").matches) {
                     window.setTimeout(closeMenu, 0);
                 }
             });
