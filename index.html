@@ -1282,13 +1282,49 @@
         }
       }
 
+      function normalizeReportIdentityPart(value) {
+        return String(value || '')
+          .toLowerCase()
+          .replace(/ё/g, 'е')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function getReportIdentityKey(item) {
+        const meta = normalizeReportIdentityPart(item?.meta);
+        const weekMatch = meta.match(/неделя\s*№?\s*(\d+)/i);
+        const dateMatch = meta.match(/(\d{1,2})\s+[а-яa-z]+\s+(\d{4})/i);
+        if (weekMatch) {
+          return `week:${weekMatch[1]}:${dateMatch ? dateMatch[0] : ''}`;
+        }
+
+        const url = normalizeReportIdentityPart(item?.url || item?.template);
+        const fileWeekMatch = url.match(/week[-_]?(\d+)[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+        if (fileWeekMatch) {
+          return `file-week:${fileWeekMatch[1]}:${fileWeekMatch[2]}-${fileWeekMatch[3]}-${fileWeekMatch[4]}`;
+        }
+
+        const title = normalizeReportIdentityPart(item?.title);
+        return `fallback:${title}:${meta}:${url}`;
+      }
+
       function getCombinedReportRegistry() {
         const localReports = syncReportRegistry().map((item) => ({
           ...item,
           source: 'local'
         }));
 
-        return [...publicReportRegistry, ...localReports]
+        const seen = new Set();
+        const merged = [];
+
+        [...publicReportRegistry, ...localReports].forEach((item) => {
+          const key = getReportIdentityKey(item);
+          if (seen.has(key)) return;
+          seen.add(key);
+          merged.push(item);
+        });
+
+        return merged
           .sort((a, b) => getReportSortTime(b) - getReportSortTime(a));
       }
 
