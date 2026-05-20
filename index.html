@@ -1562,20 +1562,22 @@
         location.href = `${BUILDER_PATH}?draft=${encodeURIComponent(id)}`;
       }
 
-      function createReport(title, meta) {
+      async function createReport(title, meta) {
         const id = `report_${Date.now()}`;
         const cleanTitle = (title || 'Недельный срез продуктовых работ Healbe').trim() || 'Недельный срез продуктовых работ Healbe';
         const cleanMeta = (meta || '').trim() || 'Неделя №20 | 14 мая 2026';
         const now = Date.now();
+        const seedState = await buildNextReportSeedState(cleanTitle, cleanMeta);
         const record = {
           id,
           title: cleanTitle,
           meta: cleanMeta,
           createdAt: now,
           updatedAt: now,
-          taskCount: 0,
+          taskCount: Array.isArray(seedState?.tasks) ? seedState.tasks.length : 0,
           template: 'weekly-reports/weekly_workboard.html',
-          resetWeeklyDone: true
+          resetWeeklyDone: true,
+          ...(seedState || {})
         };
 
         localStorage.setItem(getReportRecordKey(id), JSON.stringify(record));
@@ -1583,6 +1585,85 @@
         registry.unshift(record);
         setReportRegistry(registry);
         location.href = `${REPORT_BUILDER_PATH}?report=${encodeURIComponent(id)}`;
+      }
+
+      async function buildNextReportSeedState(title, meta) {
+        if (!publicReportRegistry.length) {
+          await loadPublicReports();
+        }
+
+        const latestPublic = publicReportRegistry
+          .slice()
+          .sort((a, b) => getReportSortTime(b) - getReportSortTime(a))[0];
+        const latest = latestPublic || getCombinedReportRegistry()[0];
+        const sourceState = await loadReportStateFromRegistryItem(latest);
+        if (!sourceState) return null;
+
+        return {
+          ...sourceState,
+          title,
+          meta,
+          tasks: Array.isArray(sourceState.tasks)
+            ? sourceState.tasks.map((task) => ({
+              ...task,
+              artifactNote: ''
+            }))
+            : [],
+          directions: Array.isArray(sourceState.directions) ? sourceState.directions : []
+        };
+      }
+
+      async function loadReportStateFromRegistryItem(item) {
+        if (!item) return null;
+
+        if (item.source === 'local') {
+          const localState = readLocalReportState(item.id);
+          if (localState) return localState;
+        }
+
+        if (item.url) {
+          const fetchedState = await fetchReportStateFromHtml(item.url);
+          if (fetchedState) return fetchedState;
+        }
+
+        return null;
+      }
+
+      function readLocalReportState(id) {
+        if (!id) return null;
+        try {
+          const record = JSON.parse(localStorage.getItem(getReportRecordKey(id)) || 'null');
+          return record && Array.isArray(record.tasks) && record.tasks.length ? record : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      async function fetchReportStateFromHtml(url) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' });
+          if (!response.ok) return null;
+          return extractWorkboardStateFromHtml(await response.text());
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function extractWorkboardStateFromHtml(html) {
+        const marker = 'window.__WORKBOARD_EXPORTED_STATE__=';
+        const start = String(html || '').indexOf(marker);
+        if (start < 0) return null;
+
+        const jsonStart = start + marker.length;
+        const end = String(html).indexOf(';<\/script>', jsonStart);
+        if (end < 0) return null;
+
+        try {
+          const state = JSON.parse(String(html).slice(jsonStart, end));
+          return state && Array.isArray(state.tasks) ? state : null;
+        } catch (error) {
+          return null;
+        }
       }
 
       function deleteDraft(id) {
