@@ -4970,6 +4970,10 @@
                             <span class="toolbar-icon" aria-hidden="true">✓</span>
                             <span class="toolbar-label">Сохранить HTML</span>
                         </button>
+                        <button class="btn-primary toolbar-btn action-save" id="publishReportBtn" type="button" aria-label="Подготовить публикацию" title="Подготовить публикацию">
+                            <span class="toolbar-icon" aria-hidden="true">↗</span>
+                            <span class="toolbar-label">Подготовить публикацию</span>
+                        </button>
                         <button class="btn-success toolbar-btn action-save" id="acceptChangesBtn" type="button" aria-label="Принять изменения" title="Принять изменения">
                             <span class="toolbar-icon" aria-hidden="true">✓</span>
                             <span class="toolbar-label">Принять изменения</span>
@@ -6341,6 +6345,7 @@
         function bindEvents() {
             setupToolbarMenu();
             document.getElementById("saveStateBtn").addEventListener("click", exportStateBackup);
+            document.getElementById("publishReportBtn")?.addEventListener("click", preparePublicationPackage);
             document.getElementById("showChangesBtn")?.addEventListener("click", openChangesDialog);
             document.getElementById("downloadPatchBtn")?.addEventListener("click", downloadChangesPatch);
             document.getElementById("importPatchBtn")?.addEventListener("click", () => patchImportInput?.click());
@@ -9073,16 +9078,118 @@
         }
 
         function exportStateBackup() {
-            const payload = buildExportHtml();
-            const blob = new Blob([payload], { type: "text/html;charset=utf-8" });
+            downloadTextFile(buildBackupFilename(), buildExportHtml(), "text/html;charset=utf-8");
+        }
+
+        async function preparePublicationPackage() {
+            let existingReports = [];
+            let reportsLoaded = false;
+
+            try {
+                const response = await fetch(`./reports.json?ts=${Date.now()}`, { cache: "no-store" });
+                if (!response.ok) throw new Error(`reports.json ${response.status}`);
+                const parsed = await response.json();
+                existingReports = Array.isArray(parsed) ? parsed : [];
+                reportsLoaded = true;
+            } catch (error) {
+                reportsLoaded = false;
+            }
+
+            if (!reportsLoaded) {
+                const shouldContinue = window.confirm(
+                    "Не удалось прочитать текущий reports.json. Сформировать новый reports.json только с текущим отчетом?"
+                );
+                if (!shouldContinue) return;
+            }
+
+            const htmlFileName = buildBackupFilename();
+            const reportEntry = buildArchiveReportEntry(htmlFileName);
+            const nextReports = buildUpdatedReportsRegistry(existingReports, reportEntry);
+
+            downloadTextFile(htmlFileName, buildExportHtml(), "text/html;charset=utf-8");
+            window.setTimeout(() => {
+                downloadTextFile("reports.json", JSON.stringify(nextReports, null, 2), "application/json;charset=utf-8");
+            }, 350);
+        }
+
+        function downloadTextFile(fileName, payload, type) {
+            const blob = new Blob([payload], { type });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = buildBackupFilename();
+            link.download = fileName;
             document.body.appendChild(link);
             link.click();
             link.remove();
             window.setTimeout(() => URL.revokeObjectURL(url), 0);
+        }
+
+        function buildArchiveReportEntry(fileName) {
+            const tasks = Array.isArray(state.tasks) ? state.tasks : [];
+            return {
+                title: state.title || "Недельный срез продуктовых работ Healbe",
+                meta: state.meta || "",
+                url: fileName,
+                updatedAt: parseRussianDateFromMeta(state.meta || "") || formatDateForFilename(new Date()),
+                taskCount: tasks.length
+            };
+        }
+
+        function buildUpdatedReportsRegistry(existingReports, currentEntry) {
+            const seen = new Set();
+            const merged = [];
+
+            [currentEntry, ...existingReports].forEach((item) => {
+                if (!item || typeof item !== "object") return;
+                const key = getArchiveReportKey(item);
+                if (seen.has(key)) return;
+                seen.add(key);
+                merged.push(item);
+            });
+
+            return merged.sort((a, b) => getArchiveReportSortTime(b) - getArchiveReportSortTime(a));
+        }
+
+        function getArchiveReportKey(item) {
+            const meta = normalizeArchiveReportPart(item.meta);
+            const weekMatch = meta.match(/неделя\s*№?\s*(\d+)/i);
+            const dateMatch = meta.match(/(\d{1,2})\s+[а-яa-z]+\s+(\d{4})/i);
+            if (weekMatch) {
+                return `week:${weekMatch[1]}:${dateMatch ? dateMatch[0] : ""}`;
+            }
+
+            const url = normalizeArchiveReportPart(item.url);
+            const fileWeekMatch = url.match(/week[-_]?(\d+)[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+            if (fileWeekMatch) {
+                return `file-week:${fileWeekMatch[1]}:${fileWeekMatch[2]}-${fileWeekMatch[3]}-${fileWeekMatch[4]}`;
+            }
+
+            return `fallback:${normalizeArchiveReportPart(item.title)}:${meta}:${url}`;
+        }
+
+        function normalizeArchiveReportPart(value) {
+            return String(value || "")
+                .toLowerCase()
+                .replace(/ё/g, "е")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function getArchiveReportSortTime(item) {
+            const byUpdatedAt = parseIsoDateToTime(item.updatedAt);
+            if (byUpdatedAt) return byUpdatedAt;
+
+            const byMeta = parseRussianDateFromMeta(item.meta || "");
+            if (byMeta) return parseIsoDateToTime(byMeta);
+
+            return 0;
+        }
+
+        function parseIsoDateToTime(value) {
+            const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (!match) return 0;
+            const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+            return Number.isFinite(date.getTime()) ? date.getTime() : 0;
         }
 
         function buildBackupFilename() {
