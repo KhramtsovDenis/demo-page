@@ -1526,12 +1526,98 @@
       }
 
       function guessNextReportMeta() {
-        const reports = getReportRegistry();
-        const latest = reports.slice().sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))[0];
+        const reports = getCombinedReportRegistry();
+        const latest = reports.slice().sort((a, b) => getReportSortTime(b) - getReportSortTime(a))[0];
         const source = String(latest?.meta || '').trim();
         const weekMatch = source.match(/Неделя\s*№?\s*(\d+)/i);
-        if (!weekMatch) return 'Неделя №20 | 14 мая 2026';
-        return source.replace(/Неделя\s*№?\s*\d+/i, `Неделя №${Number(weekMatch[1]) + 1}`);
+        const nextWeek = weekMatch ? Number(weekMatch[1]) + 1 : getIsoWeekNumber(getNextThursday(new Date()));
+        const sourceDate = parseReportMetaDate(source);
+        const nextDate = sourceDate ? addDays(sourceDate, 7) : getNextThursday(new Date());
+        return `Неделя №${nextWeek} | ${formatRussianReportDate(nextDate)}`;
+      }
+
+      function parseReportMetaDate(meta) {
+        const source = String(meta || '').toLowerCase().replace(/ё/g, 'е');
+        const match = source.match(/(\d{1,2})\s+([а-яa-z]+)\s+(\d{4})/i);
+        if (!match) return null;
+
+        const month = getRussianMonthIndex(match[2]);
+        if (month === null) return null;
+
+        const date = new Date(Number(match[3]), month, Number(match[1]));
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function getRussianMonthIndex(monthName) {
+        const months = {
+          января: 0,
+          февраль: 1,
+          февраля: 1,
+          март: 2,
+          марта: 2,
+          апрель: 3,
+          апреля: 3,
+          май: 4,
+          мая: 4,
+          июнь: 5,
+          июня: 5,
+          июль: 6,
+          июля: 6,
+          август: 7,
+          августа: 7,
+          сентябрь: 8,
+          сентября: 8,
+          октябрь: 9,
+          октября: 9,
+          ноябрь: 10,
+          ноября: 10,
+          декабрь: 11,
+          декабря: 11
+        };
+        const index = months[String(monthName || '').toLowerCase().replace(/ё/g, 'е')];
+        return index === undefined ? null : index;
+      }
+
+      function addDays(date, days) {
+        const next = new Date(date);
+        next.setDate(next.getDate() + days);
+        return next;
+      }
+
+      function getNextThursday(date) {
+        const next = new Date(date);
+        const currentDay = next.getDay();
+        const targetDay = 4;
+        let diff = (targetDay - currentDay + 7) % 7;
+        if (diff === 0) diff = 7;
+        next.setDate(next.getDate() + diff);
+        return next;
+      }
+
+      function getIsoWeekNumber(date) {
+        const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNumber = target.getUTCDay() || 7;
+        target.setUTCDate(target.getUTCDate() + 4 - dayNumber);
+        const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
+        return Math.ceil((((target - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function formatRussianReportDate(date) {
+        const months = [
+          'января',
+          'февраля',
+          'марта',
+          'апреля',
+          'мая',
+          'июня',
+          'июля',
+          'августа',
+          'сентября',
+          'октября',
+          'ноября',
+          'декабря'
+        ];
+        return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
       }
 
       function createDraft(title) {
