@@ -1226,11 +1226,63 @@
       }
 
       function getReportSortTime(item) {
+        const metaTime = parseReportMetaTime(item?.meta);
+        if (metaTime) return metaTime;
+
+        const urlTime = parseReportUrlTime(item?.url || item?.template);
+        if (urlTime) return urlTime;
+
         const raw = item?.updatedAt || item?.createdAt || item?.date || 0;
         const numeric = Number(raw);
         if (Number.isFinite(numeric) && numeric > 0) return numeric;
 
         const date = new Date(raw);
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function parseReportMetaTime(meta) {
+        const source = String(meta || '').toLowerCase().replace(/ё/g, 'е');
+        const match = source.match(/(\d{1,2})\s+([а-яa-z]+)\s+(\d{4})/i);
+        if (!match) return 0;
+
+        const months = {
+          января: 0,
+          февраль: 1,
+          февраля: 1,
+          март: 2,
+          марта: 2,
+          апрель: 3,
+          апреля: 3,
+          май: 4,
+          мая: 4,
+          июнь: 5,
+          июня: 5,
+          июль: 6,
+          июля: 6,
+          август: 7,
+          августа: 7,
+          сентябрь: 8,
+          сентября: 8,
+          октябрь: 9,
+          октября: 9,
+          ноябрь: 10,
+          ноября: 10,
+          декабрь: 11,
+          декабря: 11
+        };
+
+        const month = months[match[2]];
+        if (month === undefined) return 0;
+
+        const date = new Date(Number(match[3]), month, Number(match[1]));
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function parseReportUrlTime(url) {
+        const match = String(url || '').match(/week[-_]?\d+[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+        if (!match) return 0;
+
+        const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
         return Number.isNaN(date.getTime()) ? 0 : date.getTime();
       }
 
