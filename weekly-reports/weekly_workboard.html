@@ -954,20 +954,21 @@
         .task-focus-inline {
             margin: 2px 0 0;
             display: flex;
-            align-items: flex-start;
-            gap: 5px;
+            align-items: center;
+            gap: 6px;
+            box-sizing: border-box;
             color: #dc2626;
             font-size: 13px;
             line-height: 1.35;
             font-weight: 700;
             max-width: 100%;
+            overflow-wrap: anywhere;
         }
 
-        .task-focus-inline::before {
-            content: "";
-            width: 12px;
-            height: 12px;
-            margin-top: 3px;
+        .task-focus-icon {
+            width: 14px;
+            height: 14px;
+            flex: 0 0 14px;
             border: 1.5px solid #ef4444;
             border-radius: 999px;
             background: linear-gradient(
@@ -976,7 +977,13 @@
                 #ef4444 43% 57%,
                 transparent 58%
             );
-            flex: 0 0 auto;
+        }
+
+        .task-focus-text {
+            flex: 1;
+            min-width: 0;
+            display: block;
+            overflow-wrap: anywhere;
         }
 
         .cell-label {
@@ -7058,7 +7065,9 @@
             if (taskChange) card.classList.add("has-changes");
             const statusMeta = STATUS_META[normalized.status] || STATUS_META["in-progress"];
             const focusText = String(task.focus || "").trim();
-            const focusMarkup = focusText ? `<p class="task-focus-inline">${escapeHtml(focusText)}</p>` : "";
+            const focusMarkup = focusText
+                ? `<p class="task-focus-inline"><span class="task-focus-icon" aria-hidden="true"></span><span class="task-focus-text">${escapeHtml(focusText)}</span></p>`
+                : "";
             const releaseProgress = normalizeProgress(normalized.releaseProgress);
             const weeklyProgress = normalizeProgress(normalized.weeklyProgress);
             const hoursMarkup = renderHoursMeta(normalized.actualHours, normalized.plannedHours);
