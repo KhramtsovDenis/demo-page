@@ -4624,6 +4624,313 @@
             }
         }
 
+        /* Action hub: compact grouped controls instead of a permanent button wall. */
+        .toolbar {
+            position: fixed !important;
+            top: 18px !important;
+            right: 18px !important;
+            z-index: 40 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-end !important;
+            gap: 8px !important;
+            width: auto !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+        }
+
+        .toolbar-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 46px !important;
+            min-width: 46px !important;
+            height: 46px !important;
+            min-height: 46px !important;
+            padding: 0 !important;
+            border-radius: 16px !important;
+            border: 1px solid rgba(188, 205, 231, 0.95) !important;
+            background: linear-gradient(135deg, #ffffff, #eef6ff) !important;
+            color: #133a66 !important;
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.14) !important;
+        }
+
+        .toolbar-toggle::after {
+            content: none !important;
+        }
+
+        .toolbar-toggle-icon {
+            font-size: 20px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .toolbar-toggle-text {
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 180ms ease, opacity 160ms ease;
+        }
+
+        .toolbar:hover .toolbar-toggle,
+        .toolbar:focus-within .toolbar-toggle,
+        .toolbar.is-open .toolbar-toggle {
+            width: 128px !important;
+            justify-content: flex-start !important;
+            padding: 0 14px !important;
+        }
+
+        .toolbar:hover .toolbar-toggle-text,
+        .toolbar:focus-within .toolbar-toggle-text,
+        .toolbar.is-open .toolbar-toggle-text {
+            max-width: 96px;
+            opacity: 1;
+        }
+
+        .toolbar-panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            width: 0;
+            max-height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0 solid rgba(205, 221, 243, 0.95);
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.16);
+            backdrop-filter: blur(14px);
+            opacity: 0;
+            transform: translateY(-4px) scale(0.98);
+            transform-origin: top right;
+            pointer-events: none;
+            transition:
+                width 180ms ease,
+                max-height 180ms ease,
+                padding 180ms ease,
+                opacity 140ms ease,
+                transform 180ms ease,
+                border-width 180ms ease;
+        }
+
+        .toolbar:hover .toolbar-panel,
+        .toolbar:focus-within .toolbar-panel,
+        .toolbar.is-open .toolbar-panel {
+            width: min(440px, calc(100vw - 36px));
+            max-height: calc(100dvh - 92px);
+            padding: 10px;
+            overflow: auto;
+            border-width: 1px;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .toolbar-group {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 7px;
+            padding: 8px;
+            border: 1px solid rgba(219, 228, 240, 0.9);
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(255, 255, 255, 0.96));
+        }
+
+        .toolbar-group-nav {
+            grid-template-columns: 1fr;
+        }
+
+        .toolbar-group-label {
+            grid-column: 1 / -1;
+            padding: 0 2px 2px;
+            color: #5b7292;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .toolbar .toolbar-btn,
+        .toolbar button.toolbar-btn,
+        .toolbar a.toolbar-btn {
+            width: 100% !important;
+            min-width: 0 !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            gap: 8px !important;
+            justify-content: flex-start !important;
+            padding: 0 10px !important;
+            border-radius: 13px !important;
+            text-align: left !important;
+            white-space: nowrap !important;
+            box-shadow: none !important;
+            transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+
+        .toolbar .toolbar-btn:hover,
+        .toolbar .toolbar-btn:focus-visible {
+            width: 100% !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        .toolbar .toolbar-icon {
+            flex: 0 0 24px !important;
+            width: 24px !important;
+            min-width: 24px !important;
+            height: 24px !important;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, 0.72);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px !important;
+            line-height: 1;
+        }
+
+        .toolbar .toolbar-label {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 1 !important;
+            transform: none !important;
+            color: inherit;
+            font-size: 12px;
+            line-height: 1.1;
+            font-weight: 900;
+        }
+
+        .toolbar .action-nav {
+            background: linear-gradient(135deg, #f8fbff, #eef6ff);
+            border-color: #c8daf3;
+            color: #244a75;
+        }
+
+        .toolbar .action-capture {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            color: #1d4ed8;
+        }
+
+        .toolbar .action-save {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            border-color: #16a34a;
+            color: #fff;
+        }
+
+        .toolbar .action-changes {
+            background: #f5f8ff;
+            border-color: #cad9f0;
+            color: #214b78;
+        }
+
+        .toolbar .action-edit {
+            background: #f8fbff;
+            border-color: #d7e3f4;
+            color: #365882;
+        }
+
+        .toolbar .action-danger {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            color: #9a3412;
+        }
+
+        body.capture-mode .toolbar {
+            padding: 0 !important;
+        }
+
+        body.capture-mode .toolbar-toggle,
+        body.capture-mode .toolbar-group-label,
+        body.capture-mode .toolbar-link,
+        body.capture-mode .toolbar-group:not(.toolbar-group-capture),
+        body.capture-mode #captureModeBtn {
+            display: none !important;
+        }
+
+        body.capture-mode .toolbar-panel {
+            width: auto !important;
+            max-height: none !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            border-width: 0 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            pointer-events: auto !important;
+        }
+
+        body.capture-mode .toolbar-group-capture {
+            display: flex !important;
+            padding: 0 !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        @media (max-width: 980px) {
+            .toolbar {
+                position: static !important;
+                width: 100% !important;
+                align-items: stretch !important;
+                margin-top: 4px;
+            }
+
+            .toolbar-toggle,
+            .toolbar:hover .toolbar-toggle,
+            .toolbar:focus-within .toolbar-toggle,
+            .toolbar.is-open .toolbar-toggle {
+                width: 100% !important;
+                justify-content: space-between !important;
+                padding: 0 14px !important;
+            }
+
+            .toolbar-toggle-text {
+                max-width: none;
+                opacity: 1;
+            }
+
+            .toolbar:not(.is-open):not(:focus-within) .toolbar-panel {
+                width: 100% !important;
+                max-height: 0 !important;
+                padding: 0 !important;
+                border-width: 0 !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+            }
+
+            .toolbar.is-open .toolbar-panel,
+            .toolbar:focus-within .toolbar-panel {
+                width: 100% !important;
+                max-height: 78dvh !important;
+                padding: 10px !important;
+                border-width: 1px !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .toolbar-group {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar .toolbar-btn,
+            .toolbar button.toolbar-btn,
+            .toolbar a.toolbar-btn {
+                flex-basis: auto !important;
+                min-width: 0 !important;
+                width: 100% !important;
+                height: 42px !important;
+            }
+        }
+
     </style>
 </head>
 <body class="">
@@ -4633,58 +4940,84 @@
                 <h1 class="page-title" id="pageTitle">Недельный срез продуктовых работ Healbe</h1>
                 <p class="page-meta" id="pageMeta">Неделя №21 | 21 Мая 2026</p>
             </div>
-            <div class="toolbar">
+            <div class="toolbar" aria-label="Действия с отчетом">
                 <button class="btn-secondary toolbar-toggle" id="toolbarToggleBtn" type="button" aria-expanded="false" aria-label="Показать действия">
-                    <span>Действия</span>
+                    <span class="toolbar-toggle-icon" aria-hidden="true">☰</span>
+                    <span class="toolbar-toggle-text">Действия</span>
                 </button>
-                <button class="btn-secondary toolbar-btn" id="captureModeBtn" type="button" aria-label="Capture mode" title="Режим скрина">
-                    <span class="toolbar-icon" aria-hidden="true">[]</span>
-                    <span class="toolbar-label">Режим скрина</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="capturePngBtn" type="button" aria-label="Capture PNG" title="Capture PNG">
-                    <span class="toolbar-icon" aria-hidden="true">↓</span>
-                    <span class="toolbar-label">PNG</span>
-                </button>
-                <button class="btn-success toolbar-btn" id="saveStateBtn" type="button" aria-label="Сохранить" title="Сохранить">
-                    <span class="toolbar-icon" aria-hidden="true">↓</span>
-                    <span class="toolbar-label">Сохранить</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="showChangesBtn" type="button" aria-label="Показать изменения" title="Показать изменения">
-                    <span class="toolbar-icon" aria-hidden="true">Δ</span>
-                    <span class="toolbar-label">Показать изменения</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="downloadPatchBtn" type="button" aria-label="Скачать изменения" title="Скачать изменения" disabled="">
-                    <span class="toolbar-icon" aria-hidden="true">⇩</span>
-                    <span class="toolbar-label">Скачать изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="importPatchBtn" type="button" aria-label="Импортировать изменения" title="Импортировать изменения">
-                    <span class="toolbar-icon" aria-hidden="true">⇧</span>
-                    <span class="toolbar-label">Импортировать изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="resetChangesBtn" type="button" aria-label="Сбросить изменения" title="Сбросить изменения" disabled="">
-                    <span class="toolbar-icon" aria-hidden="true">↺</span>
-                    <span class="toolbar-label">Сбросить изменения</span>
-                </button>
-                <button class="btn-success toolbar-btn" id="acceptChangesBtn" type="button" aria-label="Принять изменения" title="Принять изменения" disabled="">
-                    <span class="toolbar-icon" aria-hidden="true">✓</span>
-                    <span class="toolbar-label">Принять изменения</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editMetaBtn" type="button" aria-label="Изменить заголовок" title="Изменить заголовок">
-                    <span class="toolbar-icon" aria-hidden="true">T</span>
-                    <span class="toolbar-label">Изменить заголовок</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editJsonBtn" type="button" aria-label="Редактировать данные" title="Редактировать данные">
-                    <span class="toolbar-icon" aria-hidden="true">{}</span>
-                    <span class="toolbar-label">Редактировать данные</span>
-                </button>
-                <button class="btn-secondary toolbar-btn" id="editDirectionsBtn" type="button" aria-label="Добавить направление" title="Добавить направление">
-                    <span class="toolbar-icon" aria-hidden="true">↔</span>
-                    <span class="toolbar-label">Добавить направление</span>
-                </button>
-                <button class="btn-primary toolbar-btn" id="addTaskBtn" type="button" aria-label="Добавить задачу" title="Добавить задачу">
-                    <span class="toolbar-icon" aria-hidden="true">+</span>
-                    <span class="toolbar-label">Добавить задачу</span>
-                </button>
+                <div class="toolbar-panel">
+                    <div class="toolbar-group toolbar-group-nav">
+                        <span class="toolbar-group-label">Навигация</span>
+                        <a class="btn-secondary toolbar-btn toolbar-link action-nav" href="../index.html" aria-label="Назад к архиву" title="Назад к архиву">
+                            <span class="toolbar-icon" aria-hidden="true">←</span>
+                            <span class="toolbar-label">Назад</span>
+                        </a>
+                    </div>
+                    <div class="toolbar-group toolbar-group-capture">
+                        <span class="toolbar-group-label">Скриншот</span>
+                        <button class="btn-secondary toolbar-btn action-capture" id="captureModeBtn" type="button" aria-label="Capture mode" title="Режим скрина">
+                            <span class="toolbar-icon" aria-hidden="true">□</span>
+                            <span class="toolbar-label">Режим скрина</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-capture" id="capturePngBtn" type="button" aria-label="Capture PNG" title="Capture PNG">
+                            <span class="toolbar-icon" aria-hidden="true">↓</span>
+                            <span class="toolbar-label">PNG</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-save">
+                        <span class="toolbar-group-label">Сохранение</span>
+                        <button class="btn-success toolbar-btn action-save" id="saveStateBtn" type="button" aria-label="Сохранить" title="Сохранить">
+                            <span class="toolbar-icon" aria-hidden="true">✓</span>
+                            <span class="toolbar-label">Сохранить HTML</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-save" id="publishReportBtn" type="button" aria-label="Подготовить публикацию" title="Подготовить публикацию">
+                            <span class="toolbar-icon" aria-hidden="true">↗</span>
+                            <span class="toolbar-label">Подготовить публикацию</span>
+                        </button>
+                        <button class="btn-success toolbar-btn action-save" id="acceptChangesBtn" type="button" aria-label="Принять изменения" title="Принять изменения" disabled="">
+                            <span class="toolbar-icon" aria-hidden="true">✓</span>
+                            <span class="toolbar-label">Принять изменения</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-changes">
+                        <span class="toolbar-group-label">Изменения</span>
+                        <button class="btn-secondary toolbar-btn action-changes" id="showChangesBtn" type="button" aria-label="Показать изменения" title="Показать изменения">
+                            <span class="toolbar-icon" aria-hidden="true">Δ</span>
+                            <span class="toolbar-label">Показать изменения</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-changes" id="downloadPatchBtn" type="button" aria-label="Скачать изменения" title="Скачать изменения" disabled="">
+                            <span class="toolbar-icon" aria-hidden="true">⇩</span>
+                            <span class="toolbar-label">Скачать изменения</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-changes" id="importPatchBtn" type="button" aria-label="Импортировать изменения" title="Импортировать изменения">
+                            <span class="toolbar-icon" aria-hidden="true">⇧</span>
+                            <span class="toolbar-label">Импортировать</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-danger" id="resetChangesBtn" type="button" aria-label="Сбросить изменения" title="Сбросить изменения" disabled="">
+                            <span class="toolbar-icon" aria-hidden="true">↺</span>
+                            <span class="toolbar-label">Сбросить изменения</span>
+                        </button>
+                    </div>
+                    <div class="toolbar-group toolbar-group-edit">
+                        <span class="toolbar-group-label">Редактирование</span>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editMetaBtn" type="button" aria-label="Изменить заголовок" title="Изменить заголовок">
+                            <span class="toolbar-icon" aria-hidden="true">T</span>
+                            <span class="toolbar-label">Заголовок</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editJsonBtn" type="button" aria-label="Редактировать данные" title="Редактировать данные">
+                            <span class="toolbar-icon" aria-hidden="true">{}</span>
+                            <span class="toolbar-label">JSON</span>
+                        </button>
+                        <button class="btn-secondary toolbar-btn action-edit" id="editDirectionsBtn" type="button" aria-label="Добавить направление" title="Добавить направление">
+                            <span class="toolbar-icon" aria-hidden="true">↔</span>
+                            <span class="toolbar-label">Направление</span>
+                        </button>
+                        <button class="btn-primary toolbar-btn action-edit" id="addTaskBtn" type="button" aria-label="Добавить задачу" title="Добавить задачу">
+                            <span class="toolbar-icon" aria-hidden="true">+</span>
+                            <span class="toolbar-label">Задача</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <input id="patchImportInput" type="file" accept="application/json,.json" multiple="" hidden="">
         </header>
@@ -4697,7 +5030,7 @@
                         <p class="executive-subtitle">Крупный срез по изменениям в продукте, ближайшим результатам, готовности, часам и рискам.</p>
                     </div>
                     <div class="executive-actions">
-                        <a class="release-map-link" href="release_app (2).html">
+                        <a class="release-map-link" href="../release_app.html">
                             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M7 3v3M17 3v3M4.5 9.5h15" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
                                 <rect x="4" y="5" width="16" height="15" rx="3" stroke="currentColor" stroke-width="2"></rect>
@@ -6988,7 +7321,7 @@
 
     <script>window.__WORKBOARD_EXPORTED_STATE__={"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №21 | 21 Мая 2026","tasks":[{"id":1,"domain":"[B2C][Weight management][Работа с блоком Вес]","owner":"Маргарита Ящук","title":"Energy Balance Transparency (WGHT-1)","startDate":"23.10.2025","releaseDate":"31.08.2026","releaseProgress":48,"status":"in-progress","actualHours":73,"plannedHours":"","description":"Развитие прозрачности функции энергобаланса: пользователь должен лучше понимать, откуда берутся показатели, как они меняются и что именно на них влияет. Проект направлен на повышение доверия к функции и её практической полезности.","focus":"","summary":"","artifactTitle":"Выводы за неделю","artifactNote":"","achievements":[{"date":"15.04.2026","text":"Продуктовое решение готово","status":"done","progress":100},{"date":"31.05.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":80},{"date":"28.07.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"31.08.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":8,"contourId":"","releasePackageId":""},{"id":2,"domain":"[B2C][Weight management][Работа с блоком Вес]","owner":"Маргарита Ящук","title":"Long-term data (WGHT-111)","startDate":"","releaseDate":"31.08.2026","releaseProgress":30,"status":"in-progress","actualHours":47,"plannedHours":"","description":"Вывод более долгосрочных данных по энергобалансу и весу, чтобы пользователь видел не только краткосрочную динамику, но и устойчивые тренды. Это основа для более осознанного ведения пользователя к его целям.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"15.04.2026","text":"Продуктовое решение готово","status":"in-progress","progress":69},{"date":"22.05.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":50},{"date":"20.08.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"31.08.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":15,"contourId":"","releasePackageId":""},{"id":3,"domain":"[Устройства][Сопровождение устройств][Neem UX improvements]","owner":"Маргарита Ящук","title":"NeeM MVP (Sync \u0026 Battery) (NEEM-2)","startDate":"","releaseDate":"12.05.2026","releaseProgress":89,"status":"test","actualHours":35,"plannedHours":"","description":"NEEM с базовой синхронизацией с приложением и поддержкой сценариев, связанных с аккумулятором. Цель - довести продукт до стабильного релизного состояния и подготовить его к полноценному запуску в экосистеме Healbe.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"15.01.2026","text":"Продуктовое решение готово","status":"done","progress":100},{"date":"10.03.2026","text":"Техническая подготовка завершена","status":"done","progress":100},{"date":"15.04.2026","text":"Тестовая сборка","status":"in-progress","progress":80},{"date":"12.05.2026","text":"Реализация в МА","status":"in-progress","progress":80}],"ceoFocus":"","weeklyProgress":5,"contourId":"","releasePackageId":""},{"id":5,"domain":"[B2C][Health][Оценка ССС]","owner":"Александр Петряков","title":"ЭКГ MVP 1.0 B2C (HLTH-3)","startDate":"","releaseDate":"31.08.2026","releaseProgress":86,"status":"in-progress","actualHours":6,"plannedHours":"","description":"Первая потребительская версия ЭКГ-функции в экосистеме Healbe. Проект нацелен на запуск понятного и ценного для массового пользователя сценария работы с ЭКГ внутри приложения.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"30.08.2025","text":"Продуктовое решение готово","status":"done","progress":100},{"date":"15.05.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":55},{"date":"28.08.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"31.08.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":2,"contourId":"","releasePackageId":""},{"id":6,"domain":"[B2C][Lifestyle][Оценка ССС]","owner":"Александр Петряков","title":"ВСР MVP 1.0 B2C (HLTH-116)","startDate":"","releaseDate":"23.12.2026","releaseProgress":24,"status":"in-progress","actualHours":4,"plannedHours":"","description":"Первая B2C-версия функции вариабельности сердечного ритма как нового кардио-показателя в экосистеме Healbe. Задача - дать пользователю понятный инструмент для оценки состояния и восстановления на базе ВСР и индекса Баевского","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"30.06.2026","text":"Продуктовое решение готово","status":"in-progress","progress":45},{"date":"","text":"Техническая подготовка завершена","status":"in-progress","progress":5},{"date":"20.12.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"23.12.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":3,"contourId":"","releasePackageId":""},{"id":9,"domain":"[Устройства][Разработка][Инкубатор]","owner":"Павел Павлюк","title":"Умная колонка (INC-1)","startDate":"04.12.2025","releaseDate":"22.07.2026","releaseProgress":59,"status":"in-progress","actualHours":"","plannedHours":"","description":"Исследовательский трек по поиску роли голосового ассистента и умной колонки и браслета GoBe в экосистеме Healbe. Проект нужен, чтобы понять, может ли голосовой интерфейс стать полезной точкой взаимодействия с пользователем дома.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"29.01.2026","text":"ТЗ исследования","status":"done","progress":100},{"date":"10.02.2026","text":"Выбор подрядчика","status":"done","progress":98},{"date":"10.03.2026","text":"1й-этап исследования","status":"done","progress":100},{"date":"20.03.2026","text":"Закупка/анализ  колонок","status":"done","progress":100},{"date":"18.03.2026","text":"По для стенда","status":"done","progress":100},{"date":"31.05.2026","text":"Анализ  колонок","status":"in-progress","progress":40},{"date":"22.05.2026","text":"2й-этап исследования","status":"in-progress","progress":50},{"date":"22.05.2026","text":"Исследование ЭР- телеком  - 12.05.2026","status":"in-progress","progress":20},{"date":"28.05.2026","text":"3й-этап исследования","status":"planned","progress":0},{"date":"22.07.2026","text":"Презентация инвестору","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":6,"contourId":"","releasePackageId":""},{"id":10,"domain":"[B2B][EDA-Platform][Инкубатор]","owner":"Павел Павлюк","title":"Healbe EDA Platform (INC-125)","startDate":"01.12.2025","releaseDate":"14.12.2026","releaseProgress":29,"status":"discovery","actualHours":"","plannedHours":"","description":"Платформа на базе EDA-направления, ориентированная на новые сценарии использования наших данных и технологий в партнёрских и специализированных продуктах. Это отдельный продуктовый трек на стыке исследований, B2B и новых форм цифрового сервиса.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"17.01.2026","text":"Запуск лэндинга (EN)","status":"done","progress":100},{"date":"12.03.2026","text":"Оценка методики Стивета","status":"done","progress":100},{"date":"30.04.2026","text":"СustDev 1 этап","status":"in-progress","progress":80},{"date":"01.05.2026","text":"План развития проекта","status":"in-progress","progress":90},{"date":"01.06.2026","text":"Локализация лендинга (RU)","status":"planned","progress":0},{"date":"26.06.2026","text":"БэН 2.0","status":"planned","progress":0},{"date":"01.07.2026","text":"НИР распознавания эмоций","status":"planned","progress":0},{"date":"01.07.2026","text":"Требования к развитию apk2.0","status":"planned","progress":0},{"date":"01.08.2026","text":"apk 2.0 под RU","status":"planned","progress":0},{"date":"26.10.2026","text":"БэН 3.0","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":2,"contourId":"","releasePackageId":""},{"id":11,"domain":"[B2G][Гранты][СПбГУ (40 больница)]","owner":"Павел Павлюк","title":"Грант СПбГУ (40 больница)","startDate":"2025-09-01","releaseDate":"31.12.2026","releaseProgress":38,"status":"contract","actualHours":"","plannedHours":"","description":"Совместный проект с СПбГУ, связанный с исследовательской и продуктовой проработкой новых направлений. Нужен для проверки гипотез, усиления научного контура и возможного привлечения внешней поддержки.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"06.02.2026","text":"Формирование проекта","status":"done","progress":100},{"date":"30.04.2026","text":"Подписание договора","status":"in-progress","progress":95},{"date":"15.05.2026","text":"ПО для исследований v1","status":"in-progress","progress":5},{"date":"30.05.2026","text":"ПО для исследований v2","status":"planned","progress":0},{"date":"01.06.2026","text":"Старт сбора данных *","status":"planned","progress":0},{"date":"01.12.2026","text":"Статьи исследования","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":4,"contourId":"","releasePackageId":""},{"id":12,"domain":"[B2B][][Инкубатор B2B/B2G]","owner":"Павел Павлюк","title":"Пре-проекты (ПМЭФ)","startDate":"16.04.2026","releaseDate":"01.06.2026","releaseProgress":25,"status":"in-progress","actualHours":"","plannedHours":"","description":"Набор инициатив, которые подготавливаются для демонстрации на выставках и внешних площадках: презентации, сценарии показа, визуалы, стенды и упрощённые продуктовые версии. Их задача - упаковать наши решения в понятный и убедительный формат для партнёров и рынка.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"23.04.2026","text":"Продуктовое решение готово","status":"done","progress":100},{"date":"28.04.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":95},{"date":"20.05.2026","text":"Тестовая сборка","status":"in-progress","progress":5},{"date":"03.06.2026","text":"Демонстрация на ПМЭФ","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":4,"contourId":"","releasePackageId":""},{"id":1777285952145,"domain":"[B2C][Weight management][Работа с блоком Вес]","owner":"Маргарита Ящук","title":"Complex indicator (WGHT-112)","startDate":"","releaseDate":"26.10.2026","releaseProgress":39,"status":"in-progress","actualHours":39,"plannedHours":"","description":"Комплексный показатель, который объединяет несколько метрик браслета и приложения в один более понятный индикатор состояния пользователя. Нужен для того, чтобы переводить сырые данные в прикладной и интерпретируемый продуктовый смысл.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"30.04.2026","text":"Продуктовое решение готово","status":"in-progress","progress":95},{"date":"21.08.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":5},{"date":"","text":"Тестовая сборка","status":"planned","progress":0},{"date":"26.10.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":11,"contourId":"","releasePackageId":""},{"id":1777287977653,"domain":"[B2B][][Инкубатор B2B/B2G]","owner":"Маргарита Ящук","title":"НМИЦ ТПМ (INC-87)","startDate":"09.04.2026","releaseDate":"30.06.2026","releaseProgress":60,"status":"in-progress","actualHours":"","plannedHours":"","description":"Совместный исследовательский и медицинский контур с НМИЦ ТПМ для валидации методик, исследований и возможных клинических сценариев применения наших решений. Это один из ключевых партнёрских треков для укрепления медицинской доказательной базы продуктов.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"20.04.2026","text":"Инструкция \"Кабинет диетолога\"","status":"done","progress":100},{"date":"20.04.2026","text":"Инструкция \"Работы браслета\"","status":"done","progress":100},{"date":"12.04.2026","text":"Промо-коды и спецпредложения","status":"done","progress":100},{"date":"09.04.2026","text":"Договор на передачу браслетов","status":"done","progress":100},{"date":"30.04.2026","text":"Буклеты","status":"done","progress":100},{"date":"30.06.2026","text":"Методика работы с Клиниками","status":"planned","progress":0},{"date":"","text":"Отчет об исследовании","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":5,"contourId":"","releasePackageId":""},{"id":1777291662751,"domain":"[B2G][РУ][РУ 1]","owner":"Павел Павлюк","title":"РУ","startDate":"15.01.2026","releaseDate":"01.10.2026","releaseProgress":44,"status":"in-progress","actualHours":42,"plannedHours":"","description":"Отдельное продуктовое решение на базе GoBe, которое готовится под регистрационное удостоверение. Это самостоятельная медицинская линия со своим приложением, упаковкой, инструкцией и логикой использования, отличной от классического B2C-продукта.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"15.01.2026","text":"Планирование проекта","status":"done","progress":100},{"date":"25.04.2026","text":"НИР","status":"done","progress":100},{"date":"25.05.2026","text":"Токсикологическое испытание","status":"in-progress","progress":10},{"date":"05.06.2026","text":"FW","status":"in-progress","progress":50},{"date":"05.06.2026","text":"Разработка МА","status":"in-progress","progress":70},{"date":"01.06.2026","text":"СМК","status":"planned","progress":5},{"date":"01.06.2026","text":"Коробка","status":"in-progress","progress":30},{"date":"28.06.2026","text":"Инструкция","status":"planned","progress":0},{"date":"01.07.2026","text":"Прохождение Тех. исп.","status":"planned","progress":0},{"date":"01.08.2026","text":"Прохождение ЛЭК","status":"planned","progress":0},{"date":"15.09.2026","text":"Клинические испытания","status":"planned","progress":0},{"date":"01.10.2026","text":"Получение РУ","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":12,"contourId":"","releasePackageId":""},{"id":1777292582500,"domain":"[B2C][Health][Оценка ССС]","owner":"Александр Петряков","title":"Аритмия MVP (HLTH-112)","startDate":"24.03.2026","releaseDate":"26.10.2026","releaseProgress":28,"status":"in-progress","actualHours":3,"plannedHours":"","description":"Функционал по выявлению и отображению признаков аритмии, как в медицинском, так и в B2C-контуре. Цель - превратить это направление в самостоятельную ценность для пользователя и часть будущего кардио-блока продукта.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"30.04.2026","text":"Продуктовое решение готово","status":"in-progress","progress":95},{"date":"10.05.2026","text":"Техническая подготовка завершена","status":"in-progress","progress":5},{"date":"20.10.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"26.10.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":4,"contourId":"","releasePackageId":""},{"id":1777510859399,"domain":"[НИР][Health][Инкубатор]","owner":"Александр Петряков","title":"Индекс здоровья сердца (HLTH-118)","startDate":"","releaseDate":"14.05.2026","releaseProgress":5,"status":"discovery","actualHours":"","plannedHours":"","description":"Показатель или система оценки, которая должна собирать кардио-данные пользователя в понятный интегральный результат. Это задача сделать сердечный блок более прикладным и легко интерпретируемым.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"14.05.2026","text":"Продуктовое решение готово","status":"in-progress","progress":0},{"date":"","text":"Техническая подготовка завершена","status":"planned","progress":0},{"date":"20.12.2026","text":"Тестовая сборка","status":"planned","progress":0},{"date":"23.12.2026","text":"Релиз функции","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":3,"contourId":"","releasePackageId":""},{"id":1778106298085,"domain":"[B2C][Weight management][Работа с блоком Вес]","owner":"Маргарита Ящук","title":"Weight Trend (WGHT-110)","startDate":"10.03.2026","releaseDate":"23.12.2026","releaseProgress":12,"status":"evaluation","actualHours":"","plannedHours":"","description":"дать пользователям ясное и интуитивно понятное представление о реальной динамике их веса, отфильтровав ежедневные колебания и создав основу для прогнозов достижения цели.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"10.03.2026","text":"Продуктовое исследование","status":"done","progress":100},{"date":"30.03.2026","text":"Продуктовые требования","status":"done","progress":100},{"date":"","text":"UX/UI","status":"planned","progress":0},{"date":"30.11.2026","text":"Тестирование","status":"planned","progress":0},{"date":"23.12.2026","text":"Реализация в МА","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":0,"contourId":"","releasePackageId":""},{"id":1778106871774,"domain":"[B2C][Weight management][Работа с блоком Вес]","owner":"Маргарита Ящук","title":"Weekly plan MVP (WGHT-113)","startDate":"20.10.2025","releaseDate":"","releaseProgress":0,"status":"evaluation","actualHours":"","plannedHours":"","description":"Помочь пользователям достигать еженедельных микро-целей, превращая долгосрочное (месяцы) намерение в понятный, управляемый план (недели) действий с ежедневной поддержкой.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"14.11.2026","text":"Продуктовое исследование","status":"done","progress":100},{"date":"","text":"Продуктовые требования","status":"planned","progress":60},{"date":"","text":"Тестирование","status":"planned","progress":0},{"date":"","text":"Реализация в МА","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":0,"contourId":"","releasePackageId":""},{"id":1778108063462,"domain":"[Устройства][Сопровождение устройств][Neem UX improvements]","owner":"Маргарита Ящук","title":"Multi device (IMA-1)","startDate":"10.11.2025","releaseDate":"29.06.2026","releaseProgress":0,"status":"in-progress","actualHours":"","plannedHours":"","description":"Расширить функционал мобильного приложения для работы не только с браслетом, но и с другими устройствами, такими как умные кольца, весы, NEEM, ЭКГ-мониторы и прочие. Обеспечить унифицированное подключение, настройку и отображение данных с разных устройств.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"01.10.2025","text":"Продуктовое исследование","status":"done","progress":100},{"date":"24.11.2025","text":"Продуктовые требования","status":"done","progress":100},{"date":"18.06.2026","text":"Тестирование","status":"in-progress","progress":30},{"date":"29.06.2026","text":"Реализация в МА","status":"in-progress","progress":40}],"ceoFocus":"","weeklyProgress":0,"contourId":"","releasePackageId":""},{"id":1778108353654,"domain":"[Устройства][Сопровождение устройств][Neem UX improvements]","owner":"Маргарита Ящук","title":"Usage history (NEEM-3)","startDate":"","releaseDate":"29.06.2026","releaseProgress":0,"status":"in-progress","actualHours":"","plannedHours":"","description":"Мобильное приложение выступает в роли персонального дневника терапии, беря на себя функции хранения, анализа и визуализации всех данных о сеансах.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"01.11.2025","text":"Продуктовое исследование","status":"done","progress":100},{"date":"24.12.2025","text":"Продуктовые требования","status":"done","progress":100},{"date":"18.06.2026","text":"Тестирование","status":"in-progress","progress":0},{"date":"29.06.2026","text":"Реализация в МА","status":"in-progress","progress":32}],"ceoFocus":"","weeklyProgress":0,"contourId":"","releasePackageId":""},{"id":1778200001001,"domain":"[Устройства][GoBe Lora]","owner":"Сергей Волков","title":"GoBe Lora","startDate":"01.04.2026","releaseDate":"20.12.2026","releaseProgress":9,"status":"evaluation","actualHours":88,"plannedHours":"","description":"ODM/OEM смарт-часы с минимальным набором health-параметров мониторинга, GPS-позиционированием и каналом передачи данных LoRaMesh.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"28.04.2026","text":"Формирование паспорта проекта","status":"done","progress":100},{"date":"30.04.2026","text":"Описание продуктовых требований","status":"done","progress":100},{"date":"30.05.2026","text":"PoC","status":"in-progress","progress":45},{"date":"12.06.2026","text":"Описание технических требований","status":"in-progress","progress":80},{"date":"31.05.2026","text":"[LT]: сделать трассировку платы Lora","status":"in-progress","progress":40},{"date":"31.05.2026","text":"CN: сделать трассировку нижней платы","status":"in-progress","progress":30},{"date":"31.05.2026","text":"[LT]: Сформировать пакет документов","status":"planned","progress":20},{"date":"25.05.2026","text":"[LT] Сделать тестовый стенд","status":"planned","progress":20},{"date":"20.06.2026","text":"Подготовить пакет документов для Китая","status":"planned","progress":0},{"date":"25.08.2026","text":"Прототип","status":"planned","progress":0},{"date":"20.07.2026","text":"Макет","status":"planned","progress":0},{"date":"15.10.2026","text":"Pre-EVT, инженерный макет","status":"planned","progress":0},{"date":"15.12.2026","text":"EVT","status":"planned","progress":0},{"date":"15.02.2027","text":"DVT","status":"planned","progress":0},{"date":"31.03.2027","text":"PVT","status":"planned","progress":0},{"date":"30.04.2027","text":"MP","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":1,"contourId":"gobe_lora","releasePackageId":""},{"id":1778200001002,"domain":"[Устройства][GoBe U Simple]","owner":"Сергей Волков","title":"GoBe U Simple","startDate":"01.04.2026","releaseDate":"30.04.2027","releaseProgress":10,"status":"evaluation","actualHours":94.5,"plannedHours":"","description":"Более дешевый вариант устройства GoBe U, наследующий аппаратную и программную архитектуру, но использующий более дешевые компоненты и материалы.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"31.03.2026","text":"Эксперимент по применению SAM","status":"done","progress":100},{"date":"31.03.2026","text":"Концепт","status":"done","progress":100},{"date":"31.03.2026","text":"Составить требования к конструкции","status":"done","progress":100},{"date":"31.03.2026","text":"Собрать требования для Китая","status":"done","progress":100},{"date":"31.03.2026","text":"Получить информацию от Китая","status":"done","progress":100},{"date":"10.05.2026","text":"Проверить полученные образцы","status":"in-progress","progress":80},{"date":"15.05.2026","text":"Схемотехника","status":"in-progress","progress":50},{"date":"22.05.2026","text":"Подготовить юридические документы","status":"in-progress","progress":55},{"date":"31.05.2026","text":"Pre-EVT, инженерный макет 2026","status":"in-progress","progress":10},{"date":"20.05.2026","text":"Произвести оплату по NRE и поставке","status":"planned","progress":0},{"date":"31.12.2026","text":"EVT_2026","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":1,"contourId":"gobe_u_simple","releasePackageId":""},{"id":1778200001003,"domain":"[Устройства][GoBe5]","owner":"Сергей Волков","title":"GoBe5","startDate":"31.03.2026","releaseDate":"","releaseProgress":11,"status":"evaluation","actualHours":346,"plannedHours":"","description":"Устройство GoBe5 на базе OEM/ODM часов, в которое встроен функционал GoBe U с минимальными доработками ПО. Измерительную часть делает Healbe, а коммуникационную - ODM-партнер.","focus":"","summary":"","artifactTitle":"","artifactNote":"","achievements":[{"date":"31.03.2026","text":"Эксперимент по применению SAM","status":"done","progress":100},{"date":"31.03.2026","text":"Концепт","status":"done","progress":100},{"date":"31.03.2026","text":"Составить требования к конструкции","status":"done","progress":100},{"date":"31.03.2026","text":"Собрать требования для Китая","status":"done","progress":100},{"date":"31.03.2026","text":"Получить информацию от Китая","status":"done","progress":100},{"date":"24.03.2026","text":"PoC","status":"in-progress","progress":35},{"date":"15.05.2026","text":"Проверить полученные образцы","status":"in-progress","progress":80},{"date":"15.06.2026","text":"Схемотехника","status":"in-progress","progress":50},{"date":"22.05.2026","text":"Подготовить юридические документы","status":"in-progress","progress":55},{"date":"31.05.2026","text":"Предоставить спецификацию","status":"planned","progress":20},{"date":"30.06.2026","text":"Pre-EVT, инженерный макет 2026","status":"planned","progress":10},{"date":"31.05.2026","text":"Произвести оплату по NRE и поставке","status":"planned","progress":0},{"date":"31.12.2026","text":"EVT_2026","status":"planned","progress":0}],"ceoFocus":"","weeklyProgress":0,"contourId":"gobe5","releasePackageId":""}],"directions":[{"id":"weight","title":"Управление весом","goal":"Пересобираем путь пользователя от данных о весе и энергобалансе к понятному плану действий.","projectMatchers":["Energy Balance Transparency","Long-term data","Weight Trend","Complex indicator","Weekly plan","Weekly Plan","WGHT"],"releaseResults":[],"icon":"","color":"","order":0},{"id":"cardio","title":"Кардио-функции","goal":"Формируем пользовательский сценарий оценки сердечно-сосудистого состояния: ЭКГ, аритмия, ВСР и интегральные показатели.","projectMatchers":["ЭКГ","ВСР","Аритмия","Индекс здоровья сердца","Heart","HLTH"],"releaseResults":[],"icon":"","color":"","order":1},{"id":"neem_devices","title":"NEEM и устройства","goal":"Развиваем устройство NEEM и мультидевайсный контур экосистемы Healbe.","projectMatchers":["NeeM","NEEM","умные весы","Smart scales"],"releaseResults":[],"icon":"","color":"","order":2},{"id":"regulatory","title":"РУ","goal":"Ведем отдельное медицинское направление продукта под регистрационное удостоверение.","projectMatchers":["РУ"],"releaseResults":[],"icon":"","color":"","order":3},{"id":"b2b_research","title":"B2B и исследования","goal":"Развиваем партнерские, исследовательские и демонстрационные направления: EDA, СПбГУ, НМИЦ, ПМЭФ, умная колонка.","projectMatchers":["EDA","СПбГУ","НМИЦ","Умная колонка","ПМЭФ","Грант","INC"],"releaseResults":[],"icon":"","color":"","order":4},{"id":"gobe_lora","title":"GoBe Lora","goal":"ODM/OEM смарт-часы с минимальным набором health-параметров мониторинга, GPS-позиционированием и каналом передачи данных LoRaMesh.","projectMatchers":["GoBe Lora","LoRa","LoRaMesh"],"releaseResults":[],"icon":"","color":"","order":5},{"id":"gobe_u_simple","title":"GoBe U Simple","goal":"Более дешевый вариант устройства GoBe U, наследующий аппаратную и программную архитектуру, но использующий более дешевые компоненты и материалы.","projectMatchers":["GoBe U Simple","GoBe U"],"releaseResults":[],"icon":"","color":"","order":6},{"id":"gobe5","title":"GoBe5","goal":"Устройство GoBe5 на базе OEM/ODM часов, в которое встроен функционал GoBe U с минимальными доработками ПО. Измерительную часть делает Healbe, а коммуникационную - ODM-партнер.","projectMatchers":["GoBe5","GoBe 5"],"releaseResults":[],"icon":"","color":"","order":7}]};</script>
     <script>
-        const STORAGE_KEY = "weekly_workboard_report_builder_state_export_1779140048236";
+        const STORAGE_KEY = "weekly_workboard_report_builder_state_export_1779312114822";
         const EXPORTED_STATE_GLOBAL = "__WORKBOARD_EXPORTED_STATE__";
         const REPORT_REGISTRY_KEY = "healbe_weekly_report_registry";
         const REPORT_RECORD_PREFIX = "healbe_weekly_report_record_";
@@ -7155,7 +7488,7 @@
                 title: "NEEM MVP + умные весы + инсайты",
                 date: "12.05.2026",
                 label: "12 мая",
-                releaseUrl: "release_app (2).html#1773776214811",
+                releaseUrl: "../release_app.html#1773776214811",
                 projectMatchers: ["NeeM MVP", "NEEM-2"]
             },
             {
@@ -7164,7 +7497,7 @@
                 title: "Multi-device + Usage history NEEM",
                 date: "29.06.2026",
                 label: "29 июня",
-                releaseUrl: "release_app (2).html#1773776694649",
+                releaseUrl: "../release_app.html#1773776694649",
                 projectMatchers: ["Multi device", "Multi-device", "Usage history", "NEEM-3", "мультидевайс"]
             },
             {
@@ -7173,7 +7506,7 @@
                 title: "Energy Balance Transparency + ЭКГ + Long-term data",
                 date: "31.08.2026",
                 label: "31 августа",
-                releaseUrl: "release_app (2).html#1773777223820",
+                releaseUrl: "../release_app.html#1773777223820",
                 projectMatchers: ["Energy Balance Transparency", "Long-term data", "ЭКГ"]
             },
             {
@@ -7182,7 +7515,7 @@
                 title: "Complex indicator + аритмия",
                 date: "26.10.2026",
                 label: "26 октября",
-                releaseUrl: "release_app (2).html#1773777519158",
+                releaseUrl: "../release_app.html#1773777519158",
                 projectMatchers: ["Complex indicator", "Аритмия"]
             },
             {
@@ -7191,7 +7524,7 @@
                 title: "Weight Trend + ВСР + темная тема + NEEM OTA",
                 date: "23.12.2026",
                 label: "23 декабря",
-                releaseUrl: "release_app (2).html#1773778008956",
+                releaseUrl: "../release_app.html#1773778008956",
                 projectMatchers: ["Weight Trend", "ВСР", "Индекс здоровья сердца"]
             }
         ];
@@ -7299,6 +7632,7 @@
         function bindEvents() {
             setupToolbarMenu();
             document.getElementById("saveStateBtn").addEventListener("click", exportStateBackup);
+            document.getElementById("publishReportBtn")?.addEventListener("click", preparePublicationPackage);
             document.getElementById("showChangesBtn")?.addEventListener("click", openChangesDialog);
             document.getElementById("downloadPatchBtn")?.addEventListener("click", downloadChangesPatch);
             document.getElementById("importPatchBtn")?.addEventListener("click", () => patchImportInput?.click());
@@ -7367,7 +7701,7 @@
             toolbar.addEventListener("click", (event) => {
                 const actionButton = event.target instanceof Element ? event.target.closest("button") : null;
                 if (!actionButton || actionButton === toggleButton) return;
-                if (window.matchMedia("(max-width: 640px)").matches) {
+                if (window.matchMedia("(max-width: 980px)").matches) {
                     window.setTimeout(closeMenu, 0);
                 }
             });
@@ -10031,16 +10365,118 @@
         }
 
         function exportStateBackup() {
-            const payload = buildExportHtml();
-            const blob = new Blob([payload], { type: "text/html;charset=utf-8" });
+            downloadTextFile(buildBackupFilename(), buildExportHtml(), "text/html;charset=utf-8");
+        }
+
+        async function preparePublicationPackage() {
+            let existingReports = [];
+            let reportsLoaded = false;
+
+            try {
+                const response = await fetch(`./reports.json?ts=${Date.now()}`, { cache: "no-store" });
+                if (!response.ok) throw new Error(`reports.json ${response.status}`);
+                const parsed = await response.json();
+                existingReports = Array.isArray(parsed) ? parsed : [];
+                reportsLoaded = true;
+            } catch (error) {
+                reportsLoaded = false;
+            }
+
+            if (!reportsLoaded) {
+                const shouldContinue = window.confirm(
+                    "Не удалось прочитать текущий reports.json. Сформировать новый reports.json только с текущим отчетом?"
+                );
+                if (!shouldContinue) return;
+            }
+
+            const htmlFileName = buildBackupFilename();
+            const reportEntry = buildArchiveReportEntry(htmlFileName);
+            const nextReports = buildUpdatedReportsRegistry(existingReports, reportEntry);
+
+            downloadTextFile(htmlFileName, buildExportHtml(), "text/html;charset=utf-8");
+            window.setTimeout(() => {
+                downloadTextFile("reports.json", JSON.stringify(nextReports, null, 2), "application/json;charset=utf-8");
+            }, 350);
+        }
+
+        function downloadTextFile(fileName, payload, type) {
+            const blob = new Blob([payload], { type });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
             link.href = url;
-            link.download = buildBackupFilename();
+            link.download = fileName;
             document.body.appendChild(link);
             link.click();
             link.remove();
             window.setTimeout(() => URL.revokeObjectURL(url), 0);
+        }
+
+        function buildArchiveReportEntry(fileName) {
+            const tasks = Array.isArray(state.tasks) ? state.tasks : [];
+            return {
+                title: state.title || "Недельный срез продуктовых работ Healbe",
+                meta: state.meta || "",
+                url: fileName,
+                updatedAt: parseRussianDateFromMeta(state.meta || "") || formatDateForFilename(new Date()),
+                taskCount: tasks.length
+            };
+        }
+
+        function buildUpdatedReportsRegistry(existingReports, currentEntry) {
+            const seen = new Set();
+            const merged = [];
+
+            [currentEntry, ...existingReports].forEach((item) => {
+                if (!item || typeof item !== "object") return;
+                const key = getArchiveReportKey(item);
+                if (seen.has(key)) return;
+                seen.add(key);
+                merged.push(item);
+            });
+
+            return merged.sort((a, b) => getArchiveReportSortTime(b) - getArchiveReportSortTime(a));
+        }
+
+        function getArchiveReportKey(item) {
+            const meta = normalizeArchiveReportPart(item.meta);
+            const weekMatch = meta.match(/неделя\s*№?\s*(\d+)/i);
+            const dateMatch = meta.match(/(\d{1,2})\s+[а-яa-z]+\s+(\d{4})/i);
+            if (weekMatch) {
+                return `week:${weekMatch[1]}:${dateMatch ? dateMatch[0] : ""}`;
+            }
+
+            const url = normalizeArchiveReportPart(item.url);
+            const fileWeekMatch = url.match(/week[-_]?(\d+)[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+            if (fileWeekMatch) {
+                return `file-week:${fileWeekMatch[1]}:${fileWeekMatch[2]}-${fileWeekMatch[3]}-${fileWeekMatch[4]}`;
+            }
+
+            return `fallback:${normalizeArchiveReportPart(item.title)}:${meta}:${url}`;
+        }
+
+        function normalizeArchiveReportPart(value) {
+            return String(value || "")
+                .toLowerCase()
+                .replace(/ё/g, "е")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function getArchiveReportSortTime(item) {
+            const byUpdatedAt = parseIsoDateToTime(item.updatedAt);
+            if (byUpdatedAt) return byUpdatedAt;
+
+            const byMeta = parseRussianDateFromMeta(item.meta || "");
+            if (byMeta) return parseIsoDateToTime(byMeta);
+
+            return 0;
+        }
+
+        function parseIsoDateToTime(value) {
+            const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (!match) return 0;
+            const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+            return Number.isFinite(date.getTime()) ? date.getTime() : 0;
         }
 
         function buildBackupFilename() {
