@@ -4692,16 +4692,16 @@
             transition: max-width 180ms ease, opacity 160ms ease;
         }
 
-        .toolbar:hover .toolbar-toggle,
-        .toolbar:focus-within .toolbar-toggle,
+        .toolbar:not(.is-hover-suppressed):hover .toolbar-toggle,
+        .toolbar:not(.is-hover-suppressed):focus-within .toolbar-toggle,
         .toolbar.is-open .toolbar-toggle {
             width: 128px !important;
             justify-content: flex-start !important;
             padding: 0 14px !important;
         }
 
-        .toolbar:hover .toolbar-toggle-text,
-        .toolbar:focus-within .toolbar-toggle-text,
+        .toolbar:not(.is-hover-suppressed):hover .toolbar-toggle-text,
+        .toolbar:not(.is-hover-suppressed):focus-within .toolbar-toggle-text,
         .toolbar.is-open .toolbar-toggle-text {
             max-width: 96px;
             opacity: 1;
@@ -4733,8 +4733,8 @@
                 border-width 180ms ease;
         }
 
-        .toolbar:hover .toolbar-panel,
-        .toolbar:focus-within .toolbar-panel,
+        .toolbar:not(.is-hover-suppressed):hover .toolbar-panel,
+        .toolbar:not(.is-hover-suppressed):focus-within .toolbar-panel,
         .toolbar.is-open .toolbar-panel {
             width: min(440px, calc(100vw - 36px));
             max-height: calc(100dvh - 92px);
@@ -4898,8 +4898,8 @@
             }
 
             .toolbar-toggle,
-            .toolbar:hover .toolbar-toggle,
-            .toolbar:focus-within .toolbar-toggle,
+            .toolbar:not(.is-hover-suppressed):hover .toolbar-toggle,
+            .toolbar:not(.is-hover-suppressed):focus-within .toolbar-toggle,
             .toolbar.is-open .toolbar-toggle {
                 width: 100% !important;
                 justify-content: space-between !important;
@@ -4911,7 +4911,8 @@
                 opacity: 1;
             }
 
-            .toolbar:not(.is-open):not(:focus-within) .toolbar-panel {
+            .toolbar:not(.is-open):not(:focus-within) .toolbar-panel,
+            .toolbar.is-hover-suppressed:not(.is-open) .toolbar-panel {
                 width: 100% !important;
                 max-height: 0 !important;
                 padding: 0 !important;
@@ -4921,7 +4922,7 @@
             }
 
             .toolbar.is-open .toolbar-panel,
-            .toolbar:focus-within .toolbar-panel {
+            .toolbar:not(.is-hover-suppressed):focus-within .toolbar-panel {
                 width: 100% !important;
                 max-height: 78dvh !important;
                 padding: 10px !important;
@@ -6059,6 +6060,7 @@
         const PATCH_FILE_TYPE = "healbe-weekly-report-patch";
         const PATCH_BASE_VERSION = 1;
         const PATCH_AUTHOR_KEY = getActiveStorageKey() + "_patch_author";
+        const PATCH_BASELINE_KEY = getActiveStorageKey() + "_patch_baseline";
         const PATCH_TRACKED_FIELDS = [
             "title",
             "domain",
@@ -6308,7 +6310,7 @@
         let currentContourFilter = loadContourFilter();
         let expandedExecutiveContourId = null;
         let editingDirectionId = null;
-        let originalState = clonePatchData(state);
+        let originalState = loadPatchBaseline(state);
         let originalStateHash = hashPatchValue(originalState);
         let currentPatchSnapshot = null;
         let currentTaskChangeMap = new Map();
@@ -6415,22 +6417,45 @@
             const toggleButton = document.getElementById("toolbarToggleBtn");
             if (!toolbar || !toggleButton) return;
 
-            const closeMenu = () => {
+            const closeMenu = ({ suppressHover = false } = {}) => {
                 toolbar.classList.remove("is-open");
+                toolbar.classList.toggle("is-hover-suppressed", suppressHover);
                 toggleButton.setAttribute("aria-expanded", "false");
+                if (suppressHover && document.activeElement instanceof HTMLElement && toolbar.contains(document.activeElement)) {
+                    document.activeElement.blur();
+                }
+            };
+
+            const openMenu = () => {
+                toolbar.classList.add("is-open");
+                toolbar.classList.remove("is-hover-suppressed");
+                toggleButton.setAttribute("aria-expanded", "true");
             };
 
             toggleButton.addEventListener("click", (event) => {
                 event.stopPropagation();
-                const isOpen = toolbar.classList.toggle("is-open");
-                toggleButton.setAttribute("aria-expanded", String(isOpen));
+                if (toolbar.classList.contains("is-open")) {
+                    closeMenu({ suppressHover: true });
+                    return;
+                }
+                openMenu();
+            });
+
+            toolbar.addEventListener("pointerleave", () => {
+                toolbar.classList.remove("is-hover-suppressed");
+            });
+
+            toggleButton.addEventListener("focus", () => {
+                if (!toolbar.matches(":hover")) {
+                    toolbar.classList.remove("is-hover-suppressed");
+                }
             });
 
             toolbar.addEventListener("click", (event) => {
                 const actionButton = event.target instanceof Element ? event.target.closest("button") : null;
                 if (!actionButton || actionButton === toggleButton) return;
                 if (window.matchMedia("(max-width: 980px)").matches) {
-                    window.setTimeout(closeMenu, 0);
+                    window.setTimeout(() => closeMenu({ suppressHover: true }), 0);
                 }
             });
         }
@@ -8773,6 +8798,7 @@
             if (!window.confirm("Принять текущие правки как новую базу отчета? Подсветка изменений исчезнет, и можно будет импортировать следующий patch.")) return;
             originalState = clonePatchData(state);
             originalStateHash = hashPatchValue(originalState);
+            persistPatchBaseline(originalState);
             pendingImportConflicts = [];
             persistAndRender();
             changesDialog?.close();
@@ -9688,6 +9714,30 @@
 
         function getActiveStorageKey() {
             return REPORT_QUERY_ID ? `${REPORT_RECORD_PREFIX}${REPORT_QUERY_ID}` : STORAGE_KEY;
+        }
+
+        function loadPatchBaseline(fallbackState) {
+            try {
+                const raw = localStorage.getItem(PATCH_BASELINE_KEY);
+                if (raw) {
+                    const storedBaseline = buildStateFromSource(JSON.parse(raw));
+                    if (storedBaseline) return storedBaseline;
+                }
+            } catch (error) {
+            }
+
+            const exportedBaseline = REPORT_QUERY_ID ? null : buildStateFromSource(window[EXPORTED_STATE_GLOBAL]);
+            const baseline = exportedBaseline || buildStateFromSource(fallbackState) || structuredClone(DEFAULT_STATE);
+            persistPatchBaseline(baseline);
+            return clonePatchData(baseline);
+        }
+
+        function persistPatchBaseline(sourceState) {
+            if (!sourceState) return;
+            try {
+                localStorage.setItem(PATCH_BASELINE_KEY, JSON.stringify(sourceState));
+            } catch (error) {
+            }
         }
 
         function createSeedReportState(record) {
