@@ -1393,10 +1393,11 @@
       }
 
       function getCombinedReportRegistry() {
+        const publicKeys = new Set(publicReportRegistry.map((item) => getReportIdentityKey(item)));
         const localReports = syncReportRegistry().map((item) => ({
           ...item,
           source: 'local'
-        }));
+        })).filter((item) => !publicKeys.has(getReportIdentityKey(item)));
 
         const seen = new Set();
         const merged = [];
