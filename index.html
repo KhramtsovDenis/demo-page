@@ -1023,6 +1023,7 @@
 
       function formatDate(value) {
         if (!value) return 'только что';
+        if (isDateOnlyValue(value)) return formatDateOnly(value);
         const date = new Date(value);
         if (Number.isNaN(date.getTime())) return 'без даты';
         return new Intl.DateTimeFormat('ru-RU', {
@@ -1032,6 +1033,36 @@
           hour: '2-digit',
           minute: '2-digit'
         }).format(date);
+      }
+
+      function isDateOnlyValue(value) {
+        return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
+      }
+
+      function parseDateOnly(value) {
+        const match = String(value || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (!match) return null;
+        const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function formatDateOnly(value) {
+        const date = parseDateOnly(value) || new Date(value);
+        if (Number.isNaN(date.getTime())) return 'без даты';
+        return new Intl.DateTimeFormat('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }).format(date);
+      }
+
+      function getReportTimelineLabel(item) {
+        const raw = item?.updatedAt || item?.createdAt || item?.date || '';
+        if (item?.source === 'public' && isDateOnlyValue(raw)) {
+          return `дата отчета: ${formatDateOnly(raw)}`;
+        }
+
+        return `обновлено: ${formatDate(raw)}`;
       }
 
       function getStats(record) {
@@ -1130,8 +1161,8 @@
             title: record?.title || item.title || 'Недельный отчет',
             meta: record?.meta || item.meta || '',
             taskCount: tasks.length || item.taskCount || 0,
-            createdAt: item.createdAt || record?.createdAt || Date.now(),
-            updatedAt: item.updatedAt || record?.updatedAt || item.createdAt || Date.now()
+            createdAt: record?.createdAt || item.createdAt || Date.now(),
+            updatedAt: record?.updatedAt || item.updatedAt || item.createdAt || Date.now()
           };
         });
 
@@ -1189,7 +1220,7 @@
                 <strong>${escapeHTML(latest.title)}</strong>
                 <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
                 <div class="draft-meta">
-                  <span class="meta-chip">обновлено: ${escapeHTML(formatDate(latest.updatedAt))}</span>
+                  <span class="meta-chip">${escapeHTML(getReportTimelineLabel(latest))}</span>
                   <span class="meta-chip">задач: ${Number(latest.taskCount || 0)}</span>
                 </div>
               </div>
@@ -1209,7 +1240,7 @@
                     <strong>${escapeHTML(item.title)}</strong>
                     <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
                   </div>
-                  <div class="report-cell">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</div>
+                  <div class="report-cell">${escapeHTML(getReportTimelineLabel(item))}</div>
                   <div class="report-cell">задач: ${Number(item.taskCount || 0)}</div>
                   <div class="report-row-actions">
                     ${renderReportActions(item)}
@@ -1370,7 +1401,7 @@
         const seen = new Set();
         const merged = [];
 
-        [...publicReportRegistry, ...localReports].forEach((item) => {
+        [...localReports, ...publicReportRegistry].forEach((item) => {
           const key = getReportIdentityKey(item);
           if (seen.has(key)) return;
           seen.add(key);
@@ -1442,7 +1473,7 @@
                 <strong>${escapeHTML(latest.title)}</strong>
                 <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
                 <div class="draft-meta">
-                  <span class="meta-chip">обновлено: ${escapeHTML(formatDate(latest.updatedAt))}</span>
+                  <span class="meta-chip">${escapeHTML(getReportTimelineLabel(latest))}</span>
                   <span class="meta-chip">${renderTaskCount(latest)}</span>
                 </div>
               </div>
@@ -1462,7 +1493,7 @@
                     <strong>${escapeHTML(item.title)}</strong>
                     <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
                   </div>
-                  <div class="report-cell">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</div>
+                  <div class="report-cell">${escapeHTML(getReportTimelineLabel(item))}</div>
                   <div class="report-cell">${renderTaskCount(item)}</div>
                   <div class="report-row-actions">
                     ${renderReportActions(item)}
