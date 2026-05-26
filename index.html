@@ -305,6 +305,22 @@
       background: linear-gradient(135deg, var(--brand), var(--brand-2));
     }
 
+    .report-source-pill {
+      border: 1px solid transparent;
+    }
+
+    .report-source-pill.is-public {
+      color: #1e3a8a;
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .report-source-pill.is-local {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      border-color: rgba(255,255,255,0.22);
+    }
+
     .tool-list {
       margin: 0;
       padding-left: 18px;
@@ -1470,7 +1486,7 @@
           <div class="report-stack">
             <article class="report-latest">
               <div class="report-row-title">
-                <span class="pill">${latest.source === 'public' ? 'Опубликованный отчет' : 'Локальный отчет'}</span>
+                <span class="pill report-source-pill ${latest.source === 'public' ? 'is-public' : 'is-local'}">${latest.source === 'public' ? 'Опубликованный отчет' : 'Локальный отчет'}</span>
                 <strong>${escapeHTML(latest.title)}</strong>
                 <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
                 <div class="draft-meta">
