@@ -1401,7 +1401,7 @@
         const seen = new Set();
         const merged = [];
 
-        [...localReports, ...publicReportRegistry].forEach((item) => {
+        [...publicReportRegistry, ...localReports].forEach((item) => {
           const key = getReportIdentityKey(item);
           if (seen.has(key)) return;
           seen.add(key);
