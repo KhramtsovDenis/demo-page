@@ -305,20 +305,12 @@
       background: linear-gradient(135deg, var(--brand), var(--brand-2));
     }
 
-    .report-source-pill {
-      border: 1px solid transparent;
-    }
-
     .report-source-pill.is-public {
-      color: #1e3a8a;
-      background: #eff6ff;
-      border-color: #bfdbfe;
+      color: #ffffff;
     }
 
     .report-source-pill.is-local {
       color: #ffffff;
-      background: linear-gradient(135deg, var(--brand), var(--brand-2));
-      border-color: rgba(255,255,255,0.22);
     }
 
     .tool-list {
@@ -696,7 +688,7 @@
           <div class="hero-actions">
             <a class="btn btn-primary" href="./site.html">Открыть RoadMap по сайту</a>
             <a class="btn btn-primary" href="./release_app.html">Открыть RoadMap по приложению</a>
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html">Открыть доску отчетов</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" data-latest-report-link="true">Открыть последний отчет</a>
             <button class="btn btn-secondary" type="button" data-open-report-modal="true">+ Создать отчет недели</button>
             <button class="btn btn-secondary" type="button" data-open-draft-modal="true">+ Создать новую дорожную карту</button>
           </div>
@@ -749,7 +741,7 @@
           <strong>Недельные отчеты</strong>
           <span>Создание новой недели на базе текущей доски: очищается только блок “Сделано”.</span>
           <div class="command-actions">
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop">Открыть доску</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop" data-latest-report-link="true">Открыть последний отчет</a>
             <button class="btn btn-soft" type="button" id="createReportBtnTop">Новая неделя</button>
           </div>
         </article>
@@ -828,7 +820,7 @@
             </ul>
           </div>
           <div class="tool-bottom">
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard">Открыть доску отчетов</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard" data-latest-report-link="true">Открыть последний отчет</a>
             <button class="btn btn-soft" type="button" data-open-report-modal="true">Создать новую неделю</button>
           </div>
         </article>
@@ -976,6 +968,7 @@
       const reportTitleInput = document.getElementById('reportTitle');
       const reportMetaInput = document.getElementById('reportMeta');
       const reportForm = document.getElementById('reportForm');
+      const latestReportLinks = Array.from(document.querySelectorAll('[data-latest-report-link="true"]'));
 
       function getRegistry() {
         try {
@@ -1429,8 +1422,28 @@
           .sort((a, b) => getReportSortTime(b) - getReportSortTime(a));
       }
 
+      function getReportOpenHref(item) {
+        if (!item) return REPORT_BUILDER_PATH;
+        if (item.source === 'public' && item.url) return item.url;
+        return `${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}`;
+      }
+
+      function updateLatestReportLinks(registry = getCombinedReportRegistry()) {
+        const latest = Array.isArray(registry) ? registry[0] : null;
+        const href = getReportOpenHref(latest);
+        const label = latest
+          ? `Открыть последний отчет: ${latest.meta || latest.title || 'недельный отчет'}`
+          : 'Открыть последний отчет';
+
+        latestReportLinks.forEach((link) => {
+          link.href = href;
+          link.setAttribute('aria-label', label);
+        });
+      }
+
       function renderReports() {
         const registry = getCombinedReportRegistry();
+        updateLatestReportLinks(registry);
         const query = String(reportSearchInput?.value || '').trim().toLowerCase();
         const visibleRegistry = query
           ? registry.filter((item) => `${item.title || ''} ${item.meta || ''} ${item.url || ''}`.toLowerCase().includes(query))
@@ -1470,14 +1483,11 @@
         };
 
         const renderReportActions = (item) => {
-          if (item.source === 'public') {
-            return `<a class="btn btn-primary" href="${escapeHTML(item.url)}">Открыть</a>`;
-          }
+          const openLink = `<a class="btn btn-primary" href="${escapeHTML(getReportOpenHref(item))}">Открыть</a>`;
+          if (item.source === 'public') return openLink;
 
-          return `
-            <a class="btn btn-primary" href="${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}">Открыть</a>
-            <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>
-          `;
+          return `${openLink}
+            <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>`;
         };
 
         const [latest, ...archive] = visibleRegistry;
