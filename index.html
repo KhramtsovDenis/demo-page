@@ -688,7 +688,7 @@
           <div class="hero-actions">
             <a class="btn btn-primary" href="./site.html">Открыть RoadMap по сайту</a>
             <a class="btn btn-primary" href="./release_app.html">Открыть RoadMap по приложению</a>
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" data-latest-report-link="true">Открыть последний отчет</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" data-latest-report-link="true">Открыть доску отчетов</a>
             <button class="btn btn-secondary" type="button" data-open-report-modal="true">+ Создать отчет недели</button>
             <button class="btn btn-secondary" type="button" data-open-draft-modal="true">+ Создать новую дорожную карту</button>
           </div>
@@ -741,7 +741,7 @@
           <strong>Недельные отчеты</strong>
           <span>Создание новой недели на базе текущей доски: очищается только блок “Сделано”.</span>
           <div class="command-actions">
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop" data-latest-report-link="true">Открыть последний отчет</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop" data-latest-report-link="true">Открыть доску</a>
             <button class="btn btn-soft" type="button" id="createReportBtnTop">Новая неделя</button>
           </div>
         </article>
@@ -820,7 +820,7 @@
             </ul>
           </div>
           <div class="tool-bottom">
-            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard" data-latest-report-link="true">Открыть последний отчет</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard" data-latest-report-link="true">Открыть доску отчетов</a>
             <button class="btn btn-soft" type="button" data-open-report-modal="true">Создать новую неделю</button>
           </div>
         </article>
@@ -1431,13 +1431,14 @@
       function updateLatestReportLinks(registry = getCombinedReportRegistry()) {
         const latest = Array.isArray(registry) ? registry[0] : null;
         const href = getReportOpenHref(latest);
-        const label = latest
-          ? `Открыть последний отчет: ${latest.meta || latest.title || 'недельный отчет'}`
-          : 'Открыть последний отчет';
 
         latestReportLinks.forEach((link) => {
+          const label = link.textContent.trim() || 'Открыть доску отчетов';
           link.href = href;
-          link.setAttribute('aria-label', label);
+          link.setAttribute(
+            'aria-label',
+            latest ? `${label}: ${latest.meta || latest.title || 'недельный отчет'}` : label
+          );
         });
       }
 
