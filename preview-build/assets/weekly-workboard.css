@@ -220,7 +220,7 @@
 
         .portfolio-table {
             display: grid;
-            grid-template-columns: minmax(200px, 1.2fr) minmax(220px, 1.35fr) minmax(145px, 0.88fr) minmax(140px, 0.82fr) minmax(120px, 0.72fr) minmax(92px, 0.58fr) minmax(118px, 0.78fr) minmax(118px, 0.72fr);
+            grid-template-columns: minmax(200px, 1.18fr) minmax(250px, 1.5fr) minmax(150px, 0.92fr) minmax(132px, 0.72fr) minmax(120px, 0.7fr) 78px 70px 40px;
             gap: 0;
             overflow: hidden;
             background: rgba(255, 255, 255, 0.96);
@@ -395,25 +395,45 @@
         }
 
         .portfolio-progress {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
+            display: grid;
+            place-items: center;
             width: 100%;
-            min-width: 92px;
+            min-width: 56px;
         }
 
-        .portfolio-progress-top {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 8px;
+        .portfolio-progress-ring {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 999px;
+            background:
+                conic-gradient(var(--bar, #16a568) var(--progress-angle, 0deg), #e7edf5 0);
+            box-shadow: inset 0 0 0 1px rgba(132, 151, 176, 0.18);
+            isolation: isolate;
+        }
+
+        .portfolio-progress-ring::before {
+            content: "";
+            position: absolute;
+            inset: 6px;
+            border-radius: inherit;
+            background: linear-gradient(180deg, #f9fbff, #eef3f9);
+            box-shadow:
+                inset 0 0 0 1px rgba(203, 213, 225, 0.74),
+                0 1px 3px rgba(15, 23, 42, 0.08);
+            z-index: 0;
         }
 
         .portfolio-progress-value {
-            font-size: 17px;
+            position: relative;
+            z-index: 1;
+            color: #23344d;
+            font-size: 13px;
             line-height: 1;
             font-weight: 900;
-            letter-spacing: -0.03em;
+            letter-spacing: -0.02em;
         }
 
         .portfolio-progress-line {
@@ -492,22 +512,47 @@
         }
 
         .portfolio-action {
-            width: 100%;
+            width: 32px;
+            min-width: 32px;
+            height: 34px;
             min-height: 34px;
-            border: 1px solid rgba(178, 202, 235, 0.95);
-            border-radius: 10px;
-            background: #fff;
-            color: var(--blue-text);
-            font-size: 12px;
+            padding: 0;
+            border: none;
+            border-radius: 9px;
+            background: transparent;
+            color: #8aa4c4;
+            font-size: 0;
             font-weight: 900;
             cursor: pointer;
-            transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+            box-shadow: none;
+            display: inline-grid;
+            place-items: center;
+            transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
         }
 
         .portfolio-action:hover {
             background: #f4f8ff;
-            box-shadow: 0 8px 18px rgba(46, 99, 215, 0.12);
+            color: #315b96;
             transform: translateY(-1px);
+        }
+
+        .portfolio-action.is-expanded {
+            color: #315b96;
+            background: #eef5ff;
+        }
+
+        .portfolio-action-icon {
+            display: grid;
+            gap: 4px;
+            width: 15px;
+        }
+
+        .portfolio-action-icon span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            border-radius: 999px;
+            background: currentColor;
         }
 
         .direction-expand {
@@ -4040,9 +4085,11 @@
             }
 
             .portfolio-action {
-                width: 100%;
+                width: 34px;
+                min-width: 34px;
                 justify-content: center;
                 min-height: 38px;
+                margin-left: auto;
             }
         }
 
@@ -4401,9 +4448,11 @@
             }
 
             .portfolio-action {
-                width: 100%;
+                width: 36px;
+                min-width: 36px;
                 min-height: 42px;
                 justify-content: center;
+                margin-left: auto;
             }
 
             .owner-block {

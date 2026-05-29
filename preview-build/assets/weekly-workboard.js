@@ -467,8 +467,8 @@
                     <div class="portfolio-cell">Плановый горизонт</div>
                     <div class="portfolio-cell">Продуктовые вехи</div>
                     <div class="portfolio-cell">Факт</div>
-                    <div class="portfolio-cell">Сводная готовность</div>
-                    <div class="portfolio-cell">Действие</div>
+                    <div class="portfolio-cell">Готовность</div>
+                    <div class="portfolio-cell portfolio-action-head" aria-hidden="true"></div>
                 </div>
                 ${contours.map(renderExecutiveContourCard).join("")}
             `;
@@ -802,9 +802,11 @@
             const resultText = escapeHtml(summary.executiveResult || "не задан");
             const hoursText = summary.hasActualHours ? `${escapeHtml(formatHours(summary.actualHours))} ч` : "н/д";
             const progressBar = summary.averageProgress >= 45 ? "#16a568" : "#f2a31a";
+            const progressAngle = Math.max(0, Math.min(100, summary.averageProgress)) * 3.6;
             const inWorkCount = summary.projects.filter(isTaskInWork).length;
             const milestonesText = `${inWorkCount} в работе / ${summary.projects.length} всего`;
             const horizonText = buildDirectionHorizon(summary.projects, summary.releasePackages, getReportDate());
+            const actionLabel = isExpanded ? "Скрыть состав" : "Показать состав";
 
             return `
                 <div class="portfolio-row is-data ${isExpanded ? "is-active" : ""}" data-contour-id="${escapeHtml(summary.contour.id)}" role="button" tabindex="0">
@@ -843,18 +845,21 @@
                     </div>
                     <div class="portfolio-cell">
                         <div class="portfolio-cell-inner">
-                            <div class="portfolio-progress">
-                                <div class="portfolio-progress-top">
+                            <div class="portfolio-progress" style="--progress-angle: ${progressAngle}deg; --bar: ${progressBar};">
+                                <div class="portfolio-progress-ring" aria-label="Сводная готовность ${summary.averageProgress}%">
                                     <span class="portfolio-progress-value">${summary.averageProgress}%</span>
-                                </div>
-                                <div class="portfolio-progress-line">
-                                    <span class="portfolio-progress-fill" style="--value: ${summary.averageProgress}%; --bar: ${progressBar};"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="portfolio-cell">
-                        <button class="portfolio-action" type="button" data-contour-id="${escapeHtml(summary.contour.id)}">${isExpanded ? "Скрыть состав" : "Показать состав"}</button>
+                        <button class="portfolio-action ${isExpanded ? "is-expanded" : ""}" type="button" data-contour-id="${escapeHtml(summary.contour.id)}" aria-label="${actionLabel}" title="${actionLabel}">
+                            <span class="portfolio-action-icon" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
+                        </button>
                     </div>
                 </div>
             `;
