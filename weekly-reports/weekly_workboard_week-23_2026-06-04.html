@@ -10088,7 +10088,7 @@
                         window.alert(`Файл "${file.name}" не похож на patch-файл Healbe.`);
                         continue;
                     }
-                    if (String(patch.reportId || "") !== getPatchReportId(originalState)) {
+                    if (String(patch.reportId || "") !== getPatchReportId(originalState) && !isPatchForSameReport(patch, originalState)) {
                         summary.skipped += 1;
                         window.alert(`Файл "${file.name}" относится к другому отчету и не будет применен.`);
                         continue;
@@ -10298,6 +10298,22 @@
         function getPatchReportId(source) {
             const base = source || originalState || state;
             return String(base.reportId || REPORT_QUERY_ID || `report_${hashString(`${base.title || ""}|${base.meta || ""}`)}`);
+        }
+
+        function normalizePatchIdentityText(value) {
+            return String(value || "")
+                .toLowerCase()
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function isPatchForSameReport(patch, source) {
+            const base = source || originalState || state;
+            const patchTitle = normalizePatchIdentityText(patch.reportTitle);
+            const patchMeta = normalizePatchIdentityText(patch.reportMeta);
+            const baseTitle = normalizePatchIdentityText(base.title || state.title);
+            const baseMeta = normalizePatchIdentityText(base.meta || state.meta);
+            return Boolean(patchTitle && patchMeta && patchTitle === baseTitle && patchMeta === baseMeta);
         }
 
         function getPatchFieldLabel(field) {
