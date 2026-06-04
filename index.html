@@ -809,6 +809,42 @@
 
         <article class="tool-card">
           <div class="tool-top">
+            <span class="pill">Heart roadmap</span>
+            <h3>RoadMap Сердце</h3>
+            <p>
+              Карта кардио-направления: ЭКГ, аритмия, ВСР, индекс здоровья сердца, релизные точки и статусы.
+            </p>
+            <ul class="tool-list">
+              <li>ключевые кардио-релизы в одном таймлайне</li>
+              <li>статусы и плановые сроки по каждой вехе</li>
+              <li>отдельный контур от приложения и FW</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./heart_roadmap.html">Открыть RoadMap Сердце</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">NEEM roadmap</span>
+            <h3>RoadMap NEEM</h3>
+            <p>
+              Карта NEEM-направления: минимальный продукт, стабилизация, экосистема, контент, привычки и персонализация.
+            </p>
+            <ul class="tool-list">
+              <li>релизы NEEM и крупные продуктовые вехи</li>
+              <li>быстрый прямой переход без дополнительных сценариев</li>
+              <li>самостоятельная HTML-страница для публикации</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./neem_roadmap.html">Открыть RoadMap NEEM</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
             <span class="pill">Weekly workboard</span>
             <h3>Недельная доска отчетов</h3>
             <p>
@@ -960,8 +996,6 @@
       const siteCardLink = document.getElementById('siteLinkCard');
       const topLink = document.getElementById('releaseLinkTop');
       const cardLink = document.getElementById('releaseLinkCard');
-      const heartRoadmapLinkTop = document.getElementById('heartRoadmapLinkTop');
-      const neemRoadmapLinkTop = document.getElementById('neemRoadmapLinkTop');
       const draftGrid = document.getElementById('draftGrid');
       const reportGrid = document.getElementById('reportGrid');
       const reportSearchInput = document.getElementById('reportSearchInput');
@@ -1881,14 +1915,6 @@
       document.getElementById('createReportBtnTop')?.addEventListener('click', openReportModal);
       document.getElementById('createReportBtnSection')?.addEventListener('click', openReportModal);
       document.getElementById('closeReportModal')?.addEventListener('click', closeReportModal);
-      heartRoadmapLinkTop?.addEventListener('click', (event) => {
-        event.preventDefault();
-        window.location.href = './heart_roadmap.html';
-      });
-      neemRoadmapLinkTop?.addEventListener('click', (event) => {
-        event.preventDefault();
-        window.location.href = './neem_roadmap.html';
-      });
       reportSearchInput?.addEventListener('input', renderReports);
 
       draftForm.addEventListener('submit', (event) => {
