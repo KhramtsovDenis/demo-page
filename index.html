@@ -960,6 +960,8 @@
       const siteCardLink = document.getElementById('siteLinkCard');
       const topLink = document.getElementById('releaseLinkTop');
       const cardLink = document.getElementById('releaseLinkCard');
+      const heartRoadmapLinkTop = document.getElementById('heartRoadmapLinkTop');
+      const neemRoadmapLinkTop = document.getElementById('neemRoadmapLinkTop');
       const draftGrid = document.getElementById('draftGrid');
       const reportGrid = document.getElementById('reportGrid');
       const reportSearchInput = document.getElementById('reportSearchInput');
@@ -1879,6 +1881,14 @@
       document.getElementById('createReportBtnTop')?.addEventListener('click', openReportModal);
       document.getElementById('createReportBtnSection')?.addEventListener('click', openReportModal);
       document.getElementById('closeReportModal')?.addEventListener('click', closeReportModal);
+      heartRoadmapLinkTop?.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = './heart_roadmap.html';
+      });
+      neemRoadmapLinkTop?.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = './neem_roadmap.html';
+      });
       reportSearchInput?.addEventListener('input', renderReports);
 
       draftForm.addEventListener('submit', (event) => {
