@@ -7335,6 +7335,7 @@
     <script>
         const STORAGE_KEY = "weekly_workboard_report_builder_state_export_1781770883235";
         const EXPORTED_STATE_GLOBAL = "__WORKBOARD_EXPORTED_STATE__";
+        const EMBEDDED_REPORTS_REGISTRY = [{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №25 | 18 июня 2026","url":"weekly_workboard_week-25_2026-06-18.html","updatedAt":"2026-06-18","taskCount":22},{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №24 | 11 июня 2026","url":"weekly_workboard_week-24_2026-06-11.html","updatedAt":"2026-06-11","taskCount":22},{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №23 | 4 июня 2026","url":"weekly_workboard_week-23_2026-06-04.html","updatedAt":"2026-06-04","taskCount":21},{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №22 | 28 мая 2026","url":"weekly_workboard_week-22_2026-05-28.html","updatedAt":"2026-05-28","taskCount":21},{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №21 | 21 Мая 2026","url":"weekly_workboard_week-21_2026-05-21.html","updatedAt":"2026-05-21","taskCount":20},{"title":"Недельный срез продуктовых работ Healbe","meta":"Неделя №20 | 14 Мая 2026","url":"weekly_workboard_week-20_2026-05-14.html","updatedAt":"2026-05-14","taskCount":21}];
         const REPORT_REGISTRY_KEY = "healbe_weekly_report_registry";
         const REPORT_RECORD_PREFIX = "healbe_weekly_report_record_";
         const REPORT_QUERY_ID = getReportQueryId();
@@ -10421,18 +10422,23 @@
                 reportsLoaded = false;
             }
 
+            if (!reportsLoaded && Array.isArray(EMBEDDED_REPORTS_REGISTRY) && EMBEDDED_REPORTS_REGISTRY.length) {
+                existingReports = structuredClone(EMBEDDED_REPORTS_REGISTRY);
+                reportsLoaded = true;
+            }
+
             if (!reportsLoaded) {
-                const shouldContinue = window.confirm(
-                    "Не удалось прочитать текущий reports.json. Сформировать новый reports.json только с текущим отчетом?"
+                window.alert(
+                    "Не удалось прочитать текущий reports.json. Публикационный пакет не создан, чтобы не потерять архив прошлых недель."
                 );
-                if (!shouldContinue) return;
+                return;
             }
 
             const htmlFileName = buildBackupFilename();
             const reportEntry = buildArchiveReportEntry(htmlFileName);
             const nextReports = buildUpdatedReportsRegistry(existingReports, reportEntry);
 
-            downloadTextFile(htmlFileName, buildExportHtml(), "text/html;charset=utf-8");
+            downloadTextFile(htmlFileName, buildExportHtml(nextReports), "text/html;charset=utf-8");
             window.setTimeout(() => {
                 downloadTextFile("reports.json", JSON.stringify(nextReports, null, 2), "application/json;charset=utf-8");
             }, 350);
@@ -10527,12 +10533,14 @@
             return `weekly_workboard_${weekPart}_${datePart}.html`;
         }
 
-        function buildExportHtml() {
+        function buildExportHtml(reportsRegistry = EMBEDDED_REPORTS_REGISTRY) {
             const html = document.documentElement.outerHTML;
             const exportedStateScript = `<script>window.${EXPORTED_STATE_GLOBAL}=${serializeStateForHtml(state)};<\/script>`;
+            const embeddedReportsSource = `const EMBEDDED_REPORTS_REGISTRY = ${serializeStateForHtml(Array.isArray(reportsRegistry) ? reportsRegistry : [])};`;
             const exportStorageKey = `${STORAGE_KEY}_export_${Date.now()}`;
             const cleaned = html
                 .replace(/<script>window\.__WORKBOARD_EXPORTED_STATE__=[\s\S]*?<\/script>\s*/g, '')
+                .replace(/const EMBEDDED_REPORTS_REGISTRY = \[[\s\S]*?\];/, embeddedReportsSource)
                 .replace(/const STORAGE_KEY = "[^"]+";/, `const STORAGE_KEY = ${JSON.stringify(exportStorageKey)};`);
             return cleaned.replace(/<script>/, `${exportedStateScript}\n    <script>`);
         }
