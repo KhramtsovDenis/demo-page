@@ -924,7 +924,9 @@
             ? sourceState.tasks.map((task) => {
               const nextTask = {
                 ...task,
-                artifactNote: ''
+                artifactNote: '',
+                focus: '',
+                ceoFocus: ''
               };
               if (String(nextTask.status || '').trim().toLowerCase() === 'done' && archiveCompletedAt) {
                 nextTask.completedAt = archiveCompletedAt;
