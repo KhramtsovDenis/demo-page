@@ -189,6 +189,12 @@
       border-color: #e9d5ff;
     }
 
+    .btn-pilot {
+      color: #1d4ed8;
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
     .btn-danger {
       color: #991b1b;
       background: #fff5f5;
@@ -261,6 +267,12 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
+    }
+
+    .report-action-buttons {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: nowrap;
     }
 
     .card-grid,
@@ -652,6 +664,10 @@
       .tool-card, .draft-card, .stat-card { padding: 18px; }
       .stat-grid { grid-template-columns: 1fr; }
       .hero-actions, .section-actions, .draft-bottom, .tool-bottom, .empty-actions, .modal-actions {
+        flex-direction: column;
+      }
+      .report-action-buttons {
+        display: flex;
         flex-direction: column;
       }
       .btn { width: 100%; }
