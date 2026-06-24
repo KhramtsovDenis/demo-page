@@ -911,15 +911,26 @@
         const sourceState = await loadReportStateFromRegistryItem(latest);
         if (!sourceState) return null;
 
+        const sourceReportDate = parseReportMetaDate(sourceState.meta || latest?.meta || '');
+        const targetReportDate = parseReportMetaDate(meta);
+        const archiveCompletedDate = sourceReportDate || (targetReportDate ? addDays(targetReportDate, -7) : null);
+        const archiveCompletedAt = archiveCompletedDate ? formatDateOnly(archiveCompletedDate) : '';
+
         return {
           ...sourceState,
           title,
           meta,
           tasks: Array.isArray(sourceState.tasks)
-            ? sourceState.tasks.map((task) => ({
-              ...task,
-              artifactNote: ''
-            }))
+            ? sourceState.tasks.map((task) => {
+              const nextTask = {
+                ...task,
+                artifactNote: ''
+              };
+              if (String(nextTask.status || '').trim().toLowerCase() === 'done' && archiveCompletedAt) {
+                nextTask.completedAt = archiveCompletedAt;
+              }
+              return nextTask;
+            })
             : [],
           directions: Array.isArray(sourceState.directions) ? sourceState.directions : []
         };
