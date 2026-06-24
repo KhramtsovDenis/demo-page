@@ -522,25 +522,27 @@
 
       function getCombinedReportRegistry() {
         const seen = new Set();
-        const publicItems = [];
         const localItems = syncReportRegistry().map((item) => ({
           ...item,
           source: 'local'
         }));
+        const combined = [];
 
         publicReportRegistry.forEach((item) => {
           const key = getReportIdentityKey(item);
           if (seen.has(key)) return;
           seen.add(key);
-          publicItems.push(item);
+          combined.push(item);
         });
 
-        return [
-          ...publicItems.sort((a, b) => getReportSortTime(b) - getReportSortTime(a)),
-          ...localItems
-            .filter((item) => !seen.has(getReportIdentityKey(item)))
-            .sort((a, b) => getReportSortTime(b) - getReportSortTime(a))
-        ];
+        localItems.forEach((item) => {
+          const key = getReportIdentityKey(item);
+          if (seen.has(key)) return;
+          seen.add(key);
+          combined.push(item);
+        });
+
+        return combined.sort((a, b) => getReportSortTime(b) - getReportSortTime(a));
       }
 
       function getReportOpenHref(item) {
