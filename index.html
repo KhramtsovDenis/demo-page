@@ -4,8 +4,683 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Healbe Release Hub</title>
-  <link rel="stylesheet" href="assets/shared.css">
-  <link rel="stylesheet" href="assets/home.css">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --bg-soft: #ffffff;
+      --text: #0f172a;
+      --muted: #5b6b82;
+      --line: #d9e2ef;
+      --brand: #6f63d9;
+      --brand-2: #8f84e8;
+      --brand-soft: rgba(111, 99, 217, 0.10);
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+      --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.07);
+      --radius: 24px;
+      --max: 1180px;
+      --done: #10b981;
+      --done-bg: #d1fae5;
+      --done-text: #065f46;
+      --progress: #f59e0b;
+      --progress-bg: #fef3c7;
+      --progress-text: #92400e;
+      --planned: #3b82f6;
+      --planned-bg: #dbeafe;
+      --planned-text: #1e40af;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(111, 99, 217, 0.08), transparent 26%),
+        radial-gradient(circle at top right, rgba(143, 132, 232, 0.07), transparent 22%),
+        linear-gradient(180deg, #fbfcff 0%, #f1f4fb 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: var(--shadow);
+      border-radius: 32px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(10px);
+      z-index: 0;
+    }
+
+    .hero::before {
+      width: 260px;
+      height: 260px;
+      background: rgba(37, 99, 235, 0.10);
+      top: -120px;
+      right: -80px;
+    }
+
+    .hero::after {
+      width: 220px;
+      height: 220px;
+      background: rgba(15, 118, 110, 0.12);
+      bottom: -110px;
+      left: -70px;
+    }
+
+    .hero-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 12px 26px rgba(15, 118, 110, 0.22);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .brand-text strong {
+      font-size: 14px;
+      letter-spacing: 0.14em;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions {
+      display: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: 14px;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.10);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    }
+
+    .btn-secondary {
+      color: #581c87;
+      background: rgba(255,255,255,0.94);
+      border-color: rgba(168, 85, 247, 0.22);
+    }
+
+    .btn-soft {
+      color: #6b21a8;
+      background: #faf5ff;
+      border-color: #e9d5ff;
+    }
+
+    .btn-pilot {
+      color: #1d4ed8;
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+
+    .btn-danger {
+      color: #991b1b;
+      background: #fff5f5;
+      border-color: #fecaca;
+    }
+
+    .stat-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat-card, .section, .tool-card, .draft-card, .empty-box, .modal-card {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: var(--shadow-soft);
+      border-radius: 24px;
+    }
+
+    .stat-card {
+      padding: 20px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-soft);
+      margin-bottom: 12px;
+    }
+
+    .stat-card h3, .section-head h2, .tool-card h3, .draft-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-card p,
+    .section-head p,
+    .tool-card p,
+    .draft-card p,
+    .empty-box p,
+    .modal-copy {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .section {
+      padding: 24px;
+      margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .report-action-buttons {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .card-grid,
+    .draft-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tool-card,
+    .draft-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 22px;
+    }
+
+    .tool-top,
+    .draft-top {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .pill {
+      width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    }
+
+    .report-source-pill.is-public {
+      color: #ffffff;
+    }
+
+    .report-source-pill.is-local {
+      color: #ffffff;
+    }
+
+    .tool-list {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      display: grid;
+      gap: 8px;
+    }
+
+    .tool-bottom,
+    .draft-bottom {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .draft-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .meta-chip,
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .meta-chip {
+      color: var(--text);
+      background: #f8fbff;
+      border-color: #dbe7f5;
+    }
+
+    .status-chip.done { color: var(--done-text); background: var(--done-bg); }
+    .status-chip.progress { color: var(--progress-text); background: var(--progress-bg); }
+    .status-chip.planned { color: var(--planned-text); background: var(--planned-bg); }
+
+    .report-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .report-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: linear-gradient(180deg, #2563eb, #10b981);
+    }
+
+    .report-card .draft-top,
+    .report-card .draft-bottom {
+      padding-left: 6px;
+    }
+
+    .report-template-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      background: #eff6ff;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .command-center {
+      padding: 20px;
+    }
+
+    .command-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .command-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 100%;
+      padding: 18px;
+      border: 1px solid #dbe7f5;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+    }
+
+    .command-card strong {
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .command-card span {
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .command-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #reportGrid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .report-stack {
+      display: grid;
+      gap: 12px;
+    }
+
+    .report-latest {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid #bfdbfe;
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(16, 185, 129, 0.08)),
+        #ffffff;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 8px;
+      max-height: 480px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .report-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(140px, 0.55fr) minmax(100px, 0.35fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid #dbe7f5;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.82);
+    }
+
+    .report-row-title {
+      display: grid;
+      gap: 4px;
+    }
+
+    .report-row-title strong {
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    .report-row-title span,
+    .report-cell {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .report-row-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .report-row-actions .btn {
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .report-archive-note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .report-search {
+      min-height: 46px;
+      min-width: min(280px, 100%);
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid #cfe0f3;
+      background: rgba(255,255,255,0.92);
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .report-search:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+    }
+
+    .quick-note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(15, 118, 110, 0.24);
+      background: rgba(255,255,255,0.76);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .empty-box {
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+      text-align: left;
+      border: 1px dashed rgba(15, 23, 42, 0.08);
+      background: rgba(255,255,255,0.68);
+    }
+
+    .empty-box h3 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .empty-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 100;
+    }
+
+    .modal.is-open { display: flex; }
+
+    .modal-card {
+      width: min(100%, 520px);
+      padding: 24px;
+      background: rgba(255,255,255,0.96);
+    }
+
+    .modal-card h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: 1px solid #dbe7f5;
+      background: #fbfdff;
+      padding: 0 14px;
+      font: inherit;
+      color: var(--text);
+    }
+
+    .field input:focus {
+      outline: none;
+      border-color: #93c5fd;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .command-grid,
+      .card-grid,
+      .draft-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .report-latest,
+      .report-row {
+        grid-template-columns: 1fr;
+      }
+
+      .report-row-actions {
+        justify-content: stretch;
+      }
+
+      .stat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page { padding: 20px 14px 34px; }
+      .hero, .section { padding: 20px; border-radius: 24px; }
+      .tool-card, .draft-card, .stat-card { padding: 18px; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .hero-actions, .section-actions, .draft-bottom, .tool-bottom, .empty-actions, .modal-actions {
+        flex-direction: column;
+      }
+      .report-action-buttons {
+        display: flex;
+        flex-direction: column;
+      }
+      .btn { width: 100%; }
+      .section-head { align-items: start; }
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -150,6 +825,42 @@
 
         <article class="tool-card">
           <div class="tool-top">
+            <span class="pill">Heart roadmap</span>
+            <h3>RoadMap Сердце</h3>
+            <p>
+              Карта кардио-направления: ЭКГ, аритмия, ВСР, индекс здоровья сердца, релизные точки и статусы.
+            </p>
+            <ul class="tool-list">
+              <li>ключевые кардио-релизы в одном таймлайне</li>
+              <li>статусы и плановые сроки по каждой вехе</li>
+              <li>отдельный контур от приложения и FW</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./heart_roadmap.html">Открыть RoadMap Сердце</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">NEEM roadmap</span>
+            <h3>RoadMap NEEM</h3>
+            <p>
+              Карта NEEM-направления: минимальный продукт, стабилизация, экосистема, контент, привычки и персонализация.
+            </p>
+            <ul class="tool-list">
+              <li>релизы NEEM и крупные продуктовые вехи</li>
+              <li>быстрый прямой переход без дополнительных сценариев</li>
+              <li>самостоятельная HTML-страница для публикации</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./neem_roadmap.html">Открыть RoadMap NEEM</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
             <span class="pill">Weekly workboard</span>
             <h3>Недельная доска отчетов</h3>
             <p>
@@ -270,6 +981,985 @@
     </div>
   </div>
 
-  <script src="assets/home.js"></script>
+  <script>
+    (function () {
+      const DRAFT_REGISTRY_KEY = 'healbe_roadmap_draft_registry';
+      const DRAFT_RECORD_PREFIX = 'healbe_roadmap_draft_record_';
+      const REPORT_REGISTRY_KEY = 'healbe_weekly_report_registry';
+      const REPORT_RECORD_PREFIX = 'healbe_weekly_report_record_';
+      const REPORT_BUILDER_PATH = './weekly-reports/weekly_workboard.html';
+      const PUBLIC_REPORTS_PATH = './weekly-reports/reports.json';
+      let publicReportRegistry = [];
+
+      function getCurrentFileName() {
+        const raw = decodeURIComponent(window.location.pathname || '');
+        return raw.split('/').pop() || 'index.html';
+      }
+
+      function guessBuilderPath() {
+        const currentName = getCurrentFileName();
+        if (!currentName) return './roadmap_builder.html';
+
+        if (/^index/i.test(currentName)) {
+          return `./${currentName.replace(/^index/i, 'roadmap_builder')}`;
+        }
+
+        return './roadmap_builder.html';
+      }
+
+      const BUILDER_PATH = guessBuilderPath();
+      const siteCandidates = ['./site.html', './site_roadmap_healbe_soft_v2.html'];
+      const releaseCandidates = ['./release_app.html', './release_app', './release_app_healbe_soft_v2.html'];
+
+      const siteTopLink = document.getElementById('siteLinkTop');
+      const siteCardLink = document.getElementById('siteLinkCard');
+      const topLink = document.getElementById('releaseLinkTop');
+      const cardLink = document.getElementById('releaseLinkCard');
+      const draftGrid = document.getElementById('draftGrid');
+      const reportGrid = document.getElementById('reportGrid');
+      const reportSearchInput = document.getElementById('reportSearchInput');
+      const draftModal = document.getElementById('draftModal');
+      const draftTitleInput = document.getElementById('draftTitle');
+      const draftForm = document.getElementById('draftForm');
+      const reportModal = document.getElementById('reportModal');
+      const reportTitleInput = document.getElementById('reportTitle');
+      const reportMetaInput = document.getElementById('reportMeta');
+      const reportForm = document.getElementById('reportForm');
+      const latestReportLinks = Array.from(document.querySelectorAll('[data-latest-report-link="true"]'));
+
+      function getRegistry() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(DRAFT_REGISTRY_KEY) || '[]');
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function setRegistry(items) {
+        localStorage.setItem(DRAFT_REGISTRY_KEY, JSON.stringify(items));
+      }
+
+      function getReportRegistry() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(REPORT_REGISTRY_KEY) || '[]');
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function setReportRegistry(items) {
+        localStorage.setItem(REPORT_REGISTRY_KEY, JSON.stringify(items));
+      }
+
+      function getRecordKey(id) {
+        return `${DRAFT_RECORD_PREFIX}${id}`;
+      }
+
+      function getReportRecordKey(id) {
+        return `${REPORT_RECORD_PREFIX}${id}`;
+      }
+
+      function getDraftRecord(id) {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(getRecordKey(id)) || 'null');
+          return parsed && typeof parsed === 'object' ? parsed : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function slugify(value) {
+        return String(value || 'roadmap')
+          .toLowerCase()
+          .replace(/[^a-z0-9а-яё]+/gi, '_')
+          .replace(/^_+|_+$/g, '') || 'roadmap';
+      }
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>'"]/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[char] || char));
+      }
+
+      function formatDate(value) {
+        if (!value) return 'только что';
+        if (isDateOnlyValue(value)) return formatDateOnly(value);
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return 'без даты';
+        return new Intl.DateTimeFormat('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }).format(date);
+      }
+
+      function isDateOnlyValue(value) {
+        return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value.trim());
+      }
+
+      function parseDateOnly(value) {
+        const match = String(value || '').trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (!match) return null;
+        const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function formatDateOnly(value) {
+        const date = parseDateOnly(value) || new Date(value);
+        if (Number.isNaN(date.getTime())) return 'без даты';
+        return new Intl.DateTimeFormat('ru-RU', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        }).format(date);
+      }
+
+      function getReportTimelineLabel(item) {
+        const raw = item?.updatedAt || item?.createdAt || item?.date || '';
+        if (item?.source === 'public' && isDateOnlyValue(raw)) {
+          return `дата отчета: ${formatDateOnly(raw)}`;
+        }
+
+        return `обновлено: ${formatDate(raw)}`;
+      }
+
+      function getStats(record) {
+        const milestones = Array.isArray(record?.milestones) ? record.milestones : [];
+        return {
+          total: milestones.length,
+          done: milestones.filter(item => item.status === 'done').length,
+          progress: milestones.filter(item => item.status === 'progress').length,
+          planned: milestones.filter(item => item.status === 'planned').length
+        };
+      }
+
+      function syncRegistry() {
+        const registry = getRegistry();
+        const next = [];
+
+        registry.forEach((item) => {
+          const record = getDraftRecord(item.id);
+          if (!record) return;
+
+          const stats = getStats(record);
+          next.push({
+            ...item,
+            title: (record.title || item.title || '[Новая дорожная карта]').trim(),
+            createdAt: record.createdAt || item.createdAt || Date.now(),
+            updatedAt: record.updatedAt || item.updatedAt || item.createdAt || Date.now(),
+            stats
+          });
+        });
+
+        next.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        setRegistry(next);
+        return next;
+      }
+
+      function renderDrafts() {
+        const registry = syncRegistry();
+
+        if (!registry.length) {
+          draftGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Пока нет черновиков</h3>
+              <p>
+                Нажми «Создать новую дорожную карту», задай название и открой пустой таймлайн.
+                Импорт DOCX / CSV доступен уже внутри редактора.
+              </p>
+              <div class="empty-actions">
+                <button class="btn btn-primary" type="button" data-open-draft-modal="true">Создать первую дорожную карту</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        draftGrid.innerHTML = registry.map((item) => `
+          <article class="draft-card">
+            <div class="draft-top">
+              <span class="pill">Local draft</span>
+              <h3>${escapeHTML(item.title)}</h3>
+              <p>
+                Локальный черновик для подготовки новой дорожной карты. После сборки структуры открой его и
+                сохрани как отдельный HTML-файл для публикации.
+              </p>
+
+              <div class="draft-meta">
+                <span class="meta-chip">обновлено: ${escapeHTML(formatDate(item.updatedAt))}</span>
+                <span class="meta-chip">всего вех: ${item.stats.total}</span>
+                <span class="status-chip done">сделано: ${item.stats.done}</span>
+                <span class="status-chip progress">в работе: ${item.stats.progress}</span>
+                <span class="status-chip planned">запланировано: ${item.stats.planned}</span>
+              </div>
+            </div>
+
+            <div class="draft-bottom">
+              <a class="btn btn-primary" href="${BUILDER_PATH}?draft=${encodeURIComponent(item.id)}">Открыть</a>
+              <a class="btn btn-soft" href="${BUILDER_PATH}?draft=${encodeURIComponent(item.id)}&action=export">Экспорт HTML</a>
+              <button class="btn btn-danger" type="button" data-delete-draft="${escapeHTML(item.id)}">Удалить</button>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      function syncReportRegistry() {
+        const registry = getReportRegistry();
+        const next = registry.map((item) => {
+          let record = null;
+          try {
+            record = JSON.parse(localStorage.getItem(getReportRecordKey(item.id)) || 'null');
+          } catch (error) {
+            record = null;
+          }
+
+          const tasks = Array.isArray(record?.tasks) ? record.tasks : [];
+          return {
+            ...item,
+            title: record?.title || item.title || 'Недельный отчет',
+            meta: record?.meta || item.meta || '',
+            taskCount: tasks.length || item.taskCount || 0,
+            createdAt: record?.createdAt || item.createdAt || Date.now(),
+            updatedAt: record?.updatedAt || item.updatedAt || item.createdAt || Date.now()
+          };
+        });
+
+        next.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        setReportRegistry(next);
+        return next;
+      }
+
+      function renderLocalReportsOnlyLegacy() {
+        const registry = syncReportRegistry();
+        const query = String(reportSearchInput?.value || '').trim().toLowerCase();
+        const visibleRegistry = query
+          ? registry.filter((item) => `${item.title || ''} ${item.meta || ''}`.toLowerCase().includes(query))
+          : registry;
+
+        if (!reportGrid) return;
+
+        if (!registry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Пока нет локальных недельных отчетов</h3>
+              <p>
+                Нажми «Создать отчет недели», укажи неделю и дату. Новый отчет откроется в доске отчетов
+                с сохраненной структурой проектов и пустым блоком «Сделано».
+              </p>
+              <div class="empty-actions">
+                <button class="btn btn-primary" type="button" data-open-report-modal="true">Создать первый отчет</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        if (!visibleRegistry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Ничего не найдено</h3>
+              <p>Попробуй другой номер недели, дату или часть названия отчета.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const [latest, ...archive] = visibleRegistry;
+        const renderReportActions = (item) => `
+          <a class="btn btn-primary" href="${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}">Открыть</a>
+          <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>
+        `;
+
+        reportGrid.innerHTML = `
+          <div class="report-stack">
+            <article class="report-latest">
+              <div class="report-row-title">
+                <span class="pill">Последний отчет</span>
+                <strong>${escapeHTML(latest.title)}</strong>
+                <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
+                <div class="draft-meta">
+                  <span class="meta-chip">${escapeHTML(getReportTimelineLabel(latest))}</span>
+                  <span class="meta-chip">задач: ${Number(latest.taskCount || 0)}</span>
+                </div>
+              </div>
+              <div class="report-row-actions">
+                ${renderReportActions(latest)}
+              </div>
+            </article>
+
+            <div class="report-archive-note">
+              Архив ниже остается компактным даже при 52 отчетах в году: одна строка на неделю, без больших карточек.
+            </div>
+
+            <div class="report-list" aria-label="Архив недельных отчетов">
+              ${archive.length ? archive.map((item) => `
+                <article class="report-row">
+                  <div class="report-row-title">
+                    <strong>${escapeHTML(item.title)}</strong>
+                    <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
+                  </div>
+                  <div class="report-cell">${escapeHTML(getReportTimelineLabel(item))}</div>
+                  <div class="report-cell">задач: ${Number(item.taskCount || 0)}</div>
+                  <div class="report-row-actions">
+                    ${renderReportActions(item)}
+                  </div>
+                </article>
+              `).join('') : `
+                <div class="empty-box">
+                  <h3>Архив пока пуст</h3>
+                  <p>Когда появятся следующие недели, они будут добавляться сюда компактными строками.</p>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
+      function getReportSortTime(item) {
+        const metaTime = parseReportMetaTime(item?.meta);
+        if (metaTime) return metaTime;
+
+        const urlTime = parseReportUrlTime(item?.url || item?.template);
+        if (urlTime) return urlTime;
+
+        const raw = item?.updatedAt || item?.createdAt || item?.date || 0;
+        const numeric = Number(raw);
+        if (Number.isFinite(numeric) && numeric > 0) return numeric;
+
+        const date = new Date(raw);
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function parseReportMetaTime(meta) {
+        const source = String(meta || '').toLowerCase().replace(/ё/g, 'е');
+        const match = source.match(/(\d{1,2})\s+([а-яa-z]+)\s+(\d{4})/i);
+        if (!match) return 0;
+
+        const months = {
+          января: 0,
+          февраль: 1,
+          февраля: 1,
+          март: 2,
+          марта: 2,
+          апрель: 3,
+          апреля: 3,
+          май: 4,
+          мая: 4,
+          июнь: 5,
+          июня: 5,
+          июль: 6,
+          июля: 6,
+          август: 7,
+          августа: 7,
+          сентябрь: 8,
+          сентября: 8,
+          октябрь: 9,
+          октября: 9,
+          ноябрь: 10,
+          ноября: 10,
+          декабрь: 11,
+          декабря: 11
+        };
+
+        const month = months[match[2]];
+        if (month === undefined) return 0;
+
+        const date = new Date(Number(match[3]), month, Number(match[1]));
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function parseReportUrlTime(url) {
+        const match = String(url || '').match(/week[-_]?\d+[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+        if (!match) return 0;
+
+        const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+        return Number.isNaN(date.getTime()) ? 0 : date.getTime();
+      }
+
+      function resolvePublishedReportUrl(url) {
+        const raw = String(url || '').trim();
+        if (!raw) return '';
+        if (/^(https?:|\.\/|\.\.\/|\/)/i.test(raw)) return raw;
+        if (raw.startsWith('weekly-reports/')) return `./${raw}`;
+        return `./weekly-reports/${raw.replace(/^\/+/, '')}`;
+      }
+
+      function normalizePublishedReport(item, index) {
+        if (!item || typeof item !== 'object') return null;
+
+        const url = resolvePublishedReportUrl(item.url || item.href || item.file || item.fileName);
+        if (!url) return null;
+
+        const updatedAt = item.updatedAt || item.date || item.createdAt || '';
+        const createdAt = item.createdAt || updatedAt || '';
+        return {
+          id: item.id || `published_${index}_${url}`,
+          title: item.title || 'Недельный отчет',
+          meta: item.meta || item.subtitle || '',
+          taskCount: Number(item.taskCount || item.tasks || 0) || 0,
+          createdAt,
+          updatedAt,
+          url,
+          source: 'public'
+        };
+      }
+
+      async function loadPublicReports() {
+        try {
+          const response = await fetch(PUBLIC_REPORTS_PATH, { cache: 'no-store' });
+          if (!response.ok) throw new Error(`reports.json ${response.status}`);
+
+          const payload = await response.json();
+          const list = Array.isArray(payload)
+            ? payload
+            : Array.isArray(payload?.reports)
+              ? payload.reports
+              : [];
+
+          publicReportRegistry = list
+            .map((item, index) => normalizePublishedReport(item, index))
+            .filter(Boolean);
+        } catch (error) {
+          publicReportRegistry = [];
+        }
+      }
+
+      function normalizeReportIdentityPart(value) {
+        return String(value || '')
+          .toLowerCase()
+          .replace(/ё/g, 'е')
+          .replace(/\s+/g, ' ')
+          .trim();
+      }
+
+      function getReportIdentityKey(item) {
+        const meta = normalizeReportIdentityPart(item?.meta);
+        const weekMatch = meta.match(/неделя\s*№?\s*(\d+)/i);
+        const dateMatch = meta.match(/(\d{1,2})\s+[а-яa-z]+\s+(\d{4})/i);
+        if (weekMatch) {
+          return `week:${weekMatch[1]}:${dateMatch ? dateMatch[0] : ''}`;
+        }
+
+        const url = normalizeReportIdentityPart(item?.url || item?.template);
+        const fileWeekMatch = url.match(/week[-_]?(\d+)[-_](\d{4})[-_](\d{2})[-_](\d{2})/i);
+        if (fileWeekMatch) {
+          return `file-week:${fileWeekMatch[1]}:${fileWeekMatch[2]}-${fileWeekMatch[3]}-${fileWeekMatch[4]}`;
+        }
+
+        const title = normalizeReportIdentityPart(item?.title);
+        return `fallback:${title}:${meta}:${url}`;
+      }
+
+      function getCombinedReportRegistry() {
+        const publicKeys = new Set(publicReportRegistry.map((item) => getReportIdentityKey(item)));
+        const localReports = syncReportRegistry().map((item) => ({
+          ...item,
+          source: 'local'
+        })).filter((item) => !publicKeys.has(getReportIdentityKey(item)));
+
+        const seen = new Set();
+        const merged = [];
+
+        [...publicReportRegistry, ...localReports].forEach((item) => {
+          const key = getReportIdentityKey(item);
+          if (seen.has(key)) return;
+          seen.add(key);
+          merged.push(item);
+        });
+
+        return merged
+          .sort((a, b) => getReportSortTime(b) - getReportSortTime(a));
+      }
+
+      function getReportOpenHref(item) {
+        if (!item) return REPORT_BUILDER_PATH;
+        if (item.source === 'public' && item.url) return item.url;
+        return `${REPORT_BUILDER_PATH}?report=${encodeURIComponent(item.id)}`;
+      }
+
+      function updateLatestReportLinks(registry = getCombinedReportRegistry()) {
+        const latest = Array.isArray(registry) ? registry[0] : null;
+        const href = getReportOpenHref(latest);
+
+        latestReportLinks.forEach((link) => {
+          const label = link.textContent.trim() || 'Открыть доску отчетов';
+          link.href = href;
+          link.setAttribute(
+            'aria-label',
+            latest ? `${label}: ${latest.meta || latest.title || 'недельный отчет'}` : label
+          );
+        });
+      }
+
+      function renderReports() {
+        const registry = getCombinedReportRegistry();
+        updateLatestReportLinks(registry);
+        const query = String(reportSearchInput?.value || '').trim().toLowerCase();
+        const visibleRegistry = query
+          ? registry.filter((item) => `${item.title || ''} ${item.meta || ''} ${item.url || ''}`.toLowerCase().includes(query))
+          : registry;
+
+        if (!reportGrid) return;
+
+        if (!registry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Пока нет опубликованных недельных отчетов</h3>
+              <p>
+                Чтобы отчет появился у всех коллег, положи экспортированный HTML в папку <code>weekly-reports</code>
+                и добавь запись о нем в <code>weekly-reports/reports.json</code>.
+              </p>
+              <div class="empty-actions">
+                <button class="btn btn-primary" type="button" data-open-report-modal="true">Создать локальный отчет</button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        if (!visibleRegistry.length) {
+          reportGrid.innerHTML = `
+            <div class="empty-box">
+              <h3>Ничего не найдено</h3>
+              <p>Попробуй другой номер недели, дату или часть названия отчета.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const renderTaskCount = (item) => {
+          const count = Number(item.taskCount || 0);
+          return count > 0 ? `задач: ${count}` : 'задач: н/д';
+        };
+
+        const renderReportActions = (item) => {
+          const openLink = `<a class="btn btn-primary" href="${escapeHTML(getReportOpenHref(item))}">Открыть</a>`;
+          if (item.source === 'public') return openLink;
+
+          return `${openLink}
+            <button class="btn btn-danger" type="button" data-delete-report="${escapeHTML(item.id)}">Удалить</button>`;
+        };
+
+        const [latest, ...archive] = visibleRegistry;
+
+        reportGrid.innerHTML = `
+          <div class="report-stack">
+            <article class="report-latest">
+              <div class="report-row-title">
+                <span class="pill report-source-pill ${latest.source === 'public' ? 'is-public' : 'is-local'}">${latest.source === 'public' ? 'Опубликованный отчет' : 'Локальный отчет'}</span>
+                <strong>${escapeHTML(latest.title)}</strong>
+                <span>${escapeHTML(latest.meta || 'Неделя и дата не указаны')}</span>
+                <div class="draft-meta">
+                  <span class="meta-chip">${escapeHTML(getReportTimelineLabel(latest))}</span>
+                  <span class="meta-chip">${renderTaskCount(latest)}</span>
+                </div>
+              </div>
+              <div class="report-row-actions">
+                ${renderReportActions(latest)}
+              </div>
+            </article>
+
+            <div class="report-archive-note">
+              Архив ниже остается компактным даже при 52 отчетах в году: одна строка на неделю, без больших карточек.
+            </div>
+
+            <div class="report-list" aria-label="Архив недельных отчетов">
+              ${archive.length ? archive.map((item) => `
+                <article class="report-row">
+                  <div class="report-row-title">
+                    <strong>${escapeHTML(item.title)}</strong>
+                    <span>${escapeHTML(item.meta || 'Неделя и дата не указаны')}</span>
+                  </div>
+                  <div class="report-cell">${escapeHTML(getReportTimelineLabel(item))}</div>
+                  <div class="report-cell">${renderTaskCount(item)}</div>
+                  <div class="report-row-actions">
+                    ${renderReportActions(item)}
+                  </div>
+                </article>
+              `).join('') : `
+                <div class="empty-box">
+                  <h3>Архив пока пуст</h3>
+                  <p>Когда появятся следующие недели, они будут добавляться сюда компактными строками.</p>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      }
+
+      async function resolveLink(candidates, links) {
+        for (const candidate of candidates) {
+          try {
+            const response = await fetch(candidate, { method: 'HEAD', cache: 'no-store' });
+            if (response.ok) {
+              links.forEach((link) => {
+                if (link) link.href = candidate;
+              });
+              return;
+            }
+          } catch (error) {
+          }
+        }
+      }
+
+      async function resolveReleaseLink() {
+        await resolveLink(siteCandidates, [siteTopLink, siteCardLink]);
+        await resolveLink(releaseCandidates, [topLink, cardLink]);
+      }
+
+      function openModal() {
+        draftModal.classList.add('is-open');
+        draftModal.setAttribute('aria-hidden', 'false');
+        setTimeout(() => draftTitleInput.focus(), 40);
+      }
+
+      function closeModal() {
+        draftModal.classList.remove('is-open');
+        draftModal.setAttribute('aria-hidden', 'true');
+      }
+
+      function openReportModal() {
+        if (!reportModal) return;
+        if (reportMetaInput && !reportMetaInput.value.trim()) {
+          reportMetaInput.value = guessNextReportMeta();
+        }
+        reportModal.classList.add('is-open');
+        reportModal.setAttribute('aria-hidden', 'false');
+        setTimeout(() => reportMetaInput?.focus(), 40);
+      }
+
+      function closeReportModal() {
+        if (!reportModal) return;
+        reportModal.classList.remove('is-open');
+        reportModal.setAttribute('aria-hidden', 'true');
+      }
+
+      function guessNextReportMeta() {
+        const reports = getCombinedReportRegistry();
+        const latest = reports.slice().sort((a, b) => getReportSortTime(b) - getReportSortTime(a))[0];
+        const source = String(latest?.meta || '').trim();
+        const weekMatch = source.match(/Неделя\s*№?\s*(\d+)/i);
+        const nextWeek = weekMatch ? Number(weekMatch[1]) + 1 : getIsoWeekNumber(getNextThursday(new Date()));
+        const sourceDate = parseReportMetaDate(source);
+        const nextDate = sourceDate ? addDays(sourceDate, 7) : getNextThursday(new Date());
+        return `Неделя №${nextWeek} | ${formatRussianReportDate(nextDate)}`;
+      }
+
+      function parseReportMetaDate(meta) {
+        const source = String(meta || '').toLowerCase().replace(/ё/g, 'е');
+        const match = source.match(/(\d{1,2})\s+([а-яa-z]+)\s+(\d{4})/i);
+        if (!match) return null;
+
+        const month = getRussianMonthIndex(match[2]);
+        if (month === null) return null;
+
+        const date = new Date(Number(match[3]), month, Number(match[1]));
+        return Number.isNaN(date.getTime()) ? null : date;
+      }
+
+      function getRussianMonthIndex(monthName) {
+        const months = {
+          января: 0,
+          февраль: 1,
+          февраля: 1,
+          март: 2,
+          марта: 2,
+          апрель: 3,
+          апреля: 3,
+          май: 4,
+          мая: 4,
+          июнь: 5,
+          июня: 5,
+          июль: 6,
+          июля: 6,
+          август: 7,
+          августа: 7,
+          сентябрь: 8,
+          сентября: 8,
+          октябрь: 9,
+          октября: 9,
+          ноябрь: 10,
+          ноября: 10,
+          декабрь: 11,
+          декабря: 11
+        };
+        const index = months[String(monthName || '').toLowerCase().replace(/ё/g, 'е')];
+        return index === undefined ? null : index;
+      }
+
+      function addDays(date, days) {
+        const next = new Date(date);
+        next.setDate(next.getDate() + days);
+        return next;
+      }
+
+      function getNextThursday(date) {
+        const next = new Date(date);
+        const currentDay = next.getDay();
+        const targetDay = 4;
+        let diff = (targetDay - currentDay + 7) % 7;
+        if (diff === 0) diff = 7;
+        next.setDate(next.getDate() + diff);
+        return next;
+      }
+
+      function getIsoWeekNumber(date) {
+        const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNumber = target.getUTCDay() || 7;
+        target.setUTCDate(target.getUTCDate() + 4 - dayNumber);
+        const yearStart = new Date(Date.UTC(target.getUTCFullYear(), 0, 1));
+        return Math.ceil((((target - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function formatRussianReportDate(date) {
+        const months = [
+          'января',
+          'февраля',
+          'марта',
+          'апреля',
+          'мая',
+          'июня',
+          'июля',
+          'августа',
+          'сентября',
+          'октября',
+          'ноября',
+          'декабря'
+        ];
+        return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+      }
+
+      function createDraft(title) {
+        const id = `draft_${Date.now()}`;
+        const cleanTitle = (title || '[Новая дорожная карта]').trim() || '[Новая дорожная карта]';
+        const now = Date.now();
+        const record = {
+          id,
+          title: cleanTitle,
+          milestones: [],
+          createdAt: now,
+          updatedAt: now,
+          stats: { total: 0, done: 0, progress: 0, planned: 0 }
+        };
+
+        localStorage.setItem(getRecordKey(id), JSON.stringify(record));
+        const registry = getRegistry();
+        registry.unshift({
+          id,
+          title: cleanTitle,
+          createdAt: now,
+          updatedAt: now,
+          fileName: `${slugify(cleanTitle)}.html`,
+          stats: record.stats
+        });
+        setRegistry(registry);
+        localStorage.setItem('healbe_roadmap_last_hub', getCurrentFileName());
+        location.href = `${BUILDER_PATH}?draft=${encodeURIComponent(id)}`;
+      }
+
+      async function createReport(title, meta) {
+        const id = `report_${Date.now()}`;
+        const cleanTitle = (title || 'Недельный срез продуктовых работ Healbe').trim() || 'Недельный срез продуктовых работ Healbe';
+        const cleanMeta = (meta || '').trim() || 'Неделя №20 | 14 мая 2026';
+        const now = Date.now();
+        const seedState = await buildNextReportSeedState(cleanTitle, cleanMeta);
+        const record = {
+          id,
+          title: cleanTitle,
+          meta: cleanMeta,
+          createdAt: now,
+          updatedAt: now,
+          taskCount: Array.isArray(seedState?.tasks) ? seedState.tasks.length : 0,
+          template: 'weekly-reports/weekly_workboard.html',
+          resetWeeklyDone: true,
+          ...(seedState || {})
+        };
+
+        localStorage.setItem(getReportRecordKey(id), JSON.stringify(record));
+        const registry = getReportRegistry();
+        registry.unshift(record);
+        setReportRegistry(registry);
+        location.href = `${REPORT_BUILDER_PATH}?report=${encodeURIComponent(id)}`;
+      }
+
+      async function buildNextReportSeedState(title, meta) {
+        if (!publicReportRegistry.length) {
+          await loadPublicReports();
+        }
+
+        const latestPublic = publicReportRegistry
+          .slice()
+          .sort((a, b) => getReportSortTime(b) - getReportSortTime(a))[0];
+        const latest = latestPublic || getCombinedReportRegistry()[0];
+        const sourceState = await loadReportStateFromRegistryItem(latest);
+        if (!sourceState) return null;
+
+        return {
+          ...sourceState,
+          title,
+          meta,
+          tasks: Array.isArray(sourceState.tasks)
+            ? sourceState.tasks.map((task) => ({
+              ...task,
+              artifactNote: ''
+            }))
+            : [],
+          directions: Array.isArray(sourceState.directions) ? sourceState.directions : []
+        };
+      }
+
+      async function loadReportStateFromRegistryItem(item) {
+        if (!item) return null;
+
+        if (item.source === 'local') {
+          const localState = readLocalReportState(item.id);
+          if (localState) return localState;
+        }
+
+        if (item.url) {
+          const fetchedState = await fetchReportStateFromHtml(item.url);
+          if (fetchedState) return fetchedState;
+        }
+
+        return null;
+      }
+
+      function readLocalReportState(id) {
+        if (!id) return null;
+        try {
+          const record = JSON.parse(localStorage.getItem(getReportRecordKey(id)) || 'null');
+          return record && Array.isArray(record.tasks) && record.tasks.length ? record : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      async function fetchReportStateFromHtml(url) {
+        try {
+          const response = await fetch(url, { cache: 'no-store' });
+          if (!response.ok) return null;
+          return extractWorkboardStateFromHtml(await response.text());
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function extractWorkboardStateFromHtml(html) {
+        const marker = 'window.__WORKBOARD_EXPORTED_STATE__=';
+        const start = String(html || '').indexOf(marker);
+        if (start < 0) return null;
+
+        const jsonStart = start + marker.length;
+        const end = String(html).indexOf(';<\/script>', jsonStart);
+        if (end < 0) return null;
+
+        try {
+          const state = JSON.parse(String(html).slice(jsonStart, end));
+          return state && Array.isArray(state.tasks) ? state : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function deleteDraft(id) {
+        const ok = confirm('Удалить этот локальный черновик?');
+        if (!ok) return;
+
+        localStorage.removeItem(getRecordKey(id));
+        const next = getRegistry().filter(item => item.id !== id);
+        setRegistry(next);
+        renderDrafts();
+      }
+
+      function deleteReport(id) {
+        const ok = confirm('Удалить этот локальный недельный отчет?');
+        if (!ok) return;
+
+        localStorage.removeItem(getReportRecordKey(id));
+        const next = getReportRegistry().filter(item => item.id !== id);
+        setReportRegistry(next);
+        renderReports();
+      }
+
+      document.addEventListener('click', (event) => {
+        const draftLink = event.target.closest('a[href*="roadmap_builder"]');
+        if (draftLink) {
+          localStorage.setItem('healbe_roadmap_last_hub', getCurrentFileName());
+        }
+
+        const openTrigger = event.target.closest('[data-open-draft-modal="true"]');
+        if (openTrigger) {
+          openModal();
+          return;
+        }
+
+        const openReportTrigger = event.target.closest('[data-open-report-modal="true"]');
+        if (openReportTrigger) {
+          openReportModal();
+          return;
+        }
+
+        const deleteTrigger = event.target.closest('[data-delete-draft]');
+        if (deleteTrigger) {
+          deleteDraft(deleteTrigger.getAttribute('data-delete-draft'));
+          return;
+        }
+
+        const deleteReportTrigger = event.target.closest('[data-delete-report]');
+        if (deleteReportTrigger) {
+          deleteReport(deleteReportTrigger.getAttribute('data-delete-report'));
+          return;
+        }
+
+        if (event.target === draftModal) {
+          closeModal();
+        }
+
+        if (event.target === reportModal) {
+          closeReportModal();
+        }
+      });
+
+      document.getElementById('createDraftBtnTop').addEventListener('click', openModal);
+      document.getElementById('createDraftBtnSection').addEventListener('click', openModal);
+      document.getElementById('closeDraftModal').addEventListener('click', closeModal);
+      document.getElementById('createReportBtnTop')?.addEventListener('click', openReportModal);
+      document.getElementById('createReportBtnSection')?.addEventListener('click', openReportModal);
+      document.getElementById('closeReportModal')?.addEventListener('click', closeReportModal);
+      reportSearchInput?.addEventListener('input', renderReports);
+
+      draftForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        createDraft(draftTitleInput.value);
+      });
+
+      reportForm?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        createReport(reportTitleInput.value, reportMetaInput.value);
+      });
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && draftModal.classList.contains('is-open')) {
+          closeModal();
+        }
+        if (event.key === 'Escape' && reportModal?.classList.contains('is-open')) {
+          closeReportModal();
+        }
+      });
+
+      resolveReleaseLink();
+      renderReports();
+      loadPublicReports().finally(renderReports);
+      renderDrafts();
+    })();
+  </script>
 </body>
 </html>
