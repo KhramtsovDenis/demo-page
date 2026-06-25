@@ -6575,3 +6575,217 @@
             font-weight: 700;
             letter-spacing: 0;
         }
+
+        /* Final dashboard polish: density and visual weight only, no layout/data changes. */
+        .topbar {
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            border-radius: 18px;
+        }
+
+        .title-wrap {
+            padding: 4px 0 4px 14px;
+            border-left-width: 4px;
+        }
+
+        .page-title {
+            margin-bottom: 4px;
+            font-size: clamp(25px, 2.35vw, 38px);
+            line-height: 1.02;
+        }
+
+        .page-meta {
+            font-size: 14px;
+            line-height: 1.25;
+        }
+
+        .portfolio-overview .portfolio-contour-goal {
+            color: #475569;
+            font-size: 13.5px;
+            line-height: 1.42;
+        }
+
+        .portfolio-overview .portfolio-state-card {
+            min-height: 50px;
+            gap: 4px;
+            padding: 8px 10px;
+            border-color: rgba(226, 232, 240, 0.92);
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: none;
+        }
+
+        .portfolio-overview .portfolio-state-label {
+            color: #55708d;
+            font-size: 10px;
+        }
+
+        .portfolio-overview .portfolio-state-label svg {
+            width: 14px;
+            height: 14px;
+            color: #3d74d8;
+            opacity: 0.78;
+        }
+
+        .portfolio-overview .portfolio-state-card strong {
+            font-size: 14px;
+            line-height: 1.08;
+        }
+
+        .portfolio-expand-row {
+            padding: 0 14px 12px 60px;
+        }
+
+        .portfolio-expand-row::before,
+        .portfolio-expand-anchor {
+            display: none;
+        }
+
+        .portfolio-expand-row .direction-expand {
+            border-radius: 14px;
+            box-shadow: none;
+        }
+
+        .direction-expand {
+            padding: 10px;
+            border-color: rgba(222, 232, 245, 0.95);
+            background: rgba(248, 251, 255, 0.78);
+        }
+
+        .direction-expand-story {
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .direction-insight-card {
+            min-height: 80px;
+            grid-template-columns: 34px minmax(0, 1fr);
+            gap: 10px;
+            padding: 10px 12px;
+            border-color: rgba(226, 232, 240, 0.94);
+            border-radius: 13px;
+            box-shadow: none;
+        }
+
+        .direction-insight-card.is-key {
+            box-shadow: inset 3px 0 0 var(--status-color, #2f66df);
+        }
+
+        .direction-insight-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+        }
+
+        .direction-insight-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .direction-insight-card h4,
+        .direction-panel-head h4 {
+            font-size: 13.5px;
+        }
+
+        .direction-insight-card p {
+            margin-top: 5px;
+            font-size: 13.5px;
+            line-height: 1.38;
+        }
+
+        .direction-expand-body {
+            gap: 8px;
+        }
+
+        .direction-panel {
+            border-color: rgba(226, 232, 240, 0.94);
+            border-radius: 13px;
+            box-shadow: none;
+        }
+
+        .direction-panel-head {
+            padding: 12px 14px 10px;
+            border-bottom-color: rgba(226, 232, 240, 0.82);
+        }
+
+        .direction-milestone-summary {
+            gap: 6px;
+            padding: 9px 12px;
+            border-bottom-color: rgba(226, 232, 240, 0.76);
+        }
+
+        .direction-milestone-summary span {
+            min-height: 34px;
+            padding: 6px 7px;
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            background: rgba(248, 250, 252, 0.7);
+        }
+
+        .direction-milestone-summary strong {
+            font-size: 16px;
+        }
+
+        .direction-milestone-checklist li {
+            gap: 8px;
+            padding: 9px 12px;
+            border-bottom-color: rgba(226, 232, 240, 0.72);
+        }
+
+        .direction-milestone-name {
+            font-size: 12.5px;
+            line-height: 1.25;
+        }
+
+        .direction-milestone-badge {
+            min-height: 20px;
+            padding: 0 7px;
+            font-size: 10.5px;
+            background: rgba(238, 245, 255, 0.82);
+        }
+
+        .direction-release-item {
+            grid-template-columns: 84px minmax(0, 1fr);
+            gap: 12px;
+            padding: 12px 14px;
+            border-bottom-color: rgba(226, 232, 240, 0.78);
+        }
+
+        .direction-release-date {
+            min-height: 50px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 0 1px rgba(203, 216, 236, 0.72);
+        }
+
+        .direction-release-date strong {
+            font-size: 18px;
+        }
+
+        .direction-release-title-row h5 {
+            font-size: 14px;
+            line-height: 1.22;
+        }
+
+        .direction-release-copy p {
+            margin-top: 5px;
+            font-size: 12.5px;
+            line-height: 1.36;
+        }
+
+        .direction-release-badge {
+            min-height: 22px;
+            padding: 0 8px;
+            font-size: 10.5px;
+        }
+
+        .portfolio-completion-area {
+            margin-top: 24px;
+        }
+
+        @media (max-width: 980px) {
+            .page-title {
+                font-size: clamp(23px, 7vw, 32px);
+            }
+
+            .portfolio-expand-row {
+                padding: 0 10px 12px;
+            }
+        }
