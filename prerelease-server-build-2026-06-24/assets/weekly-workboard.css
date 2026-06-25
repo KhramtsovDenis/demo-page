@@ -6780,6 +6780,63 @@
             margin-top: 24px;
         }
 
+        .artifact-box.artifact-box-split {
+            padding: 16px 18px;
+            gap: 12px;
+        }
+
+        .artifact-copy {
+            padding-left: clamp(10px, 1.8vw, 26px);
+        }
+
+        .artifact-copy .artifact-title {
+            max-width: 58%;
+            margin-left: 0;
+            text-align: left;
+            font-size: clamp(28px, 2vw, 34px);
+            line-height: 1.14;
+        }
+
+        .artifact-copy .artifact-note,
+        .artifact-copy .artifact-note-list {
+            max-width: 58%;
+            margin-top: 12px;
+            font-size: clamp(15px, 1.05vw, 17px);
+            line-height: 1.46;
+            font-weight: 600;
+        }
+
+        .artifact-note-list li {
+            grid-template-columns: 30px minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+        }
+
+        .artifact-note-list li + li {
+            margin-top: 10px;
+        }
+
+        .artifact-note-list li::before {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .roadmap-today {
+            top: 8px;
+        }
+
+        .roadmap-today::before {
+            top: 22px;
+        }
+
+        .roadmap-today-label {
+            min-height: 18px;
+            padding: 2px 8px;
+            line-height: 1;
+        }
+
         @media (max-width: 980px) {
             .page-title {
                 font-size: clamp(23px, 7vw, 32px);
@@ -6787,5 +6844,15 @@
 
             .portfolio-expand-row {
                 padding: 0 10px 12px;
+            }
+
+            .artifact-copy {
+                padding-left: 0;
+            }
+
+            .artifact-copy .artifact-title,
+            .artifact-copy .artifact-note,
+            .artifact-copy .artifact-note-list {
+                max-width: 100%;
             }
         }
