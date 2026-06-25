@@ -6794,6 +6794,7 @@
             max-width: 58%;
             margin-left: 0;
             text-align: center;
+            transform: translateX(-15%);
             font-size: clamp(28px, 2vw, 34px);
             line-height: 1.14;
         }
@@ -6859,5 +6860,9 @@
                 width: 100%;
                 max-width: 100%;
                 margin-left: 0;
+            }
+
+            .artifact-copy .artifact-title {
+                transform: none;
             }
         }
