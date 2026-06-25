@@ -6792,8 +6792,8 @@
         .artifact-copy .artifact-title {
             width: min(58%, 680px);
             max-width: 58%;
-            margin-left: clamp(28px, 6vw, 96px);
-            text-align: left;
+            margin-left: 0;
+            text-align: center;
             font-size: clamp(28px, 2vw, 34px);
             line-height: 1.14;
         }
@@ -6802,7 +6802,7 @@
         .artifact-copy .artifact-note-list {
             width: min(58%, 680px);
             max-width: 58%;
-            margin-left: clamp(28px, 6vw, 96px);
+            margin-left: 0;
             margin-top: 12px;
             font-size: clamp(15px, 1.05vw, 17px);
             line-height: 1.46;
