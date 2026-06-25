@@ -6794,7 +6794,7 @@
             max-width: 58%;
             margin-left: 0;
             text-align: center;
-            transform: translateX(-15%);
+            transform: translateX(8%);
             font-size: clamp(28px, 2vw, 34px);
             line-height: 1.14;
         }
