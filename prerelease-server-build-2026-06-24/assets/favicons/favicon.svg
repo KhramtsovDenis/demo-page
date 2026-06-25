@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Healbe reports favicon">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="72" x2="420" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563EB"/>
+      <stop offset="0.48" stop-color="#14B8A6"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(156 104) rotate(52) scale(360)">
+      <stop stop-color="white" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="24" y="32" width="464" height="464" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#0F172A" flood-opacity="0.20"/>
+    </filter>
+  </defs>
+
+  <rect x="48" y="48" width="416" height="416" rx="112" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="68" y="68" width="376" height="376" rx="96" fill="url(#glow)"/>
+
+  <g stroke="white" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M138 354H374" stroke-width="32" opacity="0.96"/>
+    <path d="M168 354V276" stroke-width="34" opacity="0.96"/>
+    <path d="M244 354V218" stroke-width="34" opacity="0.96"/>
+    <path d="M320 354V166" stroke-width="34" opacity="0.96"/>
+    <path d="M146 250C188 242 222 218 256 180C292 214 330 230 374 226" stroke-width="26" opacity="0.96"/>
+    <path d="M374 226L344 196" stroke-width="26" opacity="0.96"/>
+    <path d="M374 226L344 256" stroke-width="26" opacity="0.96"/>
+  </g>
+</svg>

@@ -1070,8 +1070,7 @@ function bindCompletedProjectActions(container) {
 }
 
         function hasTaskAttentionSignal(task) {
-    return String(task?.status || "").trim().toLowerCase() === "risk"
-        || hasMeaningfulFocusText(task?.focus)
+    return hasMeaningfulFocusText(task?.focus)
         || hasMeaningfulFocusText(task?.ceoFocus);
 }
 
@@ -4283,14 +4282,24 @@ function renderPortfolioStateMetric(label, value, kind) {
 
         function createSeedReportState(record) {
             const baseState = buildStateFromSource(window[EXPORTED_STATE_GLOBAL]) || structuredClone(DEFAULT_STATE);
+            const sourceReportDate = parseReportDateValue(parseRussianDateFromMeta(String(baseState.meta || ""))) || new Date();
+            const archiveCompletedAt = formatDateLabel(sourceReportDate);
             const seededState = {
                 ...baseState,
                 title: String(record?.title || baseState.title || DEFAULT_STATE.title),
                 meta: String(record?.meta || baseState.meta || DEFAULT_STATE.meta),
-                tasks: (baseState.tasks || []).map((task) => ({
-                    ...task,
-                    artifactNote: ""
-                }))
+                tasks: (baseState.tasks || []).map((task) => {
+                    const nextTask = {
+                        ...task,
+                        artifactNote: "",
+                        focus: "",
+                        ceoFocus: ""
+                    };
+                    if (isCompletedProject(nextTask) && archiveCompletedAt) {
+                        nextTask.completedAt = archiveCompletedAt;
+                    }
+                    return nextTask;
+                })
             };
 
             return buildStateFromSource(seededState) || seededState;
