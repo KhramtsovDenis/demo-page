@@ -370,6 +370,14 @@
             background: linear-gradient(135deg, #23c5bb, #139d94);
         }
 
+        .contour-icon.is-product_process_ai {
+            background: linear-gradient(135deg, #3b82f6, #7c3aed);
+        }
+
+        .contour-icon.is-healbe_mobile_app {
+            background: linear-gradient(135deg, #14b8a6, #2563eb);
+        }
+
         .portfolio-contour-title {
             margin: 0;
             color: #10233f;
