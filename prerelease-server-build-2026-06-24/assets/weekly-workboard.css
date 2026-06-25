@@ -6786,12 +6786,13 @@
         }
 
         .artifact-copy {
-            padding-left: clamp(10px, 1.8vw, 26px);
+            padding-left: 0;
         }
 
         .artifact-copy .artifact-title {
+            width: min(58%, 680px);
             max-width: 58%;
-            margin-left: 0;
+            margin-left: clamp(28px, 6vw, 96px);
             text-align: left;
             font-size: clamp(28px, 2vw, 34px);
             line-height: 1.14;
@@ -6799,7 +6800,9 @@
 
         .artifact-copy .artifact-note,
         .artifact-copy .artifact-note-list {
+            width: min(58%, 680px);
             max-width: 58%;
+            margin-left: clamp(28px, 6vw, 96px);
             margin-top: 12px;
             font-size: clamp(15px, 1.05vw, 17px);
             line-height: 1.46;
@@ -6853,6 +6856,8 @@
             .artifact-copy .artifact-title,
             .artifact-copy .artifact-note,
             .artifact-copy .artifact-note-list {
+                width: 100%;
                 max-width: 100%;
+                margin-left: 0;
             }
         }
