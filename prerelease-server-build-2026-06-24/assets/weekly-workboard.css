@@ -6790,11 +6790,11 @@
         }
 
         .artifact-copy .artifact-title {
-            width: min(58%, 680px);
-            max-width: 58%;
+            width: 100%;
+            max-width: 100%;
             margin-left: 0;
             text-align: center;
-            transform: translateX(8%);
+            transform: translateX(-7%);
             font-size: clamp(28px, 2vw, 34px);
             line-height: 1.14;
         }
