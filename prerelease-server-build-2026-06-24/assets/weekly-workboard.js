@@ -125,6 +125,7 @@
                 releaseResults,
                 icon: String(direction.icon || "").trim(),
                 color: String(direction.color || "").trim(),
+                hidden: direction.hidden === true,
                 order: Number.isFinite(Number(direction.order)) ? Number(direction.order) : index
             };
         }
@@ -163,6 +164,14 @@
         function getDirectionConfig() {
             const customDirections = normalizeDirections(state?.directions);
             return customDirections.length ? customDirections : getDefaultDirections();
+        }
+
+        function getVisibleDirectionConfig() {
+            return getDirectionConfig().filter((direction) => !direction.hidden);
+        }
+
+        function getHiddenDirectionConfig() {
+            return getDirectionConfig().filter((direction) => direction.hidden);
         }
         const RELEASE_PACKAGE_CONFIG = [
             {
@@ -461,6 +470,7 @@
     const normalizedTasks = (state.tasks || []).map(normalizeTaskFromJson);
     const activeTasks = normalizedTasks.filter((task) => !isCompletedProject(task));
     const contours = buildExecutiveContours(activeTasks);
+    const hiddenContours = buildHiddenDirectionSummaries(activeTasks);
     const overview = contourGrid.closest(".portfolio-overview");
     if (overview) {
         let summaryRail = overview.querySelector(".portfolio-dashboard-summary");
@@ -471,12 +481,22 @@
         }
         summaryRail.innerHTML = renderPortfolioDashboardSummary(contours);
 
+        let hiddenArea = overview.querySelector(".portfolio-hidden-area");
+        if (!hiddenArea) {
+            hiddenArea = document.createElement("section");
+            hiddenArea.className = "portfolio-hidden-area";
+        }
+        overview.insertBefore(hiddenArea, contourGrid.nextSibling);
+        hiddenArea.innerHTML = renderHiddenDirectionsArea(hiddenContours);
+        hiddenArea.hidden = !hiddenArea.innerHTML.trim();
+        bindHiddenDirectionActions(hiddenArea);
+
         let completionArea = overview.querySelector(".portfolio-completion-area");
         if (!completionArea) {
             completionArea = document.createElement("section");
             completionArea.className = "portfolio-completion-area";
         }
-        overview.insertBefore(completionArea, contourGrid.nextSibling);
+        overview.insertBefore(completionArea, hiddenArea.nextSibling);
         completionArea.innerHTML = renderCompletedProjectsArea(normalizedTasks);
         completionArea.hidden = !completionArea.innerHTML.trim();
         bindCompletedProjectActions(completionArea);
@@ -533,12 +553,24 @@
             event.stopPropagation();
         });
     });
+    contourGrid.querySelectorAll(".portfolio-hide-action[data-contour-id]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            const contourId = button.getAttribute("data-contour-id") || null;
+            if (contourId) setDirectionHidden(contourId, true);
+        });
+        button.addEventListener("dblclick", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+    });
 }
 
         function loadContourFilter() {
             try {
                 const stored = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
-                const validIds = new Set(["all", ...getDirectionConfig().map((item) => item.id)]);
+                const validIds = new Set(["all", ...getVisibleDirectionConfig().map((item) => item.id)]);
                 return validIds.has(stored) ? stored : "all";
             } catch (error) {
                 return "all";
@@ -549,7 +581,7 @@
             if (!contourFilter) return;
             const filters = [
                 { id: "all", title: "Все" },
-                ...getDirectionConfig().map((contour) => ({ id: contour.id, title: contour.title }))
+                ...getVisibleDirectionConfig().map((contour) => ({ id: contour.id, title: contour.title }))
             ];
             contourFilter.innerHTML = filters.map((filter) => `
                 <button class="contour-filter-btn ${currentContourFilter === filter.id ? "is-active" : ""}" type="button" data-filter-id="${escapeHtml(filter.id)}">
@@ -590,9 +622,9 @@
             renderDirectionExpand();
         }
 
-        function buildExecutiveContours(tasks) {
+        function buildExecutiveContours(tasks, directions = getVisibleDirectionConfig()) {
             const buckets = new Map();
-            getDirectionConfig().forEach((contour) => {
+            directions.forEach((contour) => {
                 buckets.set(contour.id, { contour, tasks: [] });
             });
 
@@ -605,6 +637,69 @@
             });
 
             return [...buckets.values()].map((entry) => summarizeContour(entry.contour, entry.tasks));
+        }
+
+        function buildHiddenDirectionSummaries(tasks) {
+            return buildExecutiveContours(tasks, getHiddenDirectionConfig());
+        }
+
+        function renderHiddenDirectionsArea(hiddenContours) {
+            const items = (hiddenContours || []).filter((summary) => summary?.contour?.hidden);
+            if (!items.length) return "";
+
+            return `
+                <details class="portfolio-hidden-box">
+                    <summary>
+                        <span>Скрытые направления</span>
+                        <strong>${items.length}</strong>
+                    </summary>
+                    <div class="portfolio-hidden-list">
+                        ${items.map((summary) => `
+                            <div class="portfolio-hidden-row">
+                                <span class="contour-icon is-${escapeHtml(summary.contour.id)}" aria-hidden="true">${getPortfolioIcon(summary.contour.id)}</span>
+                                <span class="portfolio-hidden-title">${escapeHtml(summary.contour.title)}</span>
+                                <span class="portfolio-hidden-meta">${summary.projects.length} задач</span>
+                                <button class="portfolio-restore-action" type="button" data-contour-id="${escapeHtml(summary.contour.id)}">Вернуть</button>
+                            </div>
+                        `).join("")}
+                    </div>
+                </details>
+            `;
+        }
+
+        function bindHiddenDirectionActions(container) {
+            container.querySelectorAll(".portfolio-restore-action[data-contour-id]").forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const contourId = button.getAttribute("data-contour-id") || null;
+                    if (contourId) setDirectionHidden(contourId, false);
+                });
+            });
+        }
+
+        function setDirectionHidden(directionId, hidden) {
+            const directions = getDirectionConfig();
+            const exists = directions.some((direction) => direction.id === directionId);
+            if (!exists) return;
+
+            state.directions = normalizeDirections(directions.map((direction) =>
+                direction.id === directionId ? { ...direction, hidden } : direction
+            ));
+
+            if (hidden && expandedExecutiveContourId === directionId) {
+                expandedExecutiveContourId = null;
+            }
+            if (hidden && currentContourFilter === directionId) {
+                currentContourFilter = "all";
+                try {
+                    localStorage.setItem(VIEW_MODE_STORAGE_KEY, currentContourFilter);
+                } catch (error) {
+                    // ignore storage errors for standalone HTML
+                }
+            }
+
+            persistAndRender();
         }
 
         function summarizeContour(contour, tasks) {
@@ -1316,6 +1411,9 @@ function renderPortfolioStateMetric(label, value, kind) {
                 </div>
             </div>
             <div class="portfolio-cell portfolio-action-cell">
+                <button class="portfolio-hide-action" type="button" data-contour-id="${escapeHtml(summary.contour.id)}" aria-label="Скрыть направление" title="Скрыть направление">
+                    <span aria-hidden="true">×</span>
+                </button>
                 <button class="portfolio-action ${isExpanded ? "is-expanded" : ""}" type="button" data-contour-id="${escapeHtml(summary.contour.id)}" aria-label="${actionLabel}" title="${actionLabel}">
                     <span class="portfolio-action-icon" aria-hidden="true">
                         <span></span>
@@ -1798,8 +1896,10 @@ function renderPortfolioStateMetric(label, value, kind) {
 
         function getVisibleTasks(tasks) {
             const activeTasks = tasks.filter((task) => !isCompletedProject(task));
-            if (currentContourFilter === "all") return activeTasks;
-            return activeTasks.filter((task) => resolveContour(normalizeTaskFromJson(task, 0)).id === currentContourFilter);
+            const visibleDirections = new Set(getVisibleDirectionConfig().map((direction) => direction.id));
+            const visibleTasks = activeTasks.filter((task) => visibleDirections.has(resolveContour(normalizeTaskFromJson(task, 0)).id));
+            if (currentContourFilter === "all") return visibleTasks;
+            return visibleTasks.filter((task) => resolveContour(normalizeTaskFromJson(task, 0)).id === currentContourFilter);
         }
 
         function resolveContour(task) {
