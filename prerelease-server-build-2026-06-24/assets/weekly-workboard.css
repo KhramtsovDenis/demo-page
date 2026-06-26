@@ -106,7 +106,6 @@
         }
 
         body.is-published-report #publishReportBtn,
-        body.is-published-report #importPatchBtn,
         body.is-published-report #editMetaBtn,
         body.is-published-report #editJsonBtn,
         body.is-published-report #editDirectionsBtn,

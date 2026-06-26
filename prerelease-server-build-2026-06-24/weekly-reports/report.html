@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weekly report viewer</title>
     <link rel="stylesheet" href="../assets/shared.css">
-    <link rel="stylesheet" href="../assets/weekly-workboard.css?v=20260626-2">
+    <link rel="stylesheet" href="../assets/weekly-workboard.css?v=20260626-3">
     <link rel="icon" href="../assets/favicons/favicon.ico" sizes="any">
     <link rel="icon" href="../assets/favicons/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="../assets/favicons/favicon-180.png">
@@ -2789,7 +2789,7 @@
                     if (pageMeta && state.meta) pageMeta.textContent = state.meta;
                 }
                 const script = document.createElement("script");
-                script.src = "../assets/weekly-workboard.js?v=20260626-2";
+                script.src = "../assets/weekly-workboard.js?v=20260626-3";
                 script.onerror = () => showError("Report runtime failed to load.");
                 document.body.appendChild(script);
             }

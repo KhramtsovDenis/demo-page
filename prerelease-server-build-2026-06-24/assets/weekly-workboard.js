@@ -381,7 +381,6 @@
 
             [
                 "publishReportBtn",
-                "importPatchBtn",
                 "editMetaBtn",
                 "editJsonBtn",
                 "editDirectionsBtn",
