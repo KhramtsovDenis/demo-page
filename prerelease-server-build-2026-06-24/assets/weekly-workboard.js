@@ -3747,7 +3747,16 @@ function renderPortfolioStateMetric(label, value, kind) {
             downloadTextFile(dataFileName, buildReportDataPayload(), "application/json;charset=utf-8");
             window.setTimeout(() => {
                 downloadTextFile("reports.json", `${JSON.stringify(nextReports, null, 2)}\n`, "application/json;charset=utf-8");
+                markCurrentStateAsPublicationBaseline();
             }, 350);
+        }
+
+        function markCurrentStateAsPublicationBaseline() {
+            originalState = clonePatchData(state);
+            originalStateHash = hashPatchValue(originalState);
+            persistPatchBaseline(originalState);
+            pendingImportConflicts = [];
+            persistAndRender();
         }
 
         function downloadTextFile(fileName, payload, type) {
