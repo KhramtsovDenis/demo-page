@@ -50,6 +50,8 @@
         }
       ];
       let publicReportRegistry = [];
+      let changedPublishedReportDataFiles = new Set();
+      let publishedReportChangeScanToken = 0;
 
       function getCurrentFileName() {
         const raw = decodeURIComponent(window.location.pathname || '');
@@ -683,11 +685,60 @@
         if (!item || item.source !== 'public') return false;
         const dataFile = getReportDataFileName(item.url);
         if (!dataFile) return false;
-        try {
-          return Boolean(localStorage.getItem(getPublishedReportStorageKey(dataFile)));
-        } catch (error) {
-          return false;
+        return changedPublishedReportDataFiles.has(dataFile);
+      }
+
+      async function refreshPublishedReportChangeState() {
+        const token = ++publishedReportChangeScanToken;
+        const nextChanged = new Set();
+
+        await Promise.all(publicReportRegistry.map(async (item) => {
+          const dataFile = getReportDataFileName(item.url);
+          if (!dataFile) return;
+
+          let localState = null;
+          try {
+            const raw = localStorage.getItem(getPublishedReportStorageKey(dataFile));
+            if (!raw) return;
+            localState = JSON.parse(raw);
+          } catch (error) {
+            return;
+          }
+
+          const publicState = await fetchReportStateFromHtml(item.url);
+          if (!publicState) {
+            nextChanged.add(dataFile);
+            return;
+          }
+
+          if (!areReportStatesEquivalent(localState, publicState)) {
+            nextChanged.add(dataFile);
+          }
+        }));
+
+        if (token === publishedReportChangeScanToken) {
+          changedPublishedReportDataFiles = nextChanged;
         }
+      }
+
+      function areReportStatesEquivalent(left, right) {
+        return stableReportStringify(stripVolatileReportFields(left)) === stableReportStringify(stripVolatileReportFields(right));
+      }
+
+      function stripVolatileReportFields(value, key = '') {
+        if (Array.isArray(value)) return value.map((item) => stripVolatileReportFields(item));
+        if (!value || typeof value !== 'object') return value === undefined ? null : value;
+
+        const volatileRootKeys = new Set(['createdAt', 'updatedAt']);
+        return Object.keys(value).sort().reduce((result, itemKey) => {
+          if (!key && volatileRootKeys.has(itemKey)) return result;
+          result[itemKey] = stripVolatileReportFields(value[itemKey], itemKey);
+          return result;
+        }, {});
+      }
+
+      function stableReportStringify(value) {
+        return JSON.stringify(value);
       }
 
       function getReportDataFileName(url) {
@@ -1099,6 +1150,8 @@
 
       resolveReleaseLink();
       renderReports();
-      loadPublicReports().finally(renderReports);
+      loadPublicReports()
+        .then(refreshPublishedReportChangeState)
+        .finally(renderReports);
       renderDrafts();
     })();
