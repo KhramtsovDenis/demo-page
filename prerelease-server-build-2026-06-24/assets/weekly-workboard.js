@@ -380,7 +380,6 @@
             if (!IS_PUBLISHED_MODE) return;
 
             [
-                "publishReportBtn",
                 "editMetaBtn",
                 "editJsonBtn",
                 "editDirectionsBtn",
