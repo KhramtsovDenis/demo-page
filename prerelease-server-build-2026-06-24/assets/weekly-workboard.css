@@ -368,6 +368,10 @@
             background: linear-gradient(135deg, #23c5bb, #139d94);
         }
 
+        .contour-icon.is-pre_projects {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
         .contour-icon.is-product_process_ai {
             background: linear-gradient(135deg, #3b82f6, #7c3aed);
         }

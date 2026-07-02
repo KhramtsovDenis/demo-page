@@ -101,6 +101,12 @@
                 title: "GoBe5",
                 goal: "Устройство GoBe5 на базе OEM/ODM часов, в которое встроен функционал GoBe U с минимальными доработками ПО. Измерительную часть делает Healbe, а коммуникационную - ODM-партнер.",
                 projectMatchers: ["GoBe5", "GoBe 5"]
+            },
+            {
+                id: "pre_projects",
+                title: "Пре-проекты (Кивач, Скандинавия...)",
+                goal: "Собираем и проверяем ранние партнерские и коммерческие инициативы, которые пока не стали отдельными продуктовыми направлениями, но могут вырасти в полноценные проекты.",
+                projectMatchers: ["Кивач", "Скандинавия", "Т. Рыкалова", "pre_projects"]
             }
         ];
         const OTHER_CONTOUR = {
@@ -740,6 +746,7 @@
                 gobe5: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="2.5" width="8" height="4" rx="1.5" stroke="currentColor" stroke-width="2"/><rect x="6.5" y="6" width="11" height="12" rx="3" stroke="currentColor" stroke-width="2"/><rect x="8" y="17.5" width="8" height="4" rx="1.5" stroke="currentColor" stroke-width="2"/><path d="M8.8 12h2.6l1.8 1.8 2.8-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                 regulatory: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3 19 6v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6l7-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
                 b2b_research: '<svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="8" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M3.5 19a4.5 4.5 0 0 1 9 0M13.5 19a3.5 3.5 0 0 1 7 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+                pre_projects: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7.5h8.2l2 2H19a2 2 0 0 1 2 2v5.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 14h8M8 16.8h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16.8 5.2 18 4l1.2 1.2M18 4v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                 product_process_ai: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7h4v4H7V7ZM13 13h4v4h-4v-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 9h3.5a2.5 2.5 0 0 1 0 5H13M8 15H6.5a2.5 2.5 0 0 1 0-5H7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5 20 4m0 0 1.5 1.5M20 4v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                 healbe_mobile_app: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3.5" width="10" height="17" rx="2.7" stroke="currentColor" stroke-width="2"/><path d="M10 7.5h4M10 16.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 13v-2.2M12 13V9.5M14 13v-1.4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'
             };
