@@ -220,7 +220,7 @@
       "startDate": "04.12.2025",
       "releaseDate": "05.08.2026",
       "releaseProgress": 67,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 23,
       "plannedHours": "",
@@ -310,7 +310,7 @@
       "startDate": "01.12.2025",
       "releaseDate": "14.12.2026",
       "releaseProgress": 33,
-      "status": "discovery",
+      "status": "paused",
       "completedAt": "",
       "actualHours": "",
       "plannedHours": "",
@@ -394,7 +394,7 @@
       "startDate": "2025-09-01",
       "releaseDate": "31.12.2026",
       "releaseProgress": 51,
-      "status": "contract",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 48,
       "plannedHours": "",
@@ -467,7 +467,7 @@
       "releaseDate": "03.06.2026",
       "releaseProgress": 100,
       "status": "done",
-      "completedAt": "18.06.2026",
+      "completedAt": "25.06.2026",
       "actualHours": 0,
       "plannedHours": 0,
       "description": "Набор инициатив, которые подготавливаются для демонстрации на выставках и внешних площадках: презентации, сценарии показа, визуалы, стенды и упрощённые продуктовые версии. Их задача - упаковать наши решения в понятный и убедительный формат для партнёров и рынка.",
@@ -669,38 +669,38 @@
           "progress": 100
         },
         {
-          "date": "25.06.2026",
+          "date": "17.07.2026",
           "text": "Токсикологическое испытание",
           "status": "in-progress",
           "progress": 85
         },
         {
-          "date": "30.06.2026",
+          "date": "18.07.2026",
           "text": "Инструкция (РЭ)",
           "status": "in-progress",
           "progress": 50
         },
         {
-          "date": "30.06.2026",
+          "date": "01.08.2026",
+          "text": "Ранний доступ врачам",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "09.08.2026",
           "text": "FW",
           "status": "in-progress",
           "progress": 90
         },
         {
-          "date": "30.06.2026",
+          "date": "09.08.2026",
           "text": "Разработка МА (Android + IOS)",
           "status": "in-progress",
           "progress": 80
         },
         {
-          "date": "15.07.2026",
+          "date": "15.08.2026",
           "text": "Маркетинговая стратегия",
-          "status": "planned",
-          "progress": 0
-        },
-        {
-          "date": "30.07.2026",
-          "text": "Ранний доступ врачам",
           "status": "planned",
           "progress": 0
         },
@@ -1425,7 +1425,7 @@
       "title": "Пре-проекты (Кивач, Скандинавия...)",
       "startDate": "02.06.2026",
       "releaseDate": "31.12.2026",
-      "releaseProgress": 7,
+      "releaseProgress": 17,
       "status": "in-progress",
       "completedAt": "",
       "actualHours": "",
@@ -1443,7 +1443,7 @@
           "progress": 100
         },
         {
-          "date": "30.06.2026",
+          "date": "30.07.2026",
           "text": "Первая продажа Т. Рыкаловой",
           "status": "in-progress",
           "progress": 45
@@ -1452,11 +1452,11 @@
           "date": "15.08.2026",
           "text": "Подготовка воркшопа (Скандинавия)",
           "status": "in-progress",
-          "progress": 5
+          "progress": 20
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 7,
+      "weeklyProgress": 10,
       "contourId": "pre_projects",
       "releasePackageId": ""
     },
