@@ -1001,7 +1001,7 @@
                 focus: '',
                 ceoFocus: ''
               };
-              if (String(nextTask.status || '').trim().toLowerCase() === 'done' && archiveCompletedAt) {
+              if (String(nextTask.status || '').trim().toLowerCase() === 'done' && archiveCompletedAt && !String(nextTask.completedAt || '').trim()) {
                 nextTask.completedAt = archiveCompletedAt;
               }
               return nextTask;

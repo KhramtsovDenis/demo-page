@@ -2950,6 +2950,11 @@ function renderPortfolioStateMetric(label, value, kind) {
         function parseDisplayDate(value) {
             const raw = String(value || "").trim();
             if (!raw) return null;
+            const isoMatch = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+            if (isoMatch) {
+                const parsed = new Date(Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]));
+                return Number.isNaN(parsed.getTime()) ? null : parsed;
+            }
             const match = raw.match(/^(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{2,4})$/);
             if (!match) return null;
             const day = Number(match[1]);
@@ -4411,7 +4416,7 @@ function renderPortfolioStateMetric(label, value, kind) {
                         focus: "",
                         ceoFocus: ""
                     };
-                    if (isCompletedProject(nextTask) && archiveCompletedAt) {
+                    if (isCompletedProject(nextTask) && archiveCompletedAt && !String(nextTask.completedAt || "").trim()) {
                         nextTask.completedAt = archiveCompletedAt;
                     }
                     return nextTask;
