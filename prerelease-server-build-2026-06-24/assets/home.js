@@ -931,6 +931,10 @@
         const cleanMeta = (meta || '').trim() || 'Неделя №20 | 14 мая 2026';
         const now = Date.now();
         const seedState = await buildNextReportSeedState(cleanTitle, cleanMeta);
+        if (!seedState || !Array.isArray(seedState.tasks) || !seedState.tasks.length) {
+          alert('Не удалось создать новую неделю из последнего опубликованного отчета. Проверь, что weekly-reports/reports.json и JSON последней недели доступны на сервере.');
+          return;
+        }
         const record = {
           id,
           title: cleanTitle,
@@ -958,8 +962,26 @@
         const latestPublic = publicReportRegistry
           .slice()
           .sort((a, b) => getReportSortTime(b) - getReportSortTime(a))[0];
-        const latest = latestPublic || getCombinedReportRegistry()[0];
-        const sourceState = await loadReportStateFromRegistryItem(latest);
+        const candidates = [];
+        const seen = new Set();
+        [latestPublic, ...getCombinedReportRegistry()].forEach((item) => {
+          if (!item) return;
+          const key = getReportIdentityKey(item);
+          if (seen.has(key)) return;
+          seen.add(key);
+          candidates.push(item);
+        });
+
+        let latest = null;
+        let sourceState = null;
+        for (const candidate of candidates) {
+          const candidateState = await loadReportStateFromRegistryItem(candidate);
+          if (candidateState && Array.isArray(candidateState.tasks) && candidateState.tasks.length) {
+            latest = candidate;
+            sourceState = candidateState;
+            break;
+          }
+        }
         if (!sourceState) return null;
 
         const sourceReportDate = parseReportMetaDate(sourceState.meta || latest?.meta || '');
@@ -995,6 +1017,19 @@
         if (item.source === 'local') {
           const localState = readLocalReportState(item.id);
           if (localState) return localState;
+        }
+
+        if (item.source === 'public') {
+          const dataFile = getReportDataFileName(item.url);
+          if (dataFile) {
+            try {
+              const localPublishedState = JSON.parse(localStorage.getItem(getPublishedReportStorageKey(dataFile)) || 'null');
+              if (localPublishedState && Array.isArray(localPublishedState.tasks) && localPublishedState.tasks.length) {
+                return localPublishedState;
+              }
+            } catch (error) {
+            }
+          }
         }
 
         if (item.url) {

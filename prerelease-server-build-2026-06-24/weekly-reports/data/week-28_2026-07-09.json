@@ -9,11 +9,11 @@
       "title": "Energy Balance Transparency (WGHT-1)",
       "startDate": "23.10.2025",
       "releaseDate": "31.08.2026",
-      "releaseProgress": 48,
+      "releaseProgress": 50,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 73,
-      "plannedHours": "",
+      "actualHours": 167.5,
+      "plannedHours": 0,
       "description": "Развитие прозрачности функции энергобаланса: пользователь должен лучше понимать, откуда берутся показатели, как они меняются и что именно на них влияет. Проект направлен на повышение доверия к функции и её практической полезности.",
       "focus": "",
       "summary": "",
@@ -22,13 +22,19 @@
       "achievements": [
         {
           "date": "15.04.2026",
-          "text": "Продуктовое решение готово",
+          "text": "Продуктовое решение",
           "status": "done",
           "progress": 100
         },
         {
-          "date": "31.05.2026",
-          "text": "Техническая подготовка завершена",
+          "date": "04.06.2026",
+          "text": "Системный анализ",
+          "status": "in-progress",
+          "progress": 90
+        },
+        {
+          "date": "20.06.2026",
+          "text": "Техническая подготовка",
           "status": "in-progress",
           "progress": 80
         },
@@ -46,7 +52,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 8,
+      "weeklyProgress": 1,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -57,28 +63,34 @@
       "title": "Long-term data (WGHT-111)",
       "startDate": "",
       "releaseDate": "31.08.2026",
-      "releaseProgress": 30,
+      "releaseProgress": 35,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 47,
+      "actualHours": 194.5,
       "plannedHours": "",
       "description": "Вывод более долгосрочных данных по энергобалансу и весу, чтобы пользователь видел не только краткосрочную динамику, но и устойчивые тренды. Это основа для более осознанного ведения пользователя к его целям.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
           "date": "15.04.2026",
-          "text": "Продуктовое решение готово",
-          "status": "in-progress",
-          "progress": 69
+          "text": "Продуктовое решение",
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "22.05.2026",
-          "text": "Техническая подготовка завершена",
+          "date": "24.06.2026",
+          "text": "Системный анализ",
           "status": "in-progress",
-          "progress": 50
+          "progress": 70
+        },
+        {
+          "date": "29.06.2026",
+          "text": "Техническая подготовка",
+          "status": "in-progress",
+          "progress": 55
         },
         {
           "date": "20.08.2026",
@@ -94,55 +106,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 15,
-      "contourId": "",
-      "releasePackageId": ""
-    },
-    {
-      "id": 3,
-      "domain": "[Устройства][Сопровождение устройств][Neem UX improvements]",
-      "owner": "Маргарита Ящук",
-      "title": "NeeM MVP (Sync & Battery) (NEEM-2)",
-      "startDate": "",
-      "releaseDate": "12.05.2026",
-      "releaseProgress": 89,
-      "status": "test",
-      "completedAt": "",
-      "actualHours": 35,
-      "plannedHours": "",
-      "description": "NEEM с базовой синхронизацией с приложением и поддержкой сценариев, связанных с аккумулятором. Цель - довести продукт до стабильного релизного состояния и подготовить его к полноценному запуску в экосистеме Healbe.",
-      "focus": "",
-      "summary": "",
-      "artifactTitle": "",
-      "artifactNote": "",
-      "achievements": [
-        {
-          "date": "15.01.2026",
-          "text": "Продуктовое решение готово",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "date": "10.03.2026",
-          "text": "Техническая подготовка завершена",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "date": "15.04.2026",
-          "text": "Тестовая сборка",
-          "status": "in-progress",
-          "progress": 80
-        },
-        {
-          "date": "12.05.2026",
-          "text": "Реализация в МА",
-          "status": "in-progress",
-          "progress": 80
-        }
-      ],
-      "ceoFocus": "",
-      "weeklyProgress": 5,
+      "weeklyProgress": 3,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -153,10 +117,10 @@
       "title": "ЭКГ MVP 1.0 B2C (HLTH-3)",
       "startDate": "",
       "releaseDate": "31.08.2026",
-      "releaseProgress": 86,
-      "status": "in-progress",
+      "releaseProgress": 90,
+      "status": "development",
       "completedAt": "",
-      "actualHours": 6,
+      "actualHours": 13.5,
       "plannedHours": "",
       "description": "Первая потребительская версия ЭКГ-функции в экосистеме Healbe. Проект нацелен на запуск понятного и ценного для массового пользователя сценария работы с ЭКГ внутри приложения.",
       "focus": "",
@@ -166,15 +130,15 @@
       "achievements": [
         {
           "date": "30.08.2025",
-          "text": "Продуктовое решение готово",
+          "text": "Продуктовое решение",
           "status": "done",
           "progress": 100
         },
         {
           "date": "15.05.2026",
-          "text": "Техническая подготовка завершена",
+          "text": "Техническая подготовка",
           "status": "in-progress",
-          "progress": 55
+          "progress": 95
         },
         {
           "date": "28.08.2026",
@@ -190,7 +154,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 2,
+      "weeklyProgress": 3,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -204,25 +168,31 @@
       "releaseProgress": 24,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 4,
+      "actualHours": 79,
       "plannedHours": "",
       "description": "Первая B2C-версия функции вариабельности сердечного ритма как нового кардио-показателя в экосистеме Healbe. Задача - дать пользователю понятный инструмент для оценки состояния и восстановления на базе ВСР и индекса Баевского",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы недели",
       "artifactNote": "",
       "achievements": [
         {
-          "date": "30.06.2026",
-          "text": "Продуктовое решение готово",
-          "status": "in-progress",
-          "progress": 45
+          "date": "15.05.2026",
+          "text": "Продуктовое решение",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "29.05.2026",
+          "text": "UX/UI",
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "",
-          "text": "Техническая подготовка завершена",
-          "status": "in-progress",
-          "progress": 5
+          "text": "Техническая подготовка",
+          "status": "planned",
+          "progress": 0
         },
         {
           "date": "20.12.2026",
@@ -238,7 +208,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 3,
+      "weeklyProgress": 0,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -248,16 +218,16 @@
       "owner": "Павел Павлюк",
       "title": "Умная колонка (INC-1)",
       "startDate": "04.12.2025",
-      "releaseDate": "22.07.2026",
-      "releaseProgress": 59,
+      "releaseDate": "05.08.2026",
+      "releaseProgress": 67,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 23,
       "plannedHours": "",
       "description": "Исследовательский трек по поиску роли голосового ассистента и умной колонки и браслета GoBe в экосистеме Healbe. Проект нужен, чтобы понять, может ли голосовой интерфейс стать полезной точкой взаимодействия с пользователем дома.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Маркет. исследование. Этап 3. Количественный. Опросы.",
       "artifactNote": "",
       "achievements": [
         {
@@ -270,7 +240,7 @@
           "date": "10.02.2026",
           "text": "Выбор подрядчика",
           "status": "done",
-          "progress": 98
+          "progress": 100
         },
         {
           "date": "10.03.2026",
@@ -291,38 +261,44 @@
           "progress": 100
         },
         {
-          "date": "31.05.2026",
+          "date": "22.05.2026",
+          "text": "Исследование ЭР- телеком  - 12.05.2026",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "11.06.2026",
+          "text": "2й-этап исследования",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "07.07.2026",
+          "text": "3й-этап исследования",
+          "status": "in-progress",
+          "progress": 7
+        },
+        {
+          "date": "15.07.2026",
           "text": "Анализ  колонок",
           "status": "in-progress",
           "progress": 40
         },
         {
-          "date": "22.05.2026",
-          "text": "2й-этап исследования",
-          "status": "in-progress",
-          "progress": 50
-        },
-        {
-          "date": "22.05.2026",
-          "text": "Исследование ЭР- телеком  - 12.05.2026",
-          "status": "in-progress",
-          "progress": 20
-        },
-        {
-          "date": "28.05.2026",
-          "text": "3й-этап исследования",
+          "date": "05.08.2026",
+          "text": "Продуктовая рекомендация",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "22.07.2026",
+          "date": "18.08.2026",
           "text": "Презентация инвестору",
           "status": "planned",
           "progress": 0
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 6,
+      "weeklyProgress": 2,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -333,7 +309,7 @@
       "title": "Healbe EDA Platform (INC-125)",
       "startDate": "01.12.2025",
       "releaseDate": "14.12.2026",
-      "releaseProgress": 29,
+      "releaseProgress": 33,
       "status": "discovery",
       "completedAt": "",
       "actualHours": "",
@@ -341,7 +317,7 @@
       "description": "Платформа на базе EDA-направления, ориентированная на новые сценарии использования наших данных и технологий в партнёрских и специализированных продуктах. Это отдельный продуктовый трек на стыке исследований, B2B и новых форм цифрового сервиса.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
@@ -352,36 +328,36 @@
         },
         {
           "date": "12.03.2026",
-          "text": "Оценка методики Стивета",
+          "text": "Оценка методики Стивена",
           "status": "done",
           "progress": 100
         },
         {
-          "date": "30.04.2026",
+          "date": "11.06.2026",
           "text": "СustDev 1 этап",
-          "status": "in-progress",
-          "progress": 80
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "01.05.2026",
+          "date": "25.06.2026",
           "text": "План развития проекта",
           "status": "in-progress",
-          "progress": 90
+          "progress": 95
         },
         {
-          "date": "01.06.2026",
+          "date": "10.07.2026",
           "text": "Локализация лендинга (RU)",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "26.06.2026",
+          "date": "05.08.2026",
           "text": "БэН 2.0",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "01.07.2026",
+          "date": "10.07.2026",
           "text": "НИР распознавания эмоций",
           "status": "planned",
           "progress": 0
@@ -406,7 +382,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 2,
+      "weeklyProgress": 1,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -417,15 +393,15 @@
       "title": "Грант СПбГУ (40 больница)",
       "startDate": "2025-09-01",
       "releaseDate": "31.12.2026",
-      "releaseProgress": 38,
+      "releaseProgress": 51,
       "status": "contract",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 48,
       "plannedHours": "",
       "description": "Совместный проект с СПбГУ, связанный с исследовательской и продуктовой проработкой новых направлений. Нужен для проверки гипотез, усиления научного контура и возможного привлечения внешней поддержки.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
@@ -435,26 +411,38 @@
           "progress": 100
         },
         {
-          "date": "30.04.2026",
+          "date": "03.06.2026",
           "text": "Подписание договора",
-          "status": "in-progress",
-          "progress": 95
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "15.05.2026",
+          "date": "04.06.2026",
           "text": "ПО для исследований v1",
-          "status": "in-progress",
-          "progress": 5
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "30.05.2026",
+          "date": "04.06.2026",
+          "text": "Старт сбора данных *",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "30.06.2026",
           "text": "ПО для исследований v2",
+          "status": "in-progress",
+          "progress": 50
+        },
+        {
+          "date": "10.07.2026",
+          "text": "Внесение изменений в ТЗ (при необходимости)",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "01.06.2026",
-          "text": "Старт сбора данных *",
+          "date": "15.07.2026",
+          "text": "Первичное продуктовое решение для нозологий ЭКГ",
           "status": "planned",
           "progress": 0
         },
@@ -466,7 +454,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 4,
+      "weeklyProgress": 1,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -476,16 +464,16 @@
       "owner": "Павел Павлюк",
       "title": "Пре-проекты (ПМЭФ)",
       "startDate": "16.04.2026",
-      "releaseDate": "01.06.2026",
-      "releaseProgress": 25,
-      "status": "in-progress",
-      "completedAt": "",
-      "actualHours": "",
-      "plannedHours": "",
+      "releaseDate": "03.06.2026",
+      "releaseProgress": 100,
+      "status": "done",
+      "completedAt": "2026-07-02",
+      "actualHours": 0,
+      "plannedHours": 0,
       "description": "Набор инициатив, которые подготавливаются для демонстрации на выставках и внешних площадках: презентации, сценарии показа, визуалы, стенды и упрощённые продуктовые версии. Их задача - упаковать наши решения в понятный и убедительный формат для партнёров и рынка.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
@@ -495,26 +483,32 @@
           "progress": 100
         },
         {
-          "date": "28.04.2026",
+          "date": "15.05.2026",
           "text": "Техническая подготовка завершена",
-          "status": "in-progress",
-          "progress": 95
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "20.05.2026",
+          "date": "03.06.2026",
           "text": "Тестовая сборка",
-          "status": "in-progress",
-          "progress": 5
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "03.06.2026",
           "text": "Демонстрация на ПМЭФ",
-          "status": "planned",
-          "progress": 0
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "16.06.2026",
+          "text": "Демонстрация на Sharp",
+          "status": "done",
+          "progress": 100
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 4,
+      "weeklyProgress": 5,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -528,7 +522,7 @@
       "releaseProgress": 39,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 39,
+      "actualHours": 114,
       "plannedHours": "",
       "description": "Комплексный показатель, который объединяет несколько метрик браслета и приложения в один более понятный индикатор состояния пользователя. Нужен для того, чтобы переводить сырые данные в прикладной и интерпретируемый продуктовый смысл.",
       "focus": "",
@@ -538,13 +532,19 @@
       "achievements": [
         {
           "date": "30.04.2026",
-          "text": "Продуктовое решение готово",
+          "text": "Продуктовое решение",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "26.06.2026",
+          "text": "Системный анализ",
           "status": "in-progress",
-          "progress": 95
+          "progress": 5
         },
         {
           "date": "21.08.2026",
-          "text": "Техническая подготовка завершена",
+          "text": "Техническая подготовка",
           "status": "in-progress",
           "progress": 5
         },
@@ -562,7 +562,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 11,
+      "weeklyProgress": 4,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -576,12 +576,12 @@
       "releaseProgress": 60,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 0,
       "plannedHours": "",
       "description": "Совместный исследовательский и медицинский контур с НМИЦ ТПМ для валидации методик, исследований и возможных клинических сценариев применения наших решений. Это один из ключевых партнёрских треков для укрепления медицинской доказательной базы продуктов.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
@@ -617,8 +617,8 @@
         {
           "date": "30.06.2026",
           "text": "Методика работы с Клиниками",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 80
         },
         {
           "date": "",
@@ -628,7 +628,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 5,
+      "weeklyProgress": 3,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -638,16 +638,16 @@
       "owner": "Павел Павлюк",
       "title": "РУ",
       "startDate": "15.01.2026",
-      "releaseDate": "01.10.2026",
-      "releaseProgress": 44,
+      "releaseDate": "15.10.2026",
+      "releaseProgress": 53,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 42,
+      "actualHours": 161,
       "plannedHours": "",
       "description": "Отдельное продуктовое решение на базе GoBe, которое готовится под регистрационное удостоверение. Это самостоятельная медицинская линия со своим приложением, упаковкой, инструкцией и логикой использования, отличной от классического B2C-продукта.",
       "focus": "",
       "summary": "",
-      "artifactTitle": "",
+      "artifactTitle": "Выводы за неделю",
       "artifactNote": "",
       "achievements": [
         {
@@ -663,68 +663,92 @@
           "progress": 100
         },
         {
-          "date": "25.05.2026",
-          "text": "Токсикологическое испытание",
-          "status": "in-progress",
-          "progress": 10
+          "date": "01.06.2026",
+          "text": "Коробка",
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "05.06.2026",
-          "text": "FW",
+          "date": "25.06.2026",
+          "text": "Токсикологическое испытание",
+          "status": "in-progress",
+          "progress": 85
+        },
+        {
+          "date": "30.06.2026",
+          "text": "Инструкция (РЭ)",
           "status": "in-progress",
           "progress": 50
         },
         {
-          "date": "05.06.2026",
-          "text": "Разработка МА",
+          "date": "30.06.2026",
+          "text": "FW",
           "status": "in-progress",
-          "progress": 70
+          "progress": 90
         },
         {
-          "date": "01.06.2026",
-          "text": "СМК",
-          "status": "planned",
-          "progress": 5
-        },
-        {
-          "date": "01.06.2026",
-          "text": "Коробка",
+          "date": "30.06.2026",
+          "text": "Разработка МА (Android + IOS)",
           "status": "in-progress",
-          "progress": 30
+          "progress": 80
         },
         {
-          "date": "28.06.2026",
-          "text": "Инструкция",
+          "date": "15.07.2026",
+          "text": "Маркетинговая стратегия",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "01.07.2026",
-          "text": "Прохождение Тех. исп.",
+          "date": "30.07.2026",
+          "text": "Ранний доступ врачам",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "01.08.2026",
-          "text": "Прохождение ЛЭК",
-          "status": "planned",
-          "progress": 0
-        },
-        {
-          "date": "15.09.2026",
-          "text": "Клинические испытания",
+          "date": "15.08.2026",
+          "text": "Лендинг РУ - разработан",
           "status": "planned",
           "progress": 0
         },
         {
           "date": "01.10.2026",
+          "text": "СМК",
+          "status": "planned",
+          "progress": 8
+        },
+        {
+          "date": "30.07.2026",
+          "text": "Прохождение Тех. исп.",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.08.2026",
+          "text": "Прохождение ЛЭК",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.09.2026",
+          "text": "Клинические испытания",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.09.2026",
+          "text": "Подготовлены печатные материалы",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.10.2026",
           "text": "Получение РУ",
           "status": "planned",
           "progress": 0
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 12,
+      "weeklyProgress": 1,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -738,7 +762,7 @@
       "releaseProgress": 28,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 3,
+      "actualHours": 148,
       "plannedHours": "",
       "description": "Функционал по выявлению и отображению признаков аритмии, как в медицинском, так и в B2C-контуре. Цель - превратить это направление в самостоятельную ценность для пользователя и часть будущего кардио-блока продукта.",
       "focus": "",
@@ -748,14 +772,14 @@
       "achievements": [
         {
           "date": "30.04.2026",
-          "text": "Продуктовое решение готово",
-          "status": "in-progress",
-          "progress": 95
+          "text": "Продуктовое решение",
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "10.05.2026",
-          "text": "Техническая подготовка завершена",
-          "status": "in-progress",
+          "date": "24.07.2026",
+          "text": "Техническая подготовка",
+          "status": "planned",
           "progress": 5
         },
         {
@@ -772,7 +796,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 4,
+      "weeklyProgress": 0,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -782,11 +806,11 @@
       "owner": "Александр Петряков",
       "title": "Индекс здоровья сердца (HLTH-118)",
       "startDate": "",
-      "releaseDate": "14.05.2026",
-      "releaseProgress": 5,
-      "status": "discovery",
+      "releaseDate": "2027",
+      "releaseProgress": 12,
+      "status": "in-progress",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 13,
       "plannedHours": "",
       "description": "Показатель или система оценки, которая должна собирать кардио-данные пользователя в понятный интегральный результат. Это задача сделать сердечный блок более прикладным и легко интерпретируемым.",
       "focus": "",
@@ -795,9 +819,15 @@
       "artifactNote": "",
       "achievements": [
         {
-          "date": "14.05.2026",
-          "text": "Продуктовое решение готово",
-          "status": "in-progress",
+          "date": "26.06.2026",
+          "text": "Продуктовое решение",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "26.07.2026",
+          "text": "UX/UI",
+          "status": "planned",
           "progress": 0
         },
         {
@@ -820,7 +850,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 3,
+      "weeklyProgress": 0,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -831,10 +861,10 @@
       "title": "Weight Trend (WGHT-110)",
       "startDate": "10.03.2026",
       "releaseDate": "23.12.2026",
-      "releaseProgress": 12,
-      "status": "evaluation",
+      "releaseProgress": 28,
+      "status": "in-progress",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 56,
       "plannedHours": "",
       "description": "дать пользователям ясное и интуитивно понятное представление о реальной динамике их веса, отфильтровав ежедневные колебания и создав основу для прогнозов достижения цели.",
       "focus": "",
@@ -855,10 +885,10 @@
           "progress": 100
         },
         {
-          "date": "",
+          "date": "25.06.2026",
           "text": "UX/UI",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 40
         },
         {
           "date": "30.11.2026",
@@ -874,7 +904,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 0,
+      "weeklyProgress": 2,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -885,10 +915,10 @@
       "title": "Weekly plan MVP (WGHT-113)",
       "startDate": "20.10.2025",
       "releaseDate": "",
-      "releaseProgress": 0,
-      "status": "evaluation",
+      "releaseProgress": 12,
+      "status": "discovery",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 123,
       "plannedHours": "",
       "description": "Помочь пользователям достигать еженедельных микро-целей, превращая долгосрочное (месяцы) намерение в понятный, управляемый план (недели) действий с ежедневной поддержкой.",
       "focus": "",
@@ -897,16 +927,22 @@
       "artifactNote": "",
       "achievements": [
         {
-          "date": "14.11.2026",
+          "date": "14.11.2025",
           "text": "Продуктовое исследование",
           "status": "done",
           "progress": 100
         },
         {
-          "date": "",
+          "date": "24.06.2026",
           "text": "Продуктовые требования",
+          "status": "in-progress",
+          "progress": 45
+        },
+        {
+          "date": "",
+          "text": "UX/UI",
           "status": "planned",
-          "progress": 60
+          "progress": 0
         },
         {
           "date": "",
@@ -922,7 +958,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 0,
+      "weeklyProgress": 4,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -933,10 +969,10 @@
       "title": "Multi device (IMA-1)",
       "startDate": "10.11.2025",
       "releaseDate": "29.06.2026",
-      "releaseProgress": 0,
-      "status": "in-progress",
+      "releaseProgress": 85,
+      "status": "development",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 5,
       "plannedHours": "",
       "description": "Расширить функционал мобильного приложения для работы не только с браслетом, но и с другими устройствами, такими как умные кольца, весы, NEEM, ЭКГ-мониторы и прочие. Обеспечить унифицированное подключение, настройку и отображение данных с разных устройств.",
       "focus": "",
@@ -957,20 +993,26 @@
           "progress": 100
         },
         {
+          "date": "05.06.2026",
+          "text": "Валидация текстов и локализация",
+          "status": "in-progress",
+          "progress": 95
+        },
+        {
           "date": "18.06.2026",
           "text": "Тестирование",
           "status": "in-progress",
-          "progress": 30
+          "progress": 40
         },
         {
           "date": "29.06.2026",
           "text": "Реализация в МА",
           "status": "in-progress",
-          "progress": 40
+          "progress": 50
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 0,
+      "weeklyProgress": 4,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -981,10 +1023,10 @@
       "title": "Usage history (NEEM-3)",
       "startDate": "",
       "releaseDate": "29.06.2026",
-      "releaseProgress": 0,
-      "status": "in-progress",
+      "releaseProgress": 73,
+      "status": "development",
       "completedAt": "",
-      "actualHours": "",
+      "actualHours": 55.5,
       "plannedHours": "",
       "description": "Мобильное приложение выступает в роли персонального дневника терапии, беря на себя функции хранения, анализа и визуализации всех данных о сеансах.",
       "focus": "",
@@ -1005,6 +1047,12 @@
           "progress": 100
         },
         {
+          "date": "05.06.2026",
+          "text": "Валидация текстов и локализация",
+          "status": "in-progress",
+          "progress": 92
+        },
+        {
           "date": "18.06.2026",
           "text": "Тестирование",
           "status": "in-progress",
@@ -1018,7 +1066,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 0,
+      "weeklyProgress": 1,
       "contourId": "",
       "releasePackageId": ""
     },
@@ -1030,7 +1078,7 @@
       "startDate": "01.04.2026",
       "releaseDate": "20.12.2026",
       "releaseProgress": 9,
-      "status": "evaluation",
+      "status": "discovery",
       "completedAt": "",
       "actualHours": 88,
       "plannedHours": "",
@@ -1053,6 +1101,12 @@
           "progress": 100
         },
         {
+          "date": "25.05.2026",
+          "text": "[LT] Сделать тестовый стенд",
+          "status": "done",
+          "progress": 100
+        },
+        {
           "date": "30.05.2026",
           "text": "PoC",
           "status": "in-progress",
@@ -1062,7 +1116,7 @@
           "date": "12.06.2026",
           "text": "Описание технических требований",
           "status": "in-progress",
-          "progress": 80
+          "progress": 95
         },
         {
           "date": "31.05.2026",
@@ -1079,12 +1133,6 @@
         {
           "date": "31.05.2026",
           "text": "[LT]: Сформировать пакет документов",
-          "status": "planned",
-          "progress": 20
-        },
-        {
-          "date": "25.05.2026",
-          "text": "[LT] Сделать тестовый стенд",
           "status": "planned",
           "progress": 20
         },
@@ -1150,9 +1198,9 @@
       "startDate": "01.04.2026",
       "releaseDate": "30.04.2027",
       "releaseProgress": 10,
-      "status": "evaluation",
+      "status": "discovery",
       "completedAt": "",
-      "actualHours": 94.5,
+      "actualHours": 0,
       "plannedHours": "",
       "description": "Более дешевый вариант устройства GoBe U, наследующий аппаратную и программную архитектуру, но использующий более дешевые компоненты и материалы.",
       "focus": "",
@@ -1191,28 +1239,28 @@
           "progress": 100
         },
         {
-          "date": "10.05.2026",
-          "text": "Проверить полученные образцы",
-          "status": "in-progress",
-          "progress": 80
-        },
-        {
           "date": "15.05.2026",
           "text": "Схемотехника",
-          "status": "in-progress",
-          "progress": 50
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "22.05.2026",
           "text": "Подготовить юридические документы",
-          "status": "in-progress",
-          "progress": 55
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "31.05.2026",
+          "date": "10.05.2026",
+          "text": "Проверить полученные образцы",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "15.06.2026",
           "text": "Pre-EVT, инженерный макет 2026",
           "status": "in-progress",
-          "progress": 10
+          "progress": 15
         },
         {
           "date": "20.05.2026",
@@ -1240,9 +1288,9 @@
       "startDate": "31.03.2026",
       "releaseDate": "",
       "releaseProgress": 11,
-      "status": "evaluation",
+      "status": "discovery",
       "completedAt": "",
-      "actualHours": 346,
+      "actualHours": 57,
       "plannedHours": "",
       "description": "Устройство GoBe5 на базе OEM/ODM часов, в которое встроен функционал GoBe U с минимальными доработками ПО. Измерительную часть делает Healbe, а коммуникационную - ODM-партнер.",
       "focus": "",
@@ -1281,7 +1329,19 @@
           "progress": 100
         },
         {
-          "date": "24.03.2026",
+          "date": "15.06.2026",
+          "text": "Схемотехника",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "22.06.2026",
+          "text": "Подготовить юридические документы",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "12.05.2026",
           "text": "PoC",
           "status": "in-progress",
           "progress": 35
@@ -1291,18 +1351,6 @@
           "text": "Проверить полученные образцы",
           "status": "in-progress",
           "progress": 80
-        },
-        {
-          "date": "15.06.2026",
-          "text": "Схемотехника",
-          "status": "in-progress",
-          "progress": 50
-        },
-        {
-          "date": "22.05.2026",
-          "text": "Подготовить юридические документы",
-          "status": "in-progress",
-          "progress": 55
         },
         {
           "date": "31.05.2026",
@@ -1332,6 +1380,168 @@
       "ceoFocus": "",
       "weeklyProgress": 0,
       "contourId": "gobe5",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1779886841007,
+      "domain": "[Устройства][Сопровождение устройств][Neem UX improvements]",
+      "owner": "Маргарита Ящук",
+      "title": "Актуализация дорожной карты Neem",
+      "startDate": "",
+      "releaseDate": "",
+      "releaseProgress": 95,
+      "status": "done",
+      "completedAt": "2026-07-02",
+      "actualHours": 4.5,
+      "plannedHours": 8,
+      "description": "Оценка и проектирование развитие направления NEEM в перспективе в контуре экосистемы",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Выводы недели",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "26.05.2026",
+          "text": "Продуктовое исследование",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "05.06.2026",
+          "text": "Согласование решения",
+          "status": "in-progress",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 0,
+      "contourId": "",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1780556584804,
+      "domain": "[B2B][Пре-проекты][Партнерства]",
+      "owner": "Павел Павлюк",
+      "title": "Пре-проекты (Кивач, Скандинавия...)",
+      "startDate": "02.06.2026",
+      "releaseDate": "31.12.2026",
+      "releaseProgress": 7,
+      "status": "in-progress",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Ранние партнерские и коммерческие инициативы: Кивач, Скандинавия и другие пре-проекты, которые пока проходят проверку гипотез и могут стать отдельными продуктовыми треками.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Итоги недели",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "18.06.2026",
+          "text": "Подписание договора с Кивач",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "30.06.2026",
+          "text": "Первая продажа Т. Рыкаловой",
+          "status": "in-progress",
+          "progress": 45
+        },
+        {
+          "date": "15.08.2026",
+          "text": "Подготовка воркшопа (Скандинавия)",
+          "status": "in-progress",
+          "progress": 5
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 7,
+      "contourId": "pre_projects",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1782420001001,
+      "domain": "[Продуктовые процессы][AI][Jira automation]",
+      "owner": "Александр Петряков",
+      "title": "Продуктовый AI-помощник и Jira automation",
+      "startDate": "05.06.2026",
+      "releaseDate": "10.07.2026",
+      "releaseProgress": 70,
+      "status": "in-progress",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Автоматизация продуктового процесса: создание задач в Jira, подготовка PRD, разбиение требований для R&D, FW, системной аналитики и UX/UI, а также поддержка продуктовой работы через AI-помощника.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Выводы недели",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "05.06.2026",
+          "text": "Старт автоматизации продуктового процесса",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "27.06.2026",
+          "text": "MVP AI-помощника для подготовки PRD и структуры задач",
+          "status": "in-progress",
+          "progress": 70
+        },
+        {
+          "date": "10.07.2026",
+          "text": "Внедрение AI-помощника и Jira automation в рабочий процесс",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 0,
+      "contourId": "product_process_ai",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1782420001002,
+      "domain": "[B2C][Mobile App][UX/UI refresh]",
+      "owner": "Александр Петряков",
+      "title": "Обновление UX/UI мобильного приложения Healbe",
+      "startDate": "18.06.2026",
+      "releaseDate": "31.12.2026",
+      "releaseProgress": 5,
+      "status": "discovery",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Развитие мобильного приложения Healbe: обновление визуального стиля основных функций, переработка главного dashboard и анализ ключевых пользовательских сценариев.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Выводы недели",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "18.06.2026",
+          "text": "Старт анализа UX/UI мобильного приложения",
+          "status": "in-progress",
+          "progress": 5
+        },
+        {
+          "date": "31.08.2026",
+          "text": "Концепт обновленного dashboard приложения",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "31.12.2026",
+          "text": "Обновление UX/UI ключевых экранов приложения",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 0,
+      "contourId": "healbe_mobile_app",
       "releasePackageId": ""
     }
   ],
@@ -1433,7 +1643,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 5
     },
     {
@@ -1447,7 +1657,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 6
     },
     {
@@ -1461,13 +1671,47 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 7
+    },
+    {
+      "id": "product_process_ai",
+      "title": "AI-автоматизация продуктовых процессов",
+      "goal": "Автоматизируем продуктовый контур: постановку задач в Jira, подготовку PRD, разбиение требований для R&D, FW, системной аналитики и UX/UI, а также поддержку продуктовой работы через AI-помощника.",
+      "projectMatchers": [
+        "AI-автоматизация продуктовых процессов",
+        "Продуктовый AI-помощник",
+        "Jira automation",
+        "PRD automation",
+        "product_process_ai"
+      ],
+      "releaseResults": [],
+      "icon": "",
+      "color": "",
+      "hidden": false,
+      "order": 8
+    },
+    {
+      "id": "healbe_mobile_app",
+      "title": "Мобильное приложение Healbe",
+      "goal": "Обновляем UX/UI мобильного приложения: визуал основных функций, главный dashboard и пользовательские сценарии взаимодействия с ключевыми данными Healbe.",
+      "projectMatchers": [
+        "Мобильное приложение Healbe",
+        "Healbe Mobile App",
+        "UX/UI приложения",
+        "dashboard приложения",
+        "healbe_mobile_app"
+      ],
+      "releaseResults": [],
+      "icon": "",
+      "color": "",
+      "hidden": false,
+      "order": 9
     },
     {
       "id": "pre_projects",
       "title": "Пре-проекты (Кивач, Скандинавия...)",
-      "goal": "Собираем и проверяем ранние партнерские и коммерческие инициативы, которые пока не стали отдельными продуктовыми направлениями, но могут вырасти в полноценные проекты.",
+      "goal": "Собираем и проверяем ранние партнерские и коммерческие инициативы: Кивач, Скандинавия и похожие пре-проектные активности, которые могут вырасти в отдельные продуктовые проекты.",
       "projectMatchers": [
         "Кивач",
         "Скандинавия",
@@ -1478,7 +1722,9 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 8
+      "order": 10
     }
-  ]
+  ],
+  "updatedAt": "2026-07-09",
+  "createdAt": 1783585790840
 }
