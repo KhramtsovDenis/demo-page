@@ -40,6 +40,12 @@
         },
         {
           "date": "28.07.2026",
+          "text": "Верификация текста",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.07.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
@@ -93,7 +99,13 @@
           "progress": 100
         },
         {
-          "date": "20.08.2026",
+          "date": "27.08.2026",
+          "text": "Верификация текста",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "28.08.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
@@ -531,7 +543,7 @@
           "progress": 100
         },
         {
-          "date": "10.07.2026",
+          "date": "27.07.2026",
           "text": "Системный анализ",
           "status": "in-progress",
           "progress": 10
@@ -970,8 +982,8 @@
       "startDate": "10.11.2025",
       "releaseDate": "15.07.2026",
       "releaseProgress": 100,
-      "status": "development",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "16.07.2026",
       "actualHours": 5,
       "plannedHours": "",
       "description": "Расширить функционал мобильного приложения для работы не только с браслетом, но и с другими устройствами, такими как умные кольца, весы, NEEM, ЭКГ-мониторы и прочие. Обеспечить унифицированное подключение, настройку и отображение данных с разных устройств.",
@@ -1024,8 +1036,8 @@
       "startDate": "",
       "releaseDate": "15.07.2026",
       "releaseProgress": 100,
-      "status": "development",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "16.07.2026",
       "actualHours": 55.5,
       "plannedHours": "",
       "description": "Мобильное приложение выступает в роли персонального дневника терапии, беря на себя функции хранения, анализа и визуализации всех данных о сеансах.",
@@ -1596,7 +1608,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": true,
+      "hidden": false,
       "order": 2
     },
     {
