@@ -712,6 +712,10 @@
             <div class="modal-body">
                 <div class="form-grid">
                     <div class="field">
+                        <label for="taskDirectionInput">Продуктовое направление</label>
+                        <select id="taskDirectionInput" name="contourId"></select>
+                    </div>
+                    <div class="field">
                         <label for="domainInput">Направление</label>
                         <input id="domainInput" name="domain" placeholder="HEALTH">
                     </div>
@@ -2789,7 +2793,7 @@
                     if (pageMeta && state.meta) pageMeta.textContent = state.meta;
                 }
                 const script = document.createElement("script");
-                script.src = "../assets/weekly-workboard.js?v=20260709-2";
+                script.src = "../assets/weekly-workboard.js?v=20260724-1";
                 script.onerror = () => showError("Report runtime failed to load.");
                 document.body.appendChild(script);
             }

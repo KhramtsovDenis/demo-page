@@ -179,6 +179,20 @@
         function getHiddenDirectionConfig() {
             return getDirectionConfig().filter((direction) => direction.hidden);
         }
+
+        function getDisplayDirectionConfig(tasks = state?.tasks || []) {
+            const visibleDirections = getVisibleDirectionConfig();
+            const activeTasks = (Array.isArray(tasks) ? tasks : [])
+                .filter((task) => !isCompletedProject(normalizeTaskFromJson(task, 0)));
+            const hasOtherTasks = activeTasks.some((task) =>
+                resolveContour(normalizeTaskFromJson(task, 0)).id === OTHER_CONTOUR.id
+            );
+            if (!hasOtherTasks) return visibleDirections;
+            return [
+                ...visibleDirections,
+                normalizeDirectionItem({ ...OTHER_CONTOUR, order: visibleDirections.length }, visibleDirections.length)
+            ].filter(Boolean);
+        }
         const RELEASE_PACKAGE_CONFIG = [
             {
                 id: "release_2026_05_12",
@@ -473,7 +487,7 @@
     if (!contourGrid) return;
     const normalizedTasks = (state.tasks || []).map(normalizeTaskFromJson);
     const activeTasks = normalizedTasks.filter((task) => !isCompletedProject(task));
-    const contours = buildExecutiveContours(activeTasks);
+    const contours = buildExecutiveContours(activeTasks, getDisplayDirectionConfig(activeTasks));
     const hiddenContours = buildHiddenDirectionSummaries(activeTasks);
     const overview = contourGrid.closest(".portfolio-overview");
     if (overview) {
@@ -574,7 +588,7 @@
         function loadContourFilter() {
             try {
                 const stored = localStorage.getItem(VIEW_MODE_STORAGE_KEY);
-                const validIds = new Set(["all", ...getVisibleDirectionConfig().map((item) => item.id)]);
+                const validIds = new Set(["all", ...getDisplayDirectionConfig().map((item) => item.id)]);
                 return validIds.has(stored) ? stored : "all";
             } catch (error) {
                 return "all";
@@ -585,7 +599,7 @@
             if (!contourFilter) return;
             const filters = [
                 { id: "all", title: "Все" },
-                ...getVisibleDirectionConfig().map((contour) => ({ id: contour.id, title: contour.title }))
+                ...getDisplayDirectionConfig().map((contour) => ({ id: contour.id, title: contour.title }))
             ];
             contourFilter.innerHTML = filters.map((filter) => `
                 <button class="contour-filter-btn ${currentContourFilter === filter.id ? "is-active" : ""}" type="button" data-filter-id="${escapeHtml(filter.id)}">
@@ -626,7 +640,7 @@
             renderDirectionExpand();
         }
 
-        function buildExecutiveContours(tasks, directions = getVisibleDirectionConfig()) {
+        function buildExecutiveContours(tasks, directions = getDisplayDirectionConfig(tasks)) {
             const buckets = new Map();
             directions.forEach((contour) => {
                 buckets.set(contour.id, { contour, tasks: [] });
@@ -1903,7 +1917,7 @@ function renderPortfolioStateMetric(label, value, kind) {
 
         function getVisibleTasks(tasks) {
             const activeTasks = tasks.filter((task) => !isCompletedProject(task));
-            const visibleDirections = new Set(getVisibleDirectionConfig().map((direction) => direction.id));
+            const visibleDirections = new Set(getDisplayDirectionConfig(activeTasks).map((direction) => direction.id));
             const visibleTasks = activeTasks.filter((task) => visibleDirections.has(resolveContour(normalizeTaskFromJson(task, 0)).id));
             if (currentContourFilter === "all") return visibleTasks;
             return visibleTasks.filter((task) => resolveContour(normalizeTaskFromJson(task, 0)).id === currentContourFilter);
@@ -2038,6 +2052,7 @@ function renderPortfolioStateMetric(label, value, kind) {
             const normalizedTask = task ? normalizeTaskFromJson(task, 0) : null;
             taskDialogTitle.textContent = task ? "Редактировать задачу" : "Новая задача";
             deleteTaskBtn.hidden = !task;
+            populateTaskDirectionInput(document.getElementById("taskDirectionInput"), getTaskDialogDirectionId(normalizedTask));
             document.getElementById("domainInput").value = normalizedTask?.domain || "";
             document.getElementById("ownerInput").value = normalizedTask?.owner || "Не назначен";
             document.getElementById("titleInput").value = normalizedTask?.title || "";
@@ -2067,6 +2082,7 @@ function renderPortfolioStateMetric(label, value, kind) {
             event.preventDefault();
             const formData = new FormData(taskForm);
             const existingTask = state.tasks.find((item) => item.id === editingTaskId) || null;
+            const selectedContourId = String(formData.get("contourId") || "").trim();
             const releaseNumber = normalizeReleaseNumber(formData.get("releaseNumber"));
             const nextStatus = String(formData.get("status") || "in-progress");
             const reportDate = getReportDate();
@@ -2095,7 +2111,7 @@ function renderPortfolioStateMetric(label, value, kind) {
                 artifactNote: String(formData.get("artifactNote") || "").trim(),
                 achievements: parseMilestoneLines(formData.get("achievements")),
                 ceoFocus: String(formData.get("focus") || "").trim(),
-                contourId: existingTask?.contourId || "",
+                contourId: selectedContourId || existingTask?.contourId || "",
                 releasePackageId: existingTask?.releasePackageId || ""
             };
             const existingIndex = state.tasks.findIndex((item) => item.id === task.id);
@@ -2103,6 +2119,41 @@ function renderPortfolioStateMetric(label, value, kind) {
             else state.tasks.push(task);
             persistAndRender();
             taskDialog.close();
+        }
+
+        function getTaskDialogDirectionId(task) {
+            const visibleDirections = getDisplayDirectionConfig();
+            const visibleIds = new Set(visibleDirections.map((direction) => direction.id));
+            if (task) {
+                const explicitDirectionId = String(task.directionId || task.contourId || "").trim();
+                if (explicitDirectionId) return explicitDirectionId;
+                return resolveContour(task).id;
+            }
+            const contextDirectionId = currentContourFilter && currentContourFilter !== "all"
+                ? currentContourFilter
+                : expandedExecutiveContourId;
+            if (contextDirectionId && visibleIds.has(contextDirectionId)) return contextDirectionId;
+            return visibleDirections[0]?.id || getDirectionConfig()[0]?.id || "";
+        }
+
+        function populateTaskDirectionInput(select, selectedDirectionId) {
+            if (!select) return;
+            const directions = getDirectionConfig();
+            const shouldShowOther = selectedDirectionId === OTHER_CONTOUR.id
+                || getDisplayDirectionConfig().some((direction) => direction.id === OTHER_CONTOUR.id);
+            const taskDirections = shouldShowOther
+                ? [
+                    ...directions,
+                    normalizeDirectionItem({ ...OTHER_CONTOUR, order: directions.length }, directions.length)
+                ].filter(Boolean)
+                : directions;
+            select.innerHTML = taskDirections.map((direction) => {
+                const hiddenLabel = direction.hidden ? " (скрыто)" : "";
+                return `<option value="${escapeHtml(direction.id)}">${escapeHtml(direction.title + hiddenLabel)}</option>`;
+            }).join("");
+            const fallbackDirectionId = getVisibleDirectionConfig()[0]?.id || taskDirections[0]?.id || "";
+            const hasSelected = taskDirections.some((direction) => direction.id === selectedDirectionId);
+            select.value = hasSelected ? selectedDirectionId : fallbackDirectionId;
         }
 
         function deleteCurrentTask() {
