@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healbe Release Hub</title>
+  <link rel="stylesheet" href="assets/shared.css">
+  <link rel="stylesheet" href="assets/home.css">
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="brand" aria-label="Healbe mini hub">
+            <div class="brand-mark">H</div>
+            <div class="brand-text">
+              <strong>HEALBE</strong>
+              <span>Mini release workspace</span>
+            </div>
+          </div>
+
+          <h1>Мини-среда для дорожных карт и ключевых рабочих вех</h1>
+          <p class="lead">
+            Это компактный рабочий хаб для быстрых продуктовых и релизных сценариев. Здесь удобно держать под рукой основные дорожные карты,
+            быстро переходить в нужный документ, а теперь еще и создавать новые локальные черновики без ручной возни с файлами и ссылками.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="./site.html">Открыть RoadMap по сайту</a>
+            <a class="btn btn-primary" href="./release_app.html">Открыть RoadMap по приложению</a>
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" data-latest-report-link="true">Открыть доску отчетов</a>
+            <button class="btn btn-secondary" type="button" data-open-report-modal="true">+ Создать отчет недели</button>
+            <button class="btn btn-secondary" type="button" data-open-draft-modal="true">+ Создать новую дорожную карту</button>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="kicker">Для чего это</div>
+            <h3>Быстрый рабочий контур</h3>
+            <p>
+              Не декоративная витрина, а рабочая среда для повседневных задач. Здесь можно открыть действующие карты, сделать новый черновик
+              и дальше превратить его в отдельную HTML-страницу для GitHub или выгрузить DOCX для быстрой правки.
+            </p>
+          </div>
+          <div class="stat-card">
+            <div class="kicker">Как устроено</div>
+            <h3>Боевые карты и локальные черновики</h3>
+            <p>
+              Опубликованные RoadMap живут как отдельные страницы, а новые идеи и заготовки сначала хранятся локально в браузере.
+              Когда черновик готов, его можно открыть в редакторе и сохранить как отдельный HTML.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section command-center">
+      <div class="section-head">
+        <div>
+          <h2>Рабочий центр</h2>
+          <p>
+            Один вход для трех сценариев: открыть базовые дорожные карты, создать новую карту или собрать недельный отчет.
+            Действия не дублируются по странице, чтобы главный экран оставался спокойным.
+          </p>
+        </div>
+      </div>
+
+      <div class="command-grid">
+        <article class="command-card">
+          <strong>Дорожные карты</strong>
+          <span>Быстрый доступ к карте сайта, годовому плану релизов приложения, FW, Сердцу и NEEM.</span>
+          <div class="command-actions">
+            <a class="btn btn-primary" href="./site.html" id="siteLinkTop">Сайт</a>
+            <a class="btn btn-soft" href="./release_app.html" id="releaseLinkTop">Приложение</a>
+            <a class="btn btn-soft" href="./fw_release_roadmap.html" id="fwReleaseLinkTop">FW</a>
+            <a class="btn btn-soft" href="./heart_roadmap.html" id="heartRoadmapLinkTop">Сердце</a>
+            <a class="btn btn-soft" href="./neem_roadmap.html" id="neemRoadmapLinkTop">NEEM</a>
+          </div>
+        </article>
+
+        <article class="command-card">
+          <strong>Недельные отчеты</strong>
+          <span>Создание новой недели на базе текущей доски: очищается только блок “Сделано”.</span>
+          <div class="command-actions">
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkTop" data-latest-report-link="true">Открыть доску</a>
+            <button class="btn btn-soft" type="button" id="createReportBtnTop">Новая неделя</button>
+          </div>
+        </article>
+
+        <article class="command-card">
+          <strong>Новая roadmap</strong>
+          <span>Локальный черновик новой дорожной карты, который можно потом экспортировать в HTML.</span>
+          <div class="command-actions">
+            <button class="btn btn-secondary" type="button" id="createDraftBtnTop">Создать карту</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" hidden>
+      <div class="section-head">
+        <div>
+          <h2>Основные дорожные карты</h2>
+          <p>
+            Ниже быстрые входы в основные рабочие страницы. Заходишь на главную, выбираешь нужный трек и сразу попадаешь в актуальную карту.
+          </p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">Site roadmap</span>
+            <h3>RoadMap по сайту</h3>
+            <p>
+              Рабочая страница для дорожной карты по сайту: релизы, блоки, задачи, статусы и даты. Подходит для быстрых сверок,
+              визуального обзора этапов и синхронизации.
+            </p>
+            <ul class="tool-list">
+              <li>релизные окна по сайту и витринам</li>
+              <li>важные продуктовые и операционные этапы</li>
+              <li>быстрое редактирование, экспорт и повторная загрузка</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./site.html" id="siteLinkCard">Открыть RoadMap по сайту</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">App releases</span>
+            <h3>RoadMap по приложению</h3>
+            <p>
+              Отдельный вход в трек релизов приложения. Удобно, когда нужно быстро открыть roadmap по мобильному продукту,
+              сверить этапы и посмотреть ближайшие поставки без ручного ввода полного адреса.
+            </p>
+            <ul class="tool-list">
+              <li>релизы и версии приложения в одном месте</li>
+              <li>быстрый доступ с главной без ручного ввода URL</li>
+              <li>отдельный контур от сайта, чтобы не смешивать треки</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./release_app.html" id="releaseLinkCard">Открыть RoadMap по приложению</a>
+          </div>
+        </article>
+
+        <article class="tool-card">
+          <div class="tool-top">
+            <span class="pill">Weekly workboard</span>
+            <h3>Недельная доска отчетов</h3>
+            <p>
+              Управленческий недельный срез по продуктовым направлениям, задачам, контрольным точкам и часам.
+              Подходит для быстрой рассылки, скриншотов и подготовки следующей недели на основе текущей.
+            </p>
+            <ul class="tool-list">
+              <li>верхняя матрица продуктовых направлений</li>
+              <li>детализация по проектам и ответственным</li>
+              <li>создание новой недели с очисткой блока «Сделано»</li>
+            </ul>
+          </div>
+          <div class="tool-bottom">
+            <a class="btn btn-primary" href="./weekly-reports/weekly_workboard.html" id="reportLinkCard" data-latest-report-link="true">Открыть доску отчетов</a>
+            <button class="btn btn-soft" type="button" data-open-report-modal="true">Создать новую неделю</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="quick-note">
+        <strong>Небольшая подсказка.</strong> Если файл с релизами приложения называется не <code>release_app.html</code>,
+        а иначе, здесь по умолчанию есть автоматическая проверка двух вариантов: <code>release_app.html</code> и <code>release_app</code>.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Архив недельных отчетов</h2>
+          <p>
+            Компактный список недель: последний отчет сверху, остальные ниже архивом. Формат рассчитан на полный год,
+            чтобы 52 недели не превращались в огромную стену карточек.
+          </p>
+        </div>
+        <div class="section-actions">
+          <input class="report-search" id="reportSearchInput" type="search" placeholder="Найти неделю или дату">
+          <button class="btn btn-secondary" type="button" id="createReportBtnSection">+ Создать отчет недели</button>
+        </div>
+      </div>
+
+      <div class="draft-grid" id="reportGrid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Черновики</h2>
+          <p>
+            Здесь будут появляться новые локальные дорожные карты. Они живут в браузере, не требуют ручного создания файла на старте
+            и подходят для подготовки структуры перед публикацией.
+          </p>
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-secondary" type="button" id="createDraftBtnSection">+ Создать новую дорожную карту</button>
+        </div>
+      </div>
+
+      <div class="draft-grid" id="draftGrid"></div>
+    </section>
+
+    <footer>
+      Healbe Mini Release Hub. Основные RoadMap для работы и локальные черновики для быстрого старта новых карт.
+    </footer>
+  </div>
+
+  <div class="modal" id="reportModal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Новый недельный отчет</h3>
+      <p class="modal-copy">
+        Создадим локальную копию доски отчетов для новой недели. Все проекты, направления, часы, статусы,
+        дорожные карты и контрольные точки сохранятся, а блок «Сделано» будет очищен для нового заполнения.
+      </p>
+
+      <form class="modal-form" id="reportForm">
+        <div class="field">
+          <label for="reportTitle">Название</label>
+          <input id="reportTitle" name="reportTitle" type="text" value="Недельный срез продуктовых работ Healbe" required>
+        </div>
+
+        <div class="field">
+          <label for="reportMeta">Неделя и дата</label>
+          <input id="reportMeta" name="reportMeta" type="text" placeholder="Например: Неделя №20 | 14 мая 2026" required>
+        </div>
+
+        <div class="report-template-note">
+          При первом открытии нового отчета редактор сам возьмет актуальный шаблон и очистит только недельные тексты в колонке «Сделано».
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-soft" type="button" id="closeReportModal">Отмена</button>
+          <button class="btn btn-primary" type="submit">Создать и открыть</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="draftModal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Новая дорожная карта</h3>
+      <p class="modal-copy">
+        Задай название и открой пустой таймлайн. Дальше в редакторе можно сразу добавить вехи вручную или импортировать DOCX / CSV.
+      </p>
+
+      <form class="modal-form" id="draftForm">
+        <div class="field">
+          <label for="draftTitle">Название</label>
+          <input id="draftTitle" name="draftTitle" type="text" placeholder="Например: RoadMap по новому устройству" value="[Новая дорожная карта]" required>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-soft" type="button" id="closeDraftModal">Отмена</button>
+          <button class="btn btn-primary" type="submit">Создать и открыть</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/home.js"></script>
+</body>
+</html>
