@@ -8,12 +8,12 @@
       "owner": "Маргарита Ящук",
       "title": "Energy Balance Transparency (WGHT-1)",
       "startDate": "23.10.2025",
-      "releaseDate": "31.08.2026",
+      "releaseDate": "01.09.2026",
       "releaseProgress": 56,
-      "status": "paused",
+      "status": "development",
       "completedAt": "",
       "actualHours": 167.5,
-      "plannedHours": 0,
+      "plannedHours": 200,
       "description": "Развитие прозрачности функции энергобаланса: пользователь должен лучше понимать, откуда берутся показатели, как они меняются и что именно на них влияет. Проект направлен на повышение доверия к функции и её практической полезности.",
       "focus": "",
       "summary": "",
@@ -68,12 +68,12 @@
       "owner": "Маргарита Ящук",
       "title": "Long-term data (WGHT-111)",
       "startDate": "",
-      "releaseDate": "31.08.2026",
+      "releaseDate": "01.09.2026",
       "releaseProgress": 58,
-      "status": "paused",
+      "status": "development",
       "completedAt": "",
       "actualHours": 194.5,
-      "plannedHours": "",
+      "plannedHours": 200,
       "description": "Вывод более долгосрочных данных по энергобалансу и весу, чтобы пользователь видел не только краткосрочную динамику, но и устойчивые тренды. Это основа для более осознанного ведения пользователя к его целям.",
       "focus": "",
       "summary": "",
@@ -130,7 +130,7 @@
       "startDate": "",
       "releaseDate": "31.08.2026",
       "releaseProgress": 90,
-      "status": "development",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": 13.5,
       "plannedHours": "",
@@ -524,17 +524,17 @@
       "owner": "Маргарита Ящук",
       "title": "Complex indicator (WGHT-112)",
       "startDate": "",
-      "releaseDate": "26.10.2026",
+      "releaseDate": "01.09.2026",
       "releaseProgress": 39,
       "status": "paused",
       "completedAt": "",
       "actualHours": 114,
-      "plannedHours": "",
+      "plannedHours": 200,
       "description": "Комплексный показатель, который объединяет несколько метрик браслета и приложения в один более понятный индикатор состояния пользователя. Нужен для того, чтобы переводить сырые данные в прикладной и интерпретируемый продуктовый смысл.",
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Системный анализ",
       "achievements": [
         {
           "date": "30.04.2026",
@@ -582,8 +582,8 @@
       "releaseProgress": 64,
       "status": "in-progress",
       "completedAt": "",
-      "actualHours": 0,
-      "plannedHours": "",
+      "actualHours": 40,
+      "plannedHours": 70,
       "description": "Совместный исследовательский и медицинский контур с НМИЦ ТПМ для валидации методик, исследований и возможных клинических сценариев применения наших решений. Это один из ключевых партнёрских треков для укрепления медицинской доказательной базы продуктов.",
       "focus": "",
       "summary": "",
@@ -866,12 +866,12 @@
       "owner": "Маргарита Ящук",
       "title": "Weight Trend (WGHT-110)",
       "startDate": "10.03.2026",
-      "releaseDate": "23.12.2026",
+      "releaseDate": "01.09.2026",
       "releaseProgress": 45,
-      "status": "in-progress",
+      "status": "development",
       "completedAt": "",
       "actualHours": 56,
-      "plannedHours": "",
+      "plannedHours": 200,
       "description": "дать пользователям ясное и интуитивно понятное представление о реальной динамике их веса, отфильтровав ежедневные колебания и создав основу для прогнозов достижения цели.",
       "focus": "",
       "summary": "",
@@ -893,8 +893,8 @@
         {
           "date": "25.06.2026",
           "text": "UX/UI",
-          "status": "in-progress",
-          "progress": 40
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "30.11.2026",
@@ -920,17 +920,17 @@
       "owner": "Маргарита Ящук",
       "title": "Weekly plan MVP (WGHT-113)",
       "startDate": "20.10.2025",
-      "releaseDate": "30.02.2027",
+      "releaseDate": "01.09.2026",
       "releaseProgress": 12,
       "status": "discovery",
       "completedAt": "",
       "actualHours": 123,
-      "plannedHours": "",
+      "plannedHours": 250,
       "description": "Помочь пользователям достигать еженедельных микро-целей, превращая долгосрочное (месяцы) намерение в понятный, управляемый план (недели) действий с ежедневной поддержкой.",
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Сверстан шаблон постановки целей\nПередан разработчику",
       "achievements": [
         {
           "date": "14.11.2025",
@@ -941,14 +941,14 @@
         {
           "date": "09.07.2026",
           "text": "Продуктовые требования",
-          "status": "in-progress",
+          "status": "done",
           "progress": 100
         },
         {
           "date": "16.07.2026",
           "text": "UX/UI",
           "status": "in-progress",
-          "progress": 15
+          "progress": 20
         },
         {
           "date": "",
@@ -1571,14 +1571,14 @@
         {
           "date": "30.07.2026",
           "text": "Продуктовые требования дашборду",
-          "status": "in-progress",
-          "progress": 0
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "25.07.2026",
-          "text": "Консультировие разработчика",
-          "status": "in-progress",
-          "progress": 0
+          "text": "Консультируйте разработчика",
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "31.07.2026",
@@ -1587,7 +1587,7 @@
           "progress": 0
         },
         {
-          "date": "16.07.2026",
+          "date": "16.08.2026",
           "text": "Бета сборка",
           "status": "planned",
           "progress": 0
