@@ -108,10 +108,8 @@
         body.is-published-report #editMetaBtn,
         body.is-published-report #editJsonBtn,
         body.is-published-report #editDirectionsBtn,
-        body.is-published-report #addTaskBtn,
         body.is-published-report #deleteTaskBtn,
-        body.is-published-report #deleteDirectionBtn,
-        body.is-published-report .toolbar-group-edit {
+        body.is-published-report #deleteDirectionBtn {
             display: none !important;
         }
 

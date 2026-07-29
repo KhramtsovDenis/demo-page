@@ -403,15 +403,9 @@
                 "editMetaBtn",
                 "editJsonBtn",
                 "editDirectionsBtn",
-                "addTaskBtn",
                 "deleteTaskBtn",
                 "deleteDirectionBtn"
             ].forEach(hideControlById);
-
-            document.querySelectorAll(".toolbar-group-edit").forEach((element) => {
-                element.hidden = true;
-                element.setAttribute("aria-hidden", "true");
-            });
         }
 
         function hideControlById(id) {
