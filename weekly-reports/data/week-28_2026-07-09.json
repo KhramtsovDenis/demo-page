@@ -10,7 +10,7 @@
       "startDate": "23.10.2025",
       "releaseDate": "31.08.2026",
       "releaseProgress": 56,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 167.5,
       "plannedHours": 0,
@@ -27,16 +27,16 @@
           "progress": 100
         },
         {
-          "date": "04.06.2026",
+          "date": "22.06.2026",
           "text": "Системный анализ",
-          "status": "in-progress",
-          "progress": 90
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "20.06.2026",
+          "date": "02.06.2026",
           "text": "Техническая подготовка",
-          "status": "in-progress",
-          "progress": 80
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "28.07.2026",
@@ -64,7 +64,7 @@
       "startDate": "",
       "releaseDate": "31.08.2026",
       "releaseProgress": 58,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 194.5,
       "plannedHours": "",
@@ -83,14 +83,14 @@
         {
           "date": "24.06.2026",
           "text": "Системный анализ",
-          "status": "in-progress",
-          "progress": 70
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "29.06.2026",
+          "date": "08.07.2026",
           "text": "Техническая подготовка",
-          "status": "in-progress",
-          "progress": 55
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "20.08.2026",
@@ -126,7 +126,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "В работе: Продуктовая документация для \"ЭКГ Release 1\". Окончание - 17.07.26",
+      "artifactNote": "Подготовка следящего релиза с интерпретацией данных.\nПродуктовая документация для \"ЭКГ Release 1\". Окончание - 17.07.26",
       "achievements": [
         {
           "date": "30.08.2025",
@@ -520,7 +520,7 @@
       "startDate": "",
       "releaseDate": "26.10.2026",
       "releaseProgress": 39,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 114,
       "plannedHours": "",
@@ -537,10 +537,10 @@
           "progress": 100
         },
         {
-          "date": "26.06.2026",
+          "date": "26.07.2026",
           "text": "Системный анализ",
           "status": "in-progress",
-          "progress": 5
+          "progress": 10
         },
         {
           "date": "21.08.2026",
@@ -615,7 +615,7 @@
           "progress": 100
         },
         {
-          "date": "30.06.2026",
+          "date": "30.07.2026",
           "text": "Методика работы с Клиниками",
           "status": "in-progress",
           "progress": 80
@@ -768,7 +768,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Системный анализ",
       "achievements": [
         {
           "date": "30.04.2026",
@@ -914,7 +914,7 @@
       "owner": "Маргарита Ящук",
       "title": "Weekly plan MVP (WGHT-113)",
       "startDate": "20.10.2025",
-      "releaseDate": "",
+      "releaseDate": "30.02.2027",
       "releaseProgress": 12,
       "status": "discovery",
       "completedAt": "",
@@ -924,7 +924,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "Цикл из 4 этапов, направленных на полную переработку пользовательского опыта в рамках функционала управления целями по весу:\n1. Переработка целей по весу — завершено, согласовано 10.06.2026.\n2. Переработка уведомлений-баннеров о продвижении к цели — доработана 02.07.2026, готова к передаче в дизайн.\n3. Разработка нового функционала недельных прогрессов — доработана 02.07.2026, готова к передаче в дизайн.\n4. Переработка истории целей по весу — этап завершён, согласовано. 08.07.2026",
+      "artifactNote": "Цикл из 4 этапов, направленных на полную переработку пользовательского опыта в рамках функционала управления целями по весу:\n1. Переработка целей по весу — завершено, согласовано 10.06.2026.\n2. Переработка уведомлений-баннеров о продвижении к цели — доработана 02.07.2026, готова к передаче в дизайн.\n3. Разработка нового функционала недельных планов — доработана 02.07.2026, готова к передаче в дизайн.\n4. Переработка истории целей по весу — этап завершён, согласовано. 08.07.2026",
       "achievements": [
         {
           "date": "14.11.2025",
@@ -933,16 +933,16 @@
           "progress": 100
         },
         {
-          "date": "24.06.2026",
+          "date": "09.07.2026",
           "text": "Продуктовые требования",
           "status": "in-progress",
-          "progress": 90
+          "progress": 100
         },
         {
-          "date": "",
+          "date": "24.07.2026",
           "text": "UX/UI",
           "status": "planned",
-          "progress": 0
+          "progress": 5
         },
         {
           "date": "",
@@ -1488,13 +1488,13 @@
           "date": "27.06.2026",
           "text": "MVP AI-помощника для подготовки PRD и структуры задач",
           "status": "done",
-          "progress": 70
+          "progress": 100
         },
         {
-          "date": "10.07.2026",
+          "date": "28.07.2026",
           "text": "Внедрение AI-помощника и Jira automation в рабочий процесс",
           "status": "in-progress",
-          "progress": 15
+          "progress": 70
         }
       ],
       "ceoFocus": "",
