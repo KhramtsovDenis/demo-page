@@ -1628,7 +1628,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 4
     },
     {
