@@ -1558,8 +1558,8 @@
       "startDate": "16.07.2026",
       "releaseDate": "16.08.2026",
       "releaseProgress": 0,
-      "status": "in-progress",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "30.07.2026",
       "actualHours": 4,
       "plannedHours": 40,
       "description": "",
@@ -1583,14 +1583,8 @@
         {
           "date": "31.07.2026",
           "text": "Альфа сборка",
-          "status": "in-progress",
-          "progress": 0
-        },
-        {
-          "date": "16.08.2026",
-          "text": "Бета сборка",
-          "status": "planned",
-          "progress": 0
+          "status": "done",
+          "progress": 100
         }
       ],
       "ceoFocus": "",
@@ -1685,7 +1679,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 4,
-      "contourId": "healbe_mobile_app",
+      "contourId": "",
       "releasePackageId": ""
     }
   ],
@@ -1832,7 +1826,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 8
     },
     {
