@@ -1685,7 +1685,48 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 4,
-      "contourId": "",
+      "contourId": "stress_recovery",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1786000001001,
+      "domain": "[B2C][Stress & Recovery][Оценка состояния]",
+      "owner": "Александр Петряков",
+      "title": "Оценка кортизол-связанной стрессовой нагрузки",
+      "startDate": "06.08.2026",
+      "releaseDate": "",
+      "releaseProgress": 0,
+      "status": "evaluation",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Исследовательская продуктовая задача по оценке возможности выводить для пользователя осторожный индикатор стрессовой нагрузки, связанный с кортизолом и восстановлением, на базе данных браслета и доступных физиологических маркеров.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Продуктовая гипотеза",
+      "artifactNote": "Задача заведена как ранняя оценка: нужно уточнить, какие данные браслета могут быть использованы, какие ограничения есть у интерпретации и как не создавать обещание прямого измерения кортизола.",
+      "achievements": [
+        {
+          "date": "",
+          "text": "Сформулировать продуктовую гипотезу и ограничения",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Оценить доступные сигналы браслета и методическую базу",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Определить формат пользовательского индикатора",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 0,
+      "contourId": "stress_recovery",
       "releasePackageId": ""
     }
   ],
@@ -1741,7 +1782,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 2
+      "order": 3
     },
     {
       "id": "regulatory",
@@ -1754,7 +1795,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 3
+      "order": 4
     },
     {
       "id": "b2b_research",
@@ -1773,7 +1814,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 4
+      "order": 5
     },
     {
       "id": "gobe_lora",
@@ -1788,7 +1829,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 5
+      "order": 6
     },
     {
       "id": "gobe_u_simple",
@@ -1802,7 +1843,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 6
+      "order": 7
     },
     {
       "id": "gobe5",
@@ -1816,7 +1857,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 7
+      "order": 8
     },
     {
       "id": "product_process_ai",
@@ -1833,7 +1874,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 8
+      "order": 9
     },
     {
       "id": "healbe_mobile_app",
@@ -1857,7 +1898,26 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 9
+      "order": 10
+    },
+    {
+      "id": "stress_recovery",
+      "title": "Стресс и восстановление",
+      "goal": "Формируем продуктовый контур оценки стрессовой нагрузки, восстановления и связанных физиологических маркеров без обещаний прямой медицинской диагностики.",
+      "projectMatchers": [
+        "Стресс",
+        "стресс",
+        "кортизол",
+        "cortisol",
+        "stress",
+        "recovery",
+        "восстановление",
+        "стрессовая нагрузка"
+      ],
+      "releaseResults": [],
+      "icon": "",
+      "color": "",
+      "order": 2
     },
     {
       "id": "pre_projects",
@@ -1873,7 +1933,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 10
+      "order": 11
     }
   ]
 }

@@ -116,6 +116,15 @@
         };
 
         const DIRECTION_MATCHER_ALIASES = {
+            stress_recovery: [
+                "Стресс",
+                "стресс",
+                "кортизол",
+                "cortisol",
+                "stress",
+                "recovery",
+                "восстановление"
+            ],
             healbe_mobile_app: [
                 "Mobile App",
                 "Healbe App",
@@ -772,6 +781,7 @@
                 b2b_research: '<svg viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="3" stroke="currentColor" stroke-width="2"/><circle cx="17" cy="8" r="2.5" stroke="currentColor" stroke-width="2"/><path d="M3.5 19a4.5 4.5 0 0 1 9 0M13.5 19a3.5 3.5 0 0 1 7 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
                 pre_projects: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7.5h8.2l2 2H19a2 2 0 0 1 2 2v5.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 14h8M8 16.8h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16.8 5.2 18 4l1.2 1.2M18 4v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                 product_process_ai: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 7h4v4H7V7ZM13 13h4v4h-4v-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M11 9h3.5a2.5 2.5 0 0 1 0 5H13M8 15H6.5a2.5 2.5 0 0 1 0-5H7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.5 5.5 20 4m0 0 1.5 1.5M20 4v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                stress_recovery: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.5s5 5 5 9a5 5 0 0 1-10 0c0-4 5-9 5-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 14.2h2.3l1.3-3.2 2 5.2 1.2-2h2.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>',
                 healbe_mobile_app: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3.5" width="10" height="17" rx="2.7" stroke="currentColor" stroke-width="2"/><path d="M10 7.5h4M10 16.5h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10 13v-2.2M12 13V9.5M14 13v-1.4" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'
             };
             return icons[id] || icons.weight;

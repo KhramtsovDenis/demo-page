@@ -1679,7 +1679,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 4,
-      "contourId": "",
+      "contourId": "stress_recovery",
       "releasePackageId": ""
     }
   ],
@@ -1735,7 +1735,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 2
+      "order": 3
     },
     {
       "id": "regulatory",
@@ -1748,7 +1748,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 3
+      "order": 4
     },
     {
       "id": "b2b_research",
@@ -1767,7 +1767,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 4
+      "order": 5
     },
     {
       "id": "gobe_lora",
@@ -1782,7 +1782,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 5
+      "order": 6
     },
     {
       "id": "gobe_u_simple",
@@ -1796,7 +1796,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 6
+      "order": 7
     },
     {
       "id": "gobe5",
@@ -1810,7 +1810,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 7
+      "order": 8
     },
     {
       "id": "product_process_ai",
@@ -1827,7 +1827,7 @@
       "icon": "",
       "color": "",
       "hidden": true,
-      "order": 8
+      "order": 9
     },
     {
       "id": "healbe_mobile_app",
@@ -1851,7 +1851,26 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 9
+      "order": 10
+    },
+    {
+      "id": "stress_recovery",
+      "title": "Стресс и восстановление",
+      "goal": "Формируем продуктовый контур оценки стрессовой нагрузки, восстановления и связанных физиологических маркеров без обещаний прямой медицинской диагностики.",
+      "projectMatchers": [
+        "Стресс",
+        "стресс",
+        "кортизол",
+        "cortisol",
+        "stress",
+        "recovery",
+        "восстановление",
+        "стрессовая нагрузка"
+      ],
+      "releaseResults": [],
+      "icon": "",
+      "color": "",
+      "order": 2
     },
     {
       "id": "pre_projects",
@@ -1867,7 +1886,7 @@
       "icon": "",
       "color": "",
       "hidden": false,
-      "order": 10
+      "order": 11
     }
   ]
 }

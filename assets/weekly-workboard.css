@@ -374,6 +374,10 @@
             background: linear-gradient(135deg, #3b82f6, #7c3aed);
         }
 
+        .contour-icon.is-stress_recovery {
+            background: linear-gradient(135deg, #6366f1, #14b8a6);
+        }
+
         .contour-icon.is-healbe_mobile_app {
             background: linear-gradient(135deg, #14b8a6, #2563eb);
         }
