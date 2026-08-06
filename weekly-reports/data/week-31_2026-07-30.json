@@ -1685,7 +1685,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 4,
-      "contourId": "",
+      "contourId": "healbe_mobile_app",
       "releasePackageId": ""
     }
   ],
@@ -1844,7 +1844,14 @@
         "Healbe Mobile App",
         "UX/UI приложения",
         "dashboard приложения",
-        "healbe_mobile_app"
+        "healbe_mobile_app",
+        "Mobile App",
+        "Healbe App",
+        "APP Healbe",
+        "NMA",
+        "мобильная разработка",
+        "мобильное приложение",
+        "мобильного приложения"
       ],
       "releaseResults": [],
       "icon": "",

@@ -115,13 +115,29 @@
             goal: "Направление не привязано автоматически. Требуется отдельная продуктовая группировка."
         };
 
+        const DIRECTION_MATCHER_ALIASES = {
+            healbe_mobile_app: [
+                "Mobile App",
+                "Healbe App",
+                "APP Healbe",
+                "NMA",
+                "мобильная разработка",
+                "мобильное приложение",
+                "мобильного приложения"
+            ]
+        };
+
         function normalizeDirectionItem(direction, index) {
             if (!direction || typeof direction !== "object") return null;
             const id = String(direction.id || "").trim();
             if (!id) return null;
-            const projectMatchers = Array.isArray(direction.projectMatchers)
+            const rawProjectMatchers = Array.isArray(direction.projectMatchers)
                 ? direction.projectMatchers.map((matcher) => String(matcher || "").trim()).filter(Boolean)
                 : [];
+            const projectMatchers = Array.from(new Set([
+                ...rawProjectMatchers,
+                ...(DIRECTION_MATCHER_ALIASES[id] || [])
+            ]));
             const releaseResults = normalizeDirectionReleaseResults(direction.releaseResults);
             return {
                 id,
@@ -1923,14 +1939,15 @@ function renderPortfolioStateMetric(label, value, kind) {
             if (explicitDirectionId) {
                 const explicit = directions.find((item) => item.id === explicitDirectionId);
                 if (explicit) return explicit;
-                if (explicitDirectionId === OTHER_CONTOUR.id) return OTHER_CONTOUR;
             }
 
             const haystack = `${task.title || ""} ${task.domain || ""}`.toLowerCase();
             const matched = directions.find((contour) =>
                 contour.projectMatchers.some((matcher) => haystack.includes(String(matcher).toLowerCase()))
             );
-            return matched || OTHER_CONTOUR;
+            if (matched) return matched;
+            if (explicitDirectionId === OTHER_CONTOUR.id) return OTHER_CONTOUR;
+            return OTHER_CONTOUR;
         }
 
         function resolveReleasePackage(task) {
