@@ -41,14 +41,14 @@
         {
           "date": "28.07.2026",
           "text": "Верификация текста",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 30
         },
         {
-          "date": "30.07.2026",
+          "date": "15.08.2026",
           "text": "Тестовая сборка",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 42
         },
         {
           "date": "31.08.2026",
@@ -99,16 +99,16 @@
           "progress": 100
         },
         {
-          "date": "27.08.2026",
+          "date": "28.07.2026",
           "text": "Верификация текста",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 30
         },
         {
-          "date": "28.08.2026",
+          "date": "15.08.2026",
           "text": "Тестовая сборка",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 42
         },
         {
           "date": "31.08.2026",
@@ -130,7 +130,7 @@
       "startDate": "",
       "releaseDate": "31.08.2026",
       "releaseProgress": 90,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 13.5,
       "plannedHours": "",
@@ -178,7 +178,7 @@
       "startDate": "",
       "releaseDate": "23.12.2026",
       "releaseProgress": 24,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 79,
       "plannedHours": "",
@@ -232,7 +232,7 @@
       "startDate": "04.12.2025",
       "releaseDate": "20.09.2026",
       "releaseProgress": 67,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 23,
       "plannedHours": "",
@@ -240,7 +240,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Маркет. исследование. Этап 3. Количественный. Опросы.",
-      "artifactNote": "",
+      "artifactNote": "Получены анкеты опроса\nВизирование анкеты 5.08\nСтарт исследования 10.08",
       "achievements": [
         {
           "date": "29.01.2026",
@@ -322,7 +322,7 @@
       "startDate": "01.12.2025",
       "releaseDate": "15.12.2026",
       "releaseProgress": 39,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": "",
       "plannedHours": "",
@@ -534,7 +534,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "Системный анализ",
+      "artifactNote": "Системный анализ\nПолучили список незавершенных дизайнерских решений для финализации задачи",
       "achievements": [
         {
           "date": "30.04.2026",
@@ -645,7 +645,7 @@
       "title": "РУ",
       "startDate": "15.01.2026",
       "releaseDate": "15.11.2026",
-      "releaseProgress": 56,
+      "releaseProgress": 58,
       "status": "in-progress",
       "completedAt": "",
       "actualHours": 161,
@@ -654,7 +654,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "Выпущен релиз кандидат FW и MA с новой логикой реализации ф-и аритмии\nОжидаем финальной логики от НИР по серым зонам\nПроработаны замечания-предложения В. Шварца и представлен план по изменениям\nПроведен первичный сбор контактов лояльных врачей-кардиологов (Шварц, Чмелевский, Коровин)\nПодготовлены предложения по реализации ПАК\nРазработали Архитектуру продаж и монетизации биот Аритмика",
       "achievements": [
         {
           "date": "15.01.2026",
@@ -678,16 +678,10 @@
           "date": "31.07.2026",
           "text": "Токсикологическое испытание",
           "status": "in-progress",
-          "progress": 95
+          "progress": 98
         },
         {
-          "date": "01.08.2026",
-          "text": "Инструкция (РЭ)",
-          "status": "in-progress",
-          "progress": 50
-        },
-        {
-          "date": "05.08.2026",
+          "date": "08.08.2026",
           "text": "Маркетинговая стратегия",
           "status": "planned",
           "progress": 0
@@ -696,25 +690,31 @@
           "date": "09.08.2026",
           "text": "FW",
           "status": "in-progress",
-          "progress": 90
+          "progress": 95
         },
         {
           "date": "09.08.2026",
           "text": "Разработка МА (Android + IOS)",
           "status": "in-progress",
-          "progress": 80
+          "progress": 85
+        },
+        {
+          "date": "12.08.2026",
+          "text": "Инструкция (РЭ)",
+          "status": "in-progress",
+          "progress": 54
         },
         {
           "date": "13.08.2026",
           "text": "Ранний доступ врачам",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 5
         },
         {
-          "date": "15.08.2026",
+          "date": "25.08.2026",
           "text": "Доработка документации (досье)",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 10
         },
         {
           "date": "30.08.2026",
@@ -744,10 +744,10 @@
           "date": "01.10.2026",
           "text": "СМК",
           "status": "planned",
-          "progress": 16
+          "progress": 18
         },
         {
-          "date": "15.11.2026",
+          "date": "30.11.2026",
           "text": "Получение РУ",
           "status": "planned",
           "progress": 0
@@ -766,7 +766,7 @@
       "startDate": "24.03.2026",
       "releaseDate": "26.10.2026",
       "releaseProgress": 37,
-      "status": "in-progress",
+      "status": "paused",
       "completedAt": "",
       "actualHours": 150,
       "plannedHours": "",
@@ -897,13 +897,19 @@
           "progress": 100
         },
         {
-          "date": "30.11.2026",
-          "text": "Тестирование",
-          "status": "planned",
-          "progress": 0
+          "date": "28.07.2026",
+          "text": "Верификация текста",
+          "status": "in-progress",
+          "progress": 30
         },
         {
-          "date": "23.12.2026",
+          "date": "15.08.2026",
+          "text": "Тестовая сборка",
+          "status": "in-progress",
+          "progress": 42
+        },
+        {
+          "date": "01.09.2026",
           "text": "Реализация в МА",
           "status": "planned",
           "progress": 0
@@ -1428,7 +1434,7 @@
       "id": 1780556584804,
       "domain": "[B2B][Пре-проекты][Партнерства]",
       "owner": "Павел Павлюк",
-      "title": "Пре-проекты (Кивач, Скандинавия...)",
+      "title": "Пре-проекты",
       "startDate": "02.06.2026",
       "releaseDate": "31.12.2026",
       "releaseProgress": 37,
@@ -1440,7 +1446,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Итоги недели",
-      "artifactNote": "",
+      "artifactNote": "Провели встречу с А.Б. Даниловым из Центра Мозга (Сеченова). Договорились обменятся документами о треках взаимодействия (до 31.07.26)\nПолучили продуктовые инсайты и новые предложения по взаимодействию от О.Беттихер (детали представлю в письме до 03.08.26)\nВместе с Д. Тачкиным подготовили ответы на вопросы по клинике Кивач. \nПодготовили ответы по взаимодействию с Гофман О.С. \nПодготовил презентации о методиках продаж, а также о применении опыта компании Актион у нас в компании",
       "achievements": [
         {
           "date": "18.06.2026",
@@ -1453,12 +1459,6 @@
           "text": "Первая продажа Т. Рыкаловой",
           "status": "done",
           "progress": 100
-        },
-        {
-          "date": "13.08.2026",
-          "text": "Подготовка воркшопа (Скандинавия)",
-          "status": "in-progress",
-          "progress": 35
         }
       ],
       "ceoFocus": "",
@@ -1472,10 +1472,10 @@
       "owner": "Александр Петряков",
       "title": "Продуктовый AI-помощник и Jira automation",
       "startDate": "05.06.2026",
-      "releaseDate": "10.07.2026",
+      "releaseDate": "28.07.2026",
       "releaseProgress": 73,
-      "status": "in-progress",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "30.07.2026",
       "actualHours": 11,
       "plannedHours": "",
       "description": "Автоматизация продуктового процесса: создание задач в Jira, подготовка PRD, разбиение требований для R&D, FW, системной аналитики и UX/UI, а также поддержка продуктовой работы через AI-помощника.",
@@ -1499,8 +1499,8 @@
         {
           "date": "28.07.2026",
           "text": "Внедрение AI-помощника и Jira automation в рабочий процесс",
-          "status": "in-progress",
-          "progress": 70
+          "status": "done",
+          "progress": 100
         }
       ],
       "ceoFocus": "",
@@ -1566,7 +1566,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Согласовали требования по дашборду\nПередали в разработку дизайна",
       "achievements": [
         {
           "date": "30.07.2026",
@@ -1596,6 +1596,96 @@
       "ceoFocus": "",
       "weeklyProgress": 15,
       "contourId": "weight",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1785397940714,
+      "domain": "[B2G][РУ][РУ 1]",
+      "owner": "Павел Павлюк",
+      "title": "Скандинавия",
+      "startDate": "",
+      "releaseDate": "13.08.2026",
+      "releaseProgress": 25,
+      "status": "in-progress",
+      "completedAt": "",
+      "actualHours": 95,
+      "plannedHours": 200,
+      "description": "Подготовка масштабного мероприятия с целью взаимодействия с ведущей клиникой РФ и создания базы знаний в компании для проведения подобных мероприятий",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Мероприятие",
+      "artifactNote": "Проведена защита концепции мероприятия\nСогласовали тематики выступлений, все спикеры подтвердили участие\nПроводится работа по согласованию наполнения стендов\nПереданы требования к подготовке пригласительных, ожидаем завершение к 04.08",
+      "achievements": [
+        {
+          "date": "13.08.2026",
+          "text": "Проведение мероприятия",
+          "status": "in-progress",
+          "progress": 25
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 10,
+      "contourId": "",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1785417279960,
+      "domain": "[B2C][Mobile App][UX/UI refresh]",
+      "owner": "Александр Петряков",
+      "title": "Стресс",
+      "startDate": "",
+      "releaseDate": "",
+      "releaseProgress": 5,
+      "status": "discovery",
+      "completedAt": "",
+      "actualHours": 10,
+      "plannedHours": "",
+      "description": "",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Выводы недели",
+      "artifactNote": "Собраны внутренние данные: CX CustDev, обращения пользователей, материалы системных аналитиков\nЗафиксировано, какие метрики Healbe может рассчитывать сейчас, какие алгоритмы ожидаются в дальнейшем и какие продуктовые возможности это позволит реализовать\nСобраны внешние данные в разрезе России, США, Японии и мира\nТемы: аудитории, ситуации, боли, масштаб проблем, конкуренты и UX, измерение, действия, безопасность, технологии\nСейчас: проверка и сопоставление внутренних и внешних данных, формирование выводов\nРезультат: общий документ об аудиториях, потребностях, географических различиях и пространстве продуктовых возможностей\nДополнительно: представление того, что Healbe может выпустить сейчас, немного позже и в дальней перспективе",
+      "achievements": [
+        {
+          "date": "30.07.2026",
+          "text": "Продуктовое исследование",
+          "status": "in-progress",
+          "progress": 90
+        },
+        {
+          "date": "",
+          "text": "Продуктовое решение",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "UX/UI",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Техническая подготовка",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Тестовая сборка",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Релиз функции",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 4,
+      "contourId": "",
       "releasePackageId": ""
     }
   ],
