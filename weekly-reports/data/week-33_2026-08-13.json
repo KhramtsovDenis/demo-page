@@ -18,7 +18,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "На проверке",
       "achievements": [
         {
           "date": "15.04.2026",
@@ -78,7 +78,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "На проверке",
       "achievements": [
         {
           "date": "15.04.2026",
@@ -534,7 +534,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "На првоереке",
       "achievements": [
         {
           "date": "30.04.2026",
@@ -876,7 +876,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "На проверке",
       "achievements": [
         {
           "date": "10.03.2026",
@@ -936,7 +936,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Требуется доработка SDK",
       "achievements": [
         {
           "date": "14.11.2025",
@@ -1511,7 +1511,7 @@
     {
       "id": 1782420001002,
       "domain": "[B2C][Mobile App][UX/UI refresh]",
-      "owner": "Александр Петряков",
+      "owner": "Маргарита Ящук",
       "title": "Мобильного приложения Healbe Health (NMA-1)",
       "startDate": "18.06.2026",
       "releaseDate": "31.12.2026",
@@ -1524,7 +1524,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
-      "artifactNote": "",
+      "artifactNote": "Передали концепты для начала реализации в приложении.\nКонцепт по дашборду Стресс находится в проработке",
       "achievements": [
         {
           "date": "18.06.2026",
@@ -1547,7 +1547,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 5,
-      "contourId": "healbe_mobile_app",
+      "contourId": "weight",
       "releasePackageId": ""
     },
     {
