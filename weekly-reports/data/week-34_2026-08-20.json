@@ -8,7 +8,7 @@
       "owner": "Маргарита Ящук",
       "title": "Energy Balance Transparency (WGHT-1)",
       "startDate": "23.10.2025",
-      "releaseDate": "01.09.2026",
+      "releaseDate": "07.09.2026",
       "releaseProgress": 76,
       "status": "development",
       "completedAt": "",
@@ -39,19 +39,25 @@
           "progress": 100
         },
         {
+          "date": "15.08.2026",
+          "text": "Тестовая сборка",
+          "status": "done",
+          "progress": 100
+        },
+        {
           "date": "28.08.2026",
           "text": "Верификация текста",
           "status": "in-progress",
           "progress": 30
         },
         {
-          "date": "15.08.2026",
-          "text": "Тестовая сборка",
+          "date": "03.09.2026",
+          "text": "Статьи по Энергобалансу",
           "status": "in-progress",
-          "progress": 42
+          "progress": 55
         },
         {
-          "date": "31.08.2026",
+          "date": "05.09.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -68,7 +74,7 @@
       "owner": "Маргарита Ящук",
       "title": "Long-term data (WGHT-111)",
       "startDate": "",
-      "releaseDate": "01.09.2026",
+      "releaseDate": "07.09.2026",
       "releaseProgress": 78,
       "status": "development",
       "completedAt": "",
@@ -78,7 +84,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "18.08 маркетинг получил от продукта ответы на вопросы по функционалу Долгосрочных данных модуля Энергобаланса, был зафиксирован путь по подготовке контента",
       "achievements": [
         {
           "date": "15.04.2026",
@@ -99,19 +105,19 @@
           "progress": 100
         },
         {
+          "date": "15.08.2026",
+          "text": "Тестовая сборка",
+          "status": "done",
+          "progress": 100
+        },
+        {
           "date": "28.08.2026",
           "text": "Верификация текста",
           "status": "in-progress",
           "progress": 30
         },
         {
-          "date": "15.08.2026",
-          "text": "Тестовая сборка",
-          "status": "in-progress",
-          "progress": 42
-        },
-        {
-          "date": "31.08.2026",
+          "date": "07.09.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -128,7 +134,7 @@
       "owner": "Александр Петряков",
       "title": "ЭКГ MVP 1.0 B2C (HLTH-3)",
       "startDate": "",
-      "releaseDate": "31.08.2026",
+      "releaseDate": "05.11.2026",
       "releaseProgress": 90,
       "status": "paused",
       "completedAt": "",
@@ -153,13 +159,13 @@
           "progress": 100
         },
         {
-          "date": "28.08.2026",
+          "date": "05.11.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "31.08.2026",
+          "date": "05.11.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -176,9 +182,9 @@
       "owner": "Александр Петряков",
       "title": "ВСР MVP 1.0 B2C (HLTH-116)",
       "startDate": "",
-      "releaseDate": "23.12.2026",
+      "releaseDate": "05.11.2026",
       "releaseProgress": 24,
-      "status": "paused",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": 79,
       "plannedHours": "",
@@ -186,19 +192,19 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
-      "artifactNote": "",
+      "artifactNote": "В работе - подготовка продуктового решения по ВСР",
       "achievements": [
         {
-          "date": "15.05.2026",
+          "date": "24.08.2026",
           "text": "Продуктовое решение",
-          "status": "done",
-          "progress": 100
+          "status": "in-progress",
+          "progress": 50
         },
         {
-          "date": "29.05.2026",
+          "date": "",
           "text": "UX/UI",
-          "status": "done",
-          "progress": 100
+          "status": "planned",
+          "progress": 0
         },
         {
           "date": "",
@@ -207,13 +213,13 @@
           "progress": 0
         },
         {
-          "date": "20.12.2026",
+          "date": "01.10.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "23.12.2026",
+          "date": "05.10.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -221,7 +227,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 0,
-      "contourId": "",
+      "contourId": "cardio",
       "releasePackageId": ""
     },
     {
@@ -240,7 +246,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Маркет. исследование. Этап 3. Количественный. Опросы.",
-      "artifactNote": "",
+      "artifactNote": "Ведётся опрос третьей стадии",
       "achievements": [
         {
           "date": "29.01.2026",
@@ -311,7 +317,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 1,
-      "contourId": "",
+      "contourId": "b2b_research",
       "releasePackageId": ""
     },
     {
@@ -526,7 +532,7 @@
       "startDate": "",
       "releaseDate": "01.09.2026",
       "releaseProgress": 69,
-      "status": "in-progress",
+      "status": "development",
       "completedAt": "",
       "actualHours": 114,
       "plannedHours": 200,
@@ -534,7 +540,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "20.08 отдел дизайна доработал по комментариям от продукта внешний вид Комплексного показателя на дашборде и отрисовал логику перехода на подробный экран с рекомендациями показателя.",
       "achievements": [
         {
           "date": "30.04.2026",
@@ -582,7 +588,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "Клиники: \n1. Моники (гастроэнтеролог моск. обл):\n19.08 синхронизирован контакт с Инной Мисниковой — получена её почта\n20.08 Доставлено лично в руки Инне: 2 браслета, 2 больших весов, 2 нима\n20.08 Почта передана коллегам в Биот и там заведена учетная запись. На данный момент ждет подтверждения регистрации по ссылке. После чего будут высланы все необходимые инструкции\n\n2. НМИЦ ТПМ\nДанные по продажам и пациентам Елиашевич не изменились. Врач в отпуске до 28 августа \nОбратная связь по ремешкам — большие ремешки удобны для пациентов с крупным телосложением, плечевые ремешки вызывают дискомфорт ношения — сползают с плеча при активности, если затягивать туго, то носить уже неудобно",
       "achievements": [
         {
           "date": "20.04.2026",
@@ -648,7 +654,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "БИОТ Аритмика доступно всем (публичный релиз) в RuStore.\nВ Google Play и AppStore в закрытой бете (в AppStore это через TestFlight происходит), но список пользователей на early access еще готовится.\nВидео для ревью в iOS QA подготовили, 19.08 передал Юрию.",
       "achievements": [
         {
           "date": "15.01.2026",
@@ -764,7 +770,7 @@
       "owner": "Александр Петряков",
       "title": "Аритмия MVP (HLTH-112)",
       "startDate": "24.03.2026",
-      "releaseDate": "26.10.2026",
+      "releaseDate": "05.11.2026",
       "releaseProgress": 37,
       "status": "paused",
       "completedAt": "",
@@ -783,19 +789,19 @@
           "progress": 100
         },
         {
-          "date": "24.07.2026",
+          "date": "24.08.2026",
           "text": "Техническая подготовка",
           "status": "in-progress",
-          "progress": 90
+          "progress": 100
         },
         {
-          "date": "20.10.2026",
+          "date": "01.11.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "26.10.2026",
+          "date": "05.11.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -812,9 +818,9 @@
       "owner": "Александр Петряков",
       "title": "Индекс здоровья сердца (HLTH-118)",
       "startDate": "",
-      "releaseDate": "2027",
+      "releaseDate": "05.11.2026",
       "releaseProgress": 12,
-      "status": "paused",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": 13,
       "plannedHours": "",
@@ -822,7 +828,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "",
-      "artifactNote": "",
+      "artifactNote": "Продуктовое решение готово, ожидаем от RnD информации о возможных реализациях алгоритма подсчета ИЗС",
       "achievements": [
         {
           "date": "26.06.2026",
@@ -831,7 +837,7 @@
           "progress": 100
         },
         {
-          "date": "26.07.2026",
+          "date": "10.09.2026",
           "text": "UX/UI",
           "status": "planned",
           "progress": 0
@@ -843,13 +849,13 @@
           "progress": 0
         },
         {
-          "date": "20.12.2026",
+          "date": "01.11.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "23.12.2026",
+          "date": "05.11.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -857,7 +863,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 0,
-      "contourId": "",
+      "contourId": "cardio",
       "releasePackageId": ""
     },
     {
@@ -928,7 +934,7 @@
       "startDate": "20.10.2025",
       "releaseDate": "01.09.2026",
       "releaseProgress": 12,
-      "status": "discovery",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": 123,
       "plannedHours": 250,
@@ -1438,8 +1444,8 @@
       "startDate": "02.06.2026",
       "releaseDate": "31.12.2026",
       "releaseProgress": 29,
-      "status": "in-progress",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "20.08.2026",
       "actualHours": "",
       "plannedHours": "",
       "description": "Ранние партнерские и коммерческие инициативы: Кивач, Скандинавия и другие пре-проекты, которые пока проходят проверку гипотез и могут стать отдельными продуктовыми треками.",
@@ -1524,30 +1530,30 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
-      "artifactNote": "",
+      "artifactNote": "19.08 подготовлен продуктовый документ с комментариями к разрабатываемому приложению Healbe Health. Даны предложения по улучшению для пользователей в модуле Энергобаланса. Также дорабатывается модуль Weekly plan для последующей продуктовой проверки\nОпределено название нового приложения - Healbe Health\nПодготовлено описание для сторов",
       "achievements": [
         {
           "date": "18.06.2026",
           "text": "Старт анализа UX/UI мобильного приложения",
-          "status": "in-progress",
-          "progress": 20
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "31.08.2026",
           "text": "Концепт обновленного dashboard приложения",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 80
         },
         {
-          "date": "31.12.2026",
+          "date": "15.10.2026",
           "text": "Обновление UX/UI ключевых экранов приложения",
-          "status": "planned",
+          "status": "in-progress",
           "progress": 0
         }
       ],
       "ceoFocus": "",
       "weeklyProgress": 5,
-      "contourId": "weight",
+      "contourId": "healbe_mobile_app",
       "releasePackageId": ""
     },
     {
@@ -1600,8 +1606,8 @@
       "startDate": "",
       "releaseDate": "13.08.2026",
       "releaseProgress": 100,
-      "status": "in-progress",
-      "completedAt": "",
+      "status": "done",
+      "completedAt": "20.08.2026",
       "actualHours": 95,
       "plannedHours": 200,
       "description": "Подготовка масштабного мероприятия с целью взаимодействия с ведущей клиникой РФ и создания базы знаний в компании для проведения подобных мероприятий",
@@ -1628,8 +1634,8 @@
       "owner": "Александр Петряков",
       "title": "Стресс",
       "startDate": "",
-      "releaseDate": "",
-      "releaseProgress": 18,
+      "releaseDate": "05.10.2026",
+      "releaseProgress": 22,
       "status": "discovery",
       "completedAt": "",
       "actualHours": 28,
@@ -1638,7 +1644,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
-      "artifactNote": "",
+      "artifactNote": "Продуктовое решение готово\nПередано в RnD для валидации решения, передано в дизайн",
       "achievements": [
         {
           "date": "30.07.2026",
@@ -1647,16 +1653,16 @@
           "progress": 100
         },
         {
-          "date": "",
+          "date": "18.08.2026",
           "text": "Продуктовое решение",
-          "status": "in-progress",
-          "progress": 80
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "",
+          "date": "27.08.2026",
           "text": "UX/UI",
           "status": "planned",
-          "progress": 0
+          "progress": 30
         },
         {
           "date": "",
@@ -1665,20 +1671,20 @@
           "progress": 0
         },
         {
-          "date": "",
+          "date": "01.10.2026",
           "text": "Тестовая сборка",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "",
+          "date": "05.10.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 5,
+      "weeklyProgress": 4,
       "contourId": "stress_recovery",
       "releasePackageId": ""
     },
@@ -1689,7 +1695,7 @@
       "title": "Гемоглобин",
       "startDate": "06.08.2026",
       "releaseDate": "",
-      "releaseProgress": 15,
+      "releaseProgress": 19,
       "status": "evaluation",
       "completedAt": "",
       "actualHours": 11,
@@ -1698,7 +1704,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Продуктовая гипотеза",
-      "artifactNote": "",
+      "artifactNote": "Подготовлены продуктовые концепты B2C решения",
       "achievements": [
         {
           "date": "13.08.2026",
@@ -1707,10 +1713,10 @@
           "progress": 100
         },
         {
-          "date": "",
+          "date": "24.08.2026",
           "text": "Продуктовое решение",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 70
         },
         {
           "date": "",
@@ -1738,7 +1744,7 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 10,
+      "weeklyProgress": 4,
       "contourId": "stress_recovery",
       "releasePackageId": ""
     }
@@ -1946,7 +1952,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": false,
+      "hidden": true,
       "order": 11
     }
   ]
