@@ -530,7 +530,7 @@
       "owner": "Маргарита Ящук",
       "title": "Complex indicator (WGHT-112)",
       "startDate": "",
-      "releaseDate": "01.09.2026",
+      "releaseDate": "07.09.2026",
       "releaseProgress": 69,
       "status": "development",
       "completedAt": "",
@@ -549,19 +549,25 @@
           "progress": 100
         },
         {
-          "date": "27.07.2026",
+          "date": "21.08.2026",
+          "text": "UX/UI",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "28.08.2026",
           "text": "Системный анализ",
           "status": "in-progress",
           "progress": 95
         },
         {
-          "date": "",
+          "date": "29.08.2026",
           "text": "Тестовая сборка",
           "status": "in-progress",
-          "progress": 0
+          "progress": 55
         },
         {
-          "date": "26.10.2026",
+          "date": "07.09.2026",
           "text": "Релиз функции",
           "status": "planned",
           "progress": 0
@@ -578,7 +584,7 @@
       "owner": "Маргарита Ящук",
       "title": "НМИЦ ТПМ (INC-87)",
       "startDate": "09.04.2026",
-      "releaseDate": "30.07.2026",
+      "releaseDate": "25.09.2026",
       "releaseProgress": 64,
       "status": "in-progress",
       "completedAt": "",
@@ -623,11 +629,11 @@
         {
           "date": "30.07.2026",
           "text": "Методика работы с Клиниками",
-          "status": "in-progress",
-          "progress": 80
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "",
+          "date": "25.09.2026",
           "text": "Отчет об исследовании",
           "status": "planned",
           "progress": 0
@@ -635,7 +641,7 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 2,
-      "contourId": "",
+      "contourId": "b2b_research",
       "releasePackageId": ""
     },
     {
@@ -872,7 +878,7 @@
       "owner": "Маргарита Ящук",
       "title": "Weight Trend (WGHT-110)",
       "startDate": "10.03.2026",
-      "releaseDate": "01.09.2026",
+      "releaseDate": "07.09.2026",
       "releaseProgress": 65,
       "status": "development",
       "completedAt": "",
@@ -903,19 +909,19 @@
           "progress": 100
         },
         {
+          "date": "20.08.2026",
+          "text": "Тестовая сборка",
+          "status": "done",
+          "progress": 100
+        },
+        {
           "date": "28.08.2026",
           "text": "Верификация текста",
           "status": "in-progress",
           "progress": 30
         },
         {
-          "date": "25.08.2026",
-          "text": "Тестовая сборка",
-          "status": "in-progress",
-          "progress": 42
-        },
-        {
-          "date": "01.09.2026",
+          "date": "07.09.2026",
           "text": "Реализация в МА",
           "status": "planned",
           "progress": 0
@@ -932,7 +938,7 @@
       "owner": "Маргарита Ящук",
       "title": "Weekly plan MVP (WGHT-113)",
       "startDate": "20.10.2025",
-      "releaseDate": "01.09.2026",
+      "releaseDate": "05.10.2026",
       "releaseProgress": 12,
       "status": "in-progress",
       "completedAt": "",
@@ -957,19 +963,25 @@
           "progress": 100
         },
         {
-          "date": "16.07.2026",
+          "date": "11.09.2026",
           "text": "UX/UI",
           "status": "in-progress",
           "progress": 20
         },
         {
-          "date": "",
-          "text": "Тестирование",
+          "date": "18.09.2026",
+          "text": "Валидация текстов и локализация",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "",
+          "date": "20.10.2026",
+          "text": "Тестовая сборка",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "05.10.2026",
           "text": "Реализация в МА",
           "status": "planned",
           "progress": 0
@@ -1520,7 +1532,7 @@
       "owner": "Маргарита Ящук",
       "title": "Мобильного приложения Healbe Health (NMA-1)",
       "startDate": "18.06.2026",
-      "releaseDate": "31.12.2026",
+      "releaseDate": "07.09.2026",
       "releaseProgress": 13,
       "status": "discovery",
       "completedAt": "",
@@ -1696,7 +1708,7 @@
       "startDate": "06.08.2026",
       "releaseDate": "",
       "releaseProgress": 19,
-      "status": "evaluation",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": 11,
       "plannedHours": "",
