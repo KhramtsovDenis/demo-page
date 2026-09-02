@@ -2561,10 +2561,13 @@ function renderPortfolioStateMetric(label, value, kind) {
 
         function collectReleaseBandDates(targetYear, includeCompleted, taskReleaseDate = null) {
             const releaseDates = new Map();
+            const reportDate = getReportDate();
+            const hasReportDate = reportDate && reportDate.getTime() > 0;
             (state.tasks || []).forEach((item) => {
-                if (!includeCompleted && isCompletedProject(item)) return;
                 const parsed = parseDisplayDate(item.releaseDate);
                 if (!parsed) return;
+                if (!includeCompleted && isCompletedProject(item)) return;
+                if (includeCompleted && isFutureCompletedReleaseDate(item, parsed, reportDate, hasReportDate)) return;
                 if (targetYear && parsed.getFullYear() !== targetYear) return;
                 const label = formatDateLabel(parsed);
                 releaseDates.set(label, parsed.getTime());
@@ -2577,6 +2580,12 @@ function renderPortfolioStateMetric(label, value, kind) {
             return [...releaseDates.entries()]
                 .map(([date, time]) => ({ date, time }))
                 .sort((a, b) => a.time - b.time);
+        }
+
+        function isFutureCompletedReleaseDate(task, releaseDate, reportDate, hasReportDate) {
+            if (!hasReportDate || !releaseDate) return false;
+            if (!isCompletedProject(task)) return false;
+            return releaseDate.getTime() > reportDate.getTime();
         }
 
         function getReleaseBandColumnCount(itemCount) {
