@@ -12,7 +12,9 @@
         diffBody: document.querySelector("[data-diff-body]"),
         missingKeys: document.querySelector("[data-missing-keys]"),
         weeklyNotes: document.querySelector("[data-weekly-notes]"),
-        snapshotInput: document.getElementById("snapshotInput")
+        snapshotInput: document.getElementById("snapshotInput"),
+        statusMessage: document.querySelector("[data-status-message]"),
+        loadLatestButton: document.querySelector("[data-action='load-latest']")
     };
 
     const comparedFields = [
@@ -23,7 +25,7 @@
         { id: "achievements", label: "Контрольные точки" }
     ];
 
-    document.querySelector("[data-action='load-latest']")?.addEventListener("click", loadLatestReport);
+    els.loadLatestButton?.addEventListener("click", loadLatestReport);
     document.querySelector("[data-action='load-sample']")?.addEventListener("click", loadSampleSnapshot);
     document.querySelector("[data-action='download-template']")?.addEventListener("click", downloadTemplate);
     els.snapshotInput?.addEventListener("change", handleSnapshotUpload);
@@ -31,6 +33,8 @@
     loadLatestReport();
 
     async function loadLatestReport() {
+        setStatus("Загружаю последний отчет из weekly-reports/reports.json...", "info");
+        setLoading(true);
         try {
             const reportsResponse = await fetch("./reports.json", { cache: "no-store" });
             if (!reportsResponse.ok) throw new Error(`reports.json ${reportsResponse.status}`);
@@ -45,8 +49,13 @@
             if (!dataResponse.ok) throw new Error(`data/${dataFile} ${dataResponse.status}`);
             state.report = await dataResponse.json();
             render();
+            setStatus(`Отчет загружен: ${state.report?.meta || dataFile}. Теперь можно загрузить пример или Jira-снимок.`, "ok");
         } catch (error) {
-            showTableMessage(error.message || "Не удалось загрузить отчет.");
+            const message = error.message || "Не удалось загрузить отчет.";
+            setStatus(message, "error");
+            showTableMessage(message);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -63,27 +72,48 @@
     async function handleSnapshotUpload(event) {
         const file = event.target.files?.[0];
         if (!file) return;
+        setStatus(`Читаю Jira-снимок: ${file.name}...`, "info");
         try {
             const text = await file.text();
             const parsed = JSON.parse(text);
             state.snapshot = normalizeSnapshot(parsed);
             render();
+            setStatus(`Jira-снимок загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
-            showTableMessage(error.message || "Не удалось прочитать Jira-снимок.");
+            const message = error.message || "Не удалось прочитать Jira-снимок.";
+            setStatus(message, "error");
+            showTableMessage(message);
         } finally {
             event.target.value = "";
         }
     }
 
     async function loadSampleSnapshot() {
+        setStatus("Загружаю пример Jira-снимка...", "info");
         try {
             const response = await fetch("./data/jira-sync-sample_week-36.json", { cache: "no-store" });
             if (!response.ok) throw new Error(`jira-sync-sample_week-36.json ${response.status}`);
             state.snapshot = normalizeSnapshot(await response.json());
             render();
+            setStatus(`Пример загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
-            showTableMessage(error.message || "Не удалось загрузить пример Jira-снимка.");
+            const message = error.message || "Не удалось загрузить пример Jira-снимка.";
+            setStatus(message, "error");
+            showTableMessage(message);
         }
+    }
+
+    function setStatus(message, type) {
+        if (!els.statusMessage) return;
+        els.statusMessage.innerHTML = escapeHtml(message);
+        els.statusMessage.classList.toggle("is-ok", type === "ok");
+        els.statusMessage.classList.toggle("is-error", type === "error");
+    }
+
+    function setLoading(isLoading) {
+        if (!els.loadLatestButton) return;
+        els.loadLatestButton.disabled = isLoading;
+        els.loadLatestButton.textContent = isLoading ? "Загружаю..." : "Загрузить последнюю неделю";
     }
 
     function normalizeSnapshot(input) {
