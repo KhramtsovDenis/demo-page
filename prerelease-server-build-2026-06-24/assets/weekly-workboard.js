@@ -2524,7 +2524,7 @@ function renderPortfolioStateMetric(label, value, kind) {
             const items = getReleaseBandItems(task);
             const activeNumber = getTaskReleaseNumber(task, items);
             const status = task?.status || "in-progress";
-            const columnCount = Math.min(6, Math.max(1, items.length));
+            const columnCount = getReleaseBandColumnCount(items.length);
             const boxes = items.map((item, index) => {
                 const isActive = activeNumber ? item.number === activeNumber : false;
                 const className = isActive ? `release-band-box active ${escapeHtml(status || "in-progress")}` : "release-band-box";
@@ -2539,14 +2539,10 @@ function renderPortfolioStateMetric(label, value, kind) {
             const targetYear = getReleaseBandYear(taskReleaseDate);
             const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
             const allYearDates = collectReleaseBandDates(targetYear, true, taskReleaseDate);
-            const visibleDates = collectReleaseBandDates(targetYear, false, taskReleaseDate);
-            const visibleItems = (visibleDates.length ? visibleDates : allYearDates).map((item) => {
-                const yearIndex = allYearDates.findIndex((dateItem) => dateItem.date === item.date);
-                return {
-                    number: yearIndex >= 0 ? yearIndex + 1 : item.number,
-                    date: item.date
-                };
-            });
+            const visibleItems = allYearDates.map((item, index) => ({
+                number: index + 1,
+                date: item.date
+            }));
 
             if (manualNumber && !visibleItems.some((item) => item.number === manualNumber)) {
                 visibleItems.push({ number: manualNumber, date: "" });
@@ -2581,6 +2577,12 @@ function renderPortfolioStateMetric(label, value, kind) {
             return [...releaseDates.entries()]
                 .map(([date, time]) => ({ date, time }))
                 .sort((a, b) => a.time - b.time);
+        }
+
+        function getReleaseBandColumnCount(itemCount) {
+            if (itemCount > 10) return 5;
+            if (itemCount > 6) return 5;
+            return Math.max(1, Math.min(6, itemCount));
         }
 
         function getReleaseBandYear(taskReleaseDate = null) {
