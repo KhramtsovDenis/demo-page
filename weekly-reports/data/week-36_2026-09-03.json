@@ -1851,6 +1851,60 @@
       "releasePackageId": ""
     },
     {
+      "id": 1789100001001,
+      "domain": "[B2C][Lifestyle][Стресс и восстановление]",
+      "owner": "Александр Петряков",
+      "title": "Heart Alert: риск заболевания",
+      "startDate": "09.09.2026",
+      "releaseDate": "",
+      "releaseProgress": 0,
+      "status": "discovery",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Продуктовая проработка системы предупреждений Heart Alert: на основе нескольких показателей календарь подсвечивает возможный риск заболевания и помогает пользователю понять, что происходит и какое действие стоит выбрать. НИР-подход на тестах показал хорошее совпадение с реальными состояниями, теперь нужно перевести его в понятный пользовательский сценарий.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Продуктовая гипотеза",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "09.09.2026",
+          "text": "Продуктовое исследование логики Heart Alert",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "PRD и пользовательские сценарии предупреждений",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "UX/UI отображения риска в календаре",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Валидация текстов, статусов и рекомендаций",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "",
+          "text": "Декомпозиция для разработки",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 0,
+      "contourId": "stress_recovery",
+      "releasePackageId": ""
+    },
+    {
       "id": 1786000001001,
       "domain": "[B2C][Lifestyle][Стресс и восстановление]",
       "owner": "Александр Петряков",
