@@ -132,10 +132,10 @@
       "id": 5,
       "domain": "[B2C][Health][Оценка ССС]",
       "owner": "Александр Петряков",
-      "title": "ЭКГ MVP 1.0 B2C (HLTH-3)",
+      "title": "ЭКГ (HLTH-3)",
       "startDate": "",
       "releaseDate": "05.11.2026",
-      "releaseProgress": 90,
+      "releaseProgress": 80,
       "status": "paused",
       "completedAt": "",
       "actualHours": 13.5,
@@ -159,6 +159,18 @@
           "progress": 100
         },
         {
+          "date": "10.10.2026",
+          "text": "Обновленный UX/UI",
+          "status": "in-progress",
+          "progress": 0
+        },
+        {
+          "date": "12.10.2026",
+          "text": "CDK",
+          "status": "planned",
+          "progress": 0
+        },
+        {
           "date": "05.11.2026",
           "text": "Тестовая сборка",
           "status": "planned",
@@ -172,15 +184,15 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 3,
-      "contourId": "",
+      "weeklyProgress": 0,
+      "contourId": "cardio",
       "releasePackageId": ""
     },
     {
       "id": 6,
-      "domain": "[B2C][Lifestyle][Оценка ССС]",
+      "domain": "[B2C][Health][Оценка ССС]",
       "owner": "Александр Петряков",
-      "title": "ВСР MVP 1.0 B2C (HLTH-116)",
+      "title": "ВСР (HLTH-116)",
       "startDate": "",
       "releaseDate": "05.11.2026",
       "releaseProgress": 25,
@@ -201,14 +213,14 @@
           "progress": 50
         },
         {
-          "date": "",
+          "date": "10.10.2026",
           "text": "UX/UI",
           "status": "planned",
           "progress": 0
         },
         {
-          "date": "",
-          "text": "Техническая подготовка",
+          "date": "12.10.2026",
+          "text": "CDK",
           "status": "planned",
           "progress": 0
         },
@@ -396,7 +408,7 @@
       "id": 11,
       "domain": "[B2G][Гранты][СПбГУ (40 больница)]",
       "owner": "Павел Павлюк",
-      "title": "Грант СПбГУ (40 больница)",
+      "title": "Грант СПбГУ (40 больница) (SPBSU40-1)",
       "startDate": "2025-09-01",
       "releaseDate": "15.12.2026",
       "releaseProgress": 51,
@@ -648,7 +660,7 @@
       "id": 1777291662751,
       "domain": "[B2G][РУ][РУ 1]",
       "owner": "Павел Павлюк",
-      "title": "РУ",
+      "title": "РУ (RU-5)",
       "startDate": "15.01.2026",
       "releaseDate": "30.12.2026",
       "releaseProgress": 60,
@@ -774,10 +786,10 @@
       "id": 1777292582500,
       "domain": "[B2C][Health][Оценка ССС]",
       "owner": "Александр Петряков",
-      "title": "Аритмия MVP (HLTH-112)",
+      "title": "Аритмия (HLTH-112)",
       "startDate": "24.03.2026",
       "releaseDate": "05.11.2026",
-      "releaseProgress": 37,
+      "releaseProgress": 42,
       "status": "paused",
       "completedAt": "",
       "actualHours": 150,
@@ -801,6 +813,18 @@
           "progress": 100
         },
         {
+          "date": "10.10.2026",
+          "text": "Обновленный UX/UI",
+          "status": "in-progress",
+          "progress": 0
+        },
+        {
+          "date": "12.10.2026",
+          "text": "CDK",
+          "status": "planned",
+          "progress": 0
+        },
+        {
           "date": "01.11.2026",
           "text": "Тестовая сборка",
           "status": "planned",
@@ -814,8 +838,8 @@
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 7,
-      "contourId": "",
+      "weeklyProgress": 0,
+      "contourId": "cardio",
       "releasePackageId": ""
     },
     {
@@ -825,7 +849,7 @@
       "title": "Индекс здоровья сердца (HLTH-118)",
       "startDate": "",
       "releaseDate": "05.11.2026",
-      "releaseProgress": 17,
+      "releaseProgress": 37,
       "status": "in-progress",
       "completedAt": "",
       "actualHours": 15,
@@ -846,7 +870,7 @@
           "date": "05.09.2026",
           "text": "НИР",
           "status": "in-progress",
-          "progress": 0
+          "progress": 20
         },
         {
           "date": "10.09.2026",
@@ -855,8 +879,8 @@
           "progress": 0
         },
         {
-          "date": "",
-          "text": "Техническая подготовка завершена",
+          "date": "12.10.2026",
+          "text": "CDK",
           "status": "planned",
           "progress": 0
         },
@@ -1460,7 +1484,7 @@
       "owner": "Павел Павлюк",
       "title": "Пре-проекты",
       "startDate": "02.06.2026",
-      "releaseDate": "31.12.2026",
+      "releaseDate": "31.8.2026",
       "releaseProgress": 29,
       "status": "done",
       "completedAt": "20.08.2026",
@@ -1539,7 +1563,7 @@
       "title": "Мобильного приложения Healbe Health (NMA-1)",
       "startDate": "18.06.2026",
       "releaseDate": "04.09.2026",
-      "releaseProgress": 13,
+      "releaseProgress": 80,
       "status": "in-progress",
       "completedAt": "",
       "actualHours": "",
@@ -1620,7 +1644,7 @@
       "id": 1785397940714,
       "domain": "[B2G][РУ][РУ 1]",
       "owner": "Павел Павлюк",
-      "title": "Скандинавия",
+      "title": "Скандинавия (INCBG-72)",
       "startDate": "",
       "releaseDate": "13.08.2026",
       "releaseProgress": 100,
@@ -1648,17 +1672,17 @@
     },
     {
       "id": 1785417279960,
-      "domain": "[B2C][Mobile App][UX/UI refresh]",
+      "domain": "[B2C][Lifestyle][Стресс и восстановление]",
       "owner": "Александр Петряков",
-      "title": "Стресс",
+      "title": "Стресс (LS-179)",
       "startDate": "",
       "releaseDate": "05.10.2026",
       "releaseProgress": 26,
-      "status": "discovery",
+      "status": "in-progress",
       "completedAt": "",
-      "actualHours": 35,
+      "actualHours": 45,
       "plannedHours": "",
-      "description": "",
+      "description": "Помогает пользователю увидеть текущее состояние, понять соотношение общего, физического и эмоционального напряжения, выбрать подходящее действие и проследить динамику за день, неделю, месяц, три месяца и год.",
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
@@ -1677,14 +1701,14 @@
           "progress": 100
         },
         {
-          "date": "03.09.2026",
+          "date": "09.09.2026",
           "text": "UX/UI",
           "status": "in-progress",
-          "progress": 40
+          "progress": 60
         },
         {
-          "date": "",
-          "text": "Техническая подготовка",
+          "date": "20.09.2026",
+          "text": "CDK",
           "status": "planned",
           "progress": 0
         },
@@ -1708,12 +1732,12 @@
     },
     {
       "id": 1786000001001,
-      "domain": "[B2C][Stress & Recovery][Оценка состояния]",
+      "domain": "[B2C][Lifestyle][Стресс и восстановление]",
       "owner": "Александр Петряков",
-      "title": "Гемоглобин",
+      "title": "Гемоглобин (LS-181)",
       "startDate": "06.08.2026",
       "releaseDate": "",
-      "releaseProgress": 0,
+      "releaseProgress": 22,
       "status": "in-progress",
       "completedAt": "",
       "actualHours": 15,
@@ -1744,7 +1768,7 @@
         },
         {
           "date": "",
-          "text": "Техническая подготовка",
+          "text": "CDK",
           "status": "planned",
           "progress": 0
         },
