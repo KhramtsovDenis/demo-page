@@ -27,6 +27,7 @@
 
     els.loadLatestButton?.addEventListener("click", loadLatestReport);
     document.querySelector("[data-action='load-sample']")?.addEventListener("click", loadSampleSnapshot);
+    document.querySelector("[data-action='load-week-36-snapshot']")?.addEventListener("click", loadWeek36Snapshot);
     document.querySelector("[data-action='download-template']")?.addEventListener("click", downloadTemplate);
     els.snapshotInput?.addEventListener("change", handleSnapshotUpload);
 
@@ -98,6 +99,25 @@
             setStatus(`Пример загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
             const message = error.message || "Не удалось загрузить пример Jira-снимка.";
+            setStatus(message, "error");
+            showTableMessage(message);
+        }
+    }
+
+    async function loadWeek36Snapshot() {
+        await loadSnapshotFromUrl("./data/jira-sync-snapshot_week-36_2026-09-03.json", "Jira-снимок 36 недели");
+    }
+
+    async function loadSnapshotFromUrl(url, label) {
+        setStatus(`Загружаю ${label}...`, "info");
+        try {
+            const response = await fetch(url, { cache: "no-store" });
+            if (!response.ok) throw new Error(`${url} ${response.status}`);
+            state.snapshot = normalizeSnapshot(await response.json());
+            render();
+            setStatus(`${label} загружен: ${state.snapshot.items.length} задач.`, "ok");
+        } catch (error) {
+            const message = error.message || `Не удалось загрузить ${label}.`;
             setStatus(message, "error");
             showTableMessage(message);
         }
@@ -191,7 +211,7 @@
 
     function extractJiraKeys(task) {
         const source = `${task?.title || ""} ${task?.domain || ""}`;
-        const matches = source.match(/[A-ZА-Я]{2,10}-\d+/gi) || [];
+        const matches = source.match(/[A-ZА-Я][A-ZА-Я0-9]{1,15}-\d+/gi) || [];
         return Array.from(new Set(matches.map((key) => key.toUpperCase())));
     }
 
