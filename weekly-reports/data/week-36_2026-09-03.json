@@ -963,6 +963,66 @@
       "releasePackageId": ""
     },
     {
+      "id": 1788500001001,
+      "domain": "[B2C][Weight management][Экосистема Scale + NEEM]",
+      "owner": "Маргарита Ящук",
+      "title": "Экосистема Scale + NEEM для управления весом",
+      "startDate": "26.08.2026",
+      "releaseDate": "20.12.2026",
+      "releaseProgress": 5,
+      "status": "discovery",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Продумать взаимосвязь данных весов, браслета и NEEM в сценариях управления весом: как устройства дополняют друг друга, какие сигналы усиливают рекомендации и как пользователь получает единый понятный план действий.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Продуктовая гипотеза",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "26.08.2026",
+          "text": "Продуктовое исследование экосистемного сценария Scale + NEEM",
+          "status": "in-progress",
+          "progress": 10
+        },
+        {
+          "date": "12.09.2026",
+          "text": "PRD и сценарии использования данных весов и браслета",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.09.2026",
+          "text": "UX/UI концепт связки устройств в блоке веса",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.10.2026",
+          "text": "Согласование продуктовой логики рекомендаций",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.11.2026",
+          "text": "Подготовка к разработке и декомпозиция для команд",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.12.2026",
+          "text": "Релиз экосистемного сценария",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 1,
+      "contourId": "weight",
+      "releasePackageId": ""
+    },
+    {
       "id": 1778106871774,
       "domain": "[B2C][Weight management][Работа с блоком Вес]",
       "owner": "Маргарита Ящук",
@@ -1727,6 +1787,66 @@
       ],
       "ceoFocus": "",
       "weeklyProgress": 4,
+      "contourId": "stress_recovery",
+      "releasePackageId": ""
+    },
+    {
+      "id": 1788500001002,
+      "domain": "[B2C][Lifestyle][Экосистема Scale + NEEM]",
+      "owner": "Александр Петряков",
+      "title": "Экосистема Scale + NEEM для стресса и восстановления",
+      "startDate": "26.08.2026",
+      "releaseDate": "20.12.2026",
+      "releaseProgress": 5,
+      "status": "discovery",
+      "completedAt": "",
+      "actualHours": "",
+      "plannedHours": "",
+      "description": "Продумать, как показатели стресса и восстановления связываются с данными браслета, весов и NEEM: когда пользователь получает рекомендацию использовать NEEM, как объясняется причина рекомендации и как экосистема помогает выбрать следующее действие.",
+      "focus": "",
+      "summary": "",
+      "artifactTitle": "Продуктовая гипотеза",
+      "artifactNote": "",
+      "achievements": [
+        {
+          "date": "26.08.2026",
+          "text": "Продуктовое исследование связки стресс + Scale + NEEM",
+          "status": "in-progress",
+          "progress": 10
+        },
+        {
+          "date": "12.09.2026",
+          "text": "PRD и правила рекомендаций по использованию NEEM",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "30.09.2026",
+          "text": "UX/UI концепт экосистемных рекомендаций",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.10.2026",
+          "text": "Валидация сценариев и текстов рекомендаций",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.11.2026",
+          "text": "Подготовка к разработке и декомпозиция для команд",
+          "status": "planned",
+          "progress": 0
+        },
+        {
+          "date": "20.12.2026",
+          "text": "Релиз экосистемного сценария",
+          "status": "planned",
+          "progress": 0
+        }
+      ],
+      "ceoFocus": "",
+      "weeklyProgress": 1,
       "contourId": "stress_recovery",
       "releasePackageId": ""
     },
