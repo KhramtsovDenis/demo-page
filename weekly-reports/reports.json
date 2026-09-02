@@ -1,6 +1,13 @@
 [
   {
     "title": "Недельный срез продуктовых работ Healbe",
+    "meta": "Неделя №36 | 3 сентября 2026",
+    "url": "report.html?data=week-36_2026-09-03.json",
+    "updatedAt": "2026-09-03",
+    "taskCount": 28
+  },
+  {
+    "title": "Недельный срез продуктовых работ Healbe",
     "meta": "Неделя №35 | 27 августа 2026",
     "url": "report.html?data=week-35_2026-08-27.json",
     "updatedAt": "2026-08-27",
