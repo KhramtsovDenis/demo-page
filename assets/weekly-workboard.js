@@ -2490,26 +2490,29 @@ function renderPortfolioStateMetric(label, value, kind) {
             const activeNumber = getTaskReleaseNumber(task, items);
             const activeIndex = activeNumber ? activeNumber - 1 : -1;
             const status = task?.status || "in-progress";
+            const columnCount = Math.min(6, Math.max(1, items.length));
             const boxes = items.map((item, index) => {
                 const isActive = index === activeIndex;
                 const className = isActive ? `release-band-box active ${escapeHtml(status || "in-progress")}` : "release-band-box";
                 const title = item.date ? ` title="${escapeHtml(item.date)}"` : "";
                 return `<span class="${className}"${title}>${item.number}</span>`;
             }).join("");
-            return `<div class="release-band-grid" style="--release-band-count:${items.length}">${boxes}</div>`;
+            return `<div class="release-band-grid" style="--release-band-count:${items.length}; --release-band-columns:${columnCount}">${boxes}</div>`;
         }
 
         function getReleaseBandItems(task = null) {
             const releaseDates = new Map();
+            const taskReleaseDate = parseDisplayDate(task?.releaseDate);
+            const targetYear = getReleaseBandYear(taskReleaseDate);
             (state.tasks || []).forEach((item) => {
                 if (isCompletedProject(item)) return;
                 const parsed = parseDisplayDate(item.releaseDate);
                 if (!parsed) return;
+                if (targetYear && parsed.getFullYear() !== targetYear) return;
                 const label = formatDateLabel(parsed);
                 releaseDates.set(label, parsed.getTime());
             });
 
-            const taskReleaseDate = parseDisplayDate(task?.releaseDate);
             if (taskReleaseDate) {
                 releaseDates.set(formatDateLabel(taskReleaseDate), taskReleaseDate.getTime());
             }
@@ -2524,6 +2527,13 @@ function renderPortfolioStateMetric(label, value, kind) {
                 number: index + 1,
                 date: datedItems[index]?.date || ""
             }));
+        }
+
+        function getReleaseBandYear(taskReleaseDate = null) {
+            if (taskReleaseDate) return taskReleaseDate.getFullYear();
+            const reportDate = getReportDate();
+            if (reportDate && reportDate.getFullYear() > 2000) return reportDate.getFullYear();
+            return new Date().getFullYear();
         }
 
         function getTaskReleaseNumber(task, releaseBandItems = getReleaseBandItems(task)) {

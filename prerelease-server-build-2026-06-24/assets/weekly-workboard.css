@@ -1120,14 +1120,15 @@
 
         .release-band-grid {
             display: grid;
-            grid-template-columns: repeat(var(--release-band-count, 6), minmax(0, 1fr));
+            grid-template-columns: repeat(var(--release-band-columns, 6), 22px);
             gap: 4px;
             align-items: center;
-            width: 100%;
-            max-width: min(224px, calc(var(--release-band-count, 6) * 22px));
+            width: max-content;
+            max-width: 100%;
         }
 
         .release-band-box {
+            width: 22px;
             min-height: 22px;
             border-radius: 999px;
             border: 1px solid rgba(148, 163, 184, 0.22);
