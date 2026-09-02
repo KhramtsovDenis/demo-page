@@ -1,0 +1,58 @@
+{
+  "generatedAt": "2026-09-03T12:00:00.000Z",
+  "items": [
+    {
+      "key": "WGHT-111",
+      "title": "Long-term data",
+      "status": "test",
+      "actualHours": 621.5,
+      "releaseDate": "04.09.2026",
+      "releaseProgress": 93,
+      "milestones": [
+        {
+          "date": "10.03.2026",
+          "text": "Product research",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "09.07.2026",
+          "text": "PRD",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "date": "03.09.2026",
+          "text": "UX/UI",
+          "status": "in-progress",
+          "progress": 85
+        }
+      ],
+      "weeklyNotes": [
+        "Нужно отдельно проверить, не попали ли в дизайн-часы Long-term data работы по широкой концепции Energy Balance."
+      ]
+    },
+    {
+      "key": "LS-179",
+      "title": "Стресс",
+      "status": "in-progress",
+      "actualHours": 45,
+      "releaseDate": "05.10.2026",
+      "releaseProgress": 26,
+      "weeklyNotes": [
+        "Продолжается продуктовая проработка стресс-сценария и связки с восстановлением."
+      ]
+    },
+    {
+      "key": "WGHT-113",
+      "title": "Weekly plan MVP",
+      "status": "in-progress",
+      "actualHours": 429,
+      "releaseDate": "05.10.2026",
+      "releaseProgress": 82,
+      "weeklyNotes": [
+        "Следующий важный блок: валидация текстов и локализация еженедельного плана."
+      ]
+    }
+  ]
+}

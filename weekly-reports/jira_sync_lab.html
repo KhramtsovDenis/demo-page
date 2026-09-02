@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jira Sync Lab</title>
+    <link rel="stylesheet" href="../assets/jira-sync-lab.css">
+</head>
+<body>
+    <main class="shell">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Тестовая зона</p>
+                <h1>Jira Sync Lab</h1>
+                <p class="lead">Сравниваем текущий недельный отчет с Jira-снимком и смотрим, что можно обновить автоматически. Боевой отчет эта страница не меняет.</p>
+            </div>
+            <div class="hero-actions">
+                <button class="button primary" type="button" data-action="load-latest">Загрузить последнюю неделю</button>
+                <button class="button ghost" type="button" data-action="load-sample">Загрузить пример</button>
+                <label class="button ghost" for="snapshotInput">Загрузить Jira-снимок</label>
+                <input id="snapshotInput" type="file" accept=".json,application/json" hidden>
+            </div>
+        </header>
+
+        <section class="panel status-grid" aria-label="Состояние загрузки">
+            <div>
+                <span>Отчет</span>
+                <strong data-report-title>не загружен</strong>
+            </div>
+            <div>
+                <span>Задач</span>
+                <strong data-task-count>0</strong>
+            </div>
+            <div>
+                <span>Jira-ключей</span>
+                <strong data-key-count>0</strong>
+            </div>
+            <div>
+                <span>Совпадений</span>
+                <strong data-match-count>0</strong>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="section-head">
+                <div>
+                    <p class="eyebrow">Предпросмотр</p>
+                    <h2>Что обновилось бы</h2>
+                </div>
+                <button class="button subtle" type="button" data-action="download-template">Скачать шаблон Jira-снимка</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Поле</th>
+                            <th>В отчете</th>
+                            <th>В Jira</th>
+                            <th>Итог</th>
+                        </tr>
+                    </thead>
+                    <tbody data-diff-body>
+                        <tr>
+                            <td colspan="5" class="empty">Загрузите отчет и Jira-снимок, чтобы увидеть расхождения.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="split">
+            <div class="panel">
+                <p class="eyebrow">Пробелы</p>
+                <h2>Задачи без Jira-ключа</h2>
+                <ul class="list" data-missing-keys>
+                    <li>Пока отчет не загружен.</li>
+                </ul>
+            </div>
+            <div class="panel">
+                <p class="eyebrow">Комментарии</p>
+                <h2>Тезисы из Jira</h2>
+                <ul class="list" data-weekly-notes>
+                    <li>Здесь появятся комментарии с weekly-подсказками, когда они будут в Jira-снимке.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="panel muted">
+            <p class="eyebrow">Формат входа</p>
+            <p>Тестовая страница ждет JSON с массивом <code>items</code>. Каждый элемент можно наполнять постепенно: <code>key</code>, <code>status</code>, <code>actualHours</code>, <code>releaseDate</code>, <code>releaseProgress</code>, <code>milestones</code>, <code>weeklyNotes</code>. Если поля нет, оно просто не участвует в сравнении.</p>
+        </section>
+    </main>
+
+    <script src="../assets/jira-sync-lab.js"></script>
+</body>
+</html>
