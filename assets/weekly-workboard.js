@@ -829,12 +829,14 @@
                 });
             });
 
-            (releasePackages || []).forEach((pkg) => {
-                const packageDate = parseDisplayDate(pkg.date);
-                if (packageDate && packageDate.getTime() >= baseline.getTime()) {
-                    dates.push(packageDate);
-                }
-            });
+            if (!dates.length) {
+                (releasePackages || []).forEach((pkg) => {
+                    const packageDate = parseDisplayDate(pkg.date);
+                    if (packageDate && packageDate.getTime() >= baseline.getTime()) {
+                        dates.push(packageDate);
+                    }
+                });
+            }
 
             if (!dates.length) return "не задан";
 
@@ -863,6 +865,12 @@
 
         function buildExecutiveResult(tasks) {
             const reportDate = getReportDate();
+            const releaseDateResult = buildTaskReleaseDateResult(tasks, reportDate);
+            if (releaseDateResult) return releaseDateResult;
+
+            const achievementResult = buildFutureAchievementResult(tasks, reportDate);
+            if (achievementResult) return achievementResult;
+
             const releasePackage = pickNearestDirectionReleasePackage(tasks, reportDate);
             if (releasePackage) {
                 const packageTasks = tasks.filter((task) => resolveReleasePackage(task)?.id === releasePackage.id);
@@ -872,11 +880,7 @@
                 return `${releasePackage.label || formatShortRussianDate(parseDisplayDate(releasePackage.date))}: ${joinUnique(projectTitles).join(" + ") || cleanExecutiveResultText(releasePackage.title)}`;
             }
 
-            const achievementResult = buildFutureAchievementResult(tasks, reportDate);
-            if (achievementResult) return achievementResult;
-
-            const releaseDateResult = buildTaskReleaseDateResult(tasks, reportDate);
-            return releaseDateResult || "не задан";
+            return "не задан";
         }
 
         function pickNearestDirectionReleasePackage(tasks, reportDate) {
@@ -1608,6 +1612,9 @@ function renderPortfolioStateMetric(label, value, kind) {
             if (manualRows.length) return manualRows;
 
             const baseline = getReportDate();
+            const taskRows = buildTaskReleaseRows(summary.projects, baseline);
+            if (taskRows.length) return taskRows;
+
             const rowsByDate = new Map();
             (summary.releasePackages || []).forEach((pkg) => {
                 const parsed = parseDisplayDate(pkg.date);
@@ -1647,6 +1654,34 @@ function renderPortfolioStateMetric(label, value, kind) {
                     row.date,
                     row.result || joinUnique(row.titles).join(" + ") || "Релизный результат",
                     row.userValue
+                ]);
+        }
+
+        function buildTaskReleaseRows(tasks, baseline) {
+            const rowsByDate = new Map();
+            (tasks || []).forEach((task) => {
+                if (isCompletedReleaseCandidate(task)) return;
+                const parsed = parseDisplayDate(task.releaseDate);
+                if (!parsed) return;
+                if (baseline && parsed.getTime() < baseline.getTime()) return;
+
+                const key = formatDateLabel(parsed);
+                const group = rowsByDate.get(key) || {
+                    date: formatShortRussianDate(parsed),
+                    sortTime: parsed.getTime(),
+                    titles: []
+                };
+                const title = cleanProjectTitle(task.title);
+                if (title) group.titles.push(title);
+                rowsByDate.set(key, group);
+            });
+
+            return [...rowsByDate.values()]
+                .sort((a, b) => a.sortTime - b.sortTime)
+                .map((row) => [
+                    row.date,
+                    joinUnique(row.titles).join(" + ") || "Релизный результат",
+                    "Пользовательский эффект будет уточнен."
                 ]);
         }
 
@@ -2488,11 +2523,10 @@ function renderPortfolioStateMetric(label, value, kind) {
         function renderReleaseBand(task) {
             const items = getReleaseBandItems(task);
             const activeNumber = getTaskReleaseNumber(task, items);
-            const activeIndex = activeNumber ? activeNumber - 1 : -1;
             const status = task?.status || "in-progress";
             const columnCount = Math.min(6, Math.max(1, items.length));
             const boxes = items.map((item, index) => {
-                const isActive = index === activeIndex;
+                const isActive = activeNumber ? item.number === activeNumber : false;
                 const className = isActive ? `release-band-box active ${escapeHtml(status || "in-progress")}` : "release-band-box";
                 const title = item.date ? ` title="${escapeHtml(item.date)}"` : "";
                 return `<span class="${className}"${title}>${item.number}</span>`;
@@ -2501,11 +2535,38 @@ function renderPortfolioStateMetric(label, value, kind) {
         }
 
         function getReleaseBandItems(task = null) {
-            const releaseDates = new Map();
             const taskReleaseDate = parseDisplayDate(task?.releaseDate);
             const targetYear = getReleaseBandYear(taskReleaseDate);
+            const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
+            const allYearDates = collectReleaseBandDates(targetYear, true, taskReleaseDate);
+            const visibleDates = collectReleaseBandDates(targetYear, false, taskReleaseDate);
+            const visibleItems = (visibleDates.length ? visibleDates : allYearDates).map((item) => {
+                const yearIndex = allYearDates.findIndex((dateItem) => dateItem.date === item.date);
+                return {
+                    number: yearIndex >= 0 ? yearIndex + 1 : item.number,
+                    date: item.date
+                };
+            });
+
+            if (manualNumber && !visibleItems.some((item) => item.number === manualNumber)) {
+                visibleItems.push({ number: manualNumber, date: "" });
+                visibleItems.sort((a, b) => a.number - b.number);
+            }
+
+            if (visibleItems.length) return visibleItems;
+
+            const count = Math.max(MIN_RELEASE_BAND_COUNT, manualNumber || 0);
+
+            return Array.from({ length: count }, (_, index) => ({
+                number: index + 1,
+                date: ""
+            }));
+        }
+
+        function collectReleaseBandDates(targetYear, includeCompleted, taskReleaseDate = null) {
+            const releaseDates = new Map();
             (state.tasks || []).forEach((item) => {
-                if (isCompletedProject(item)) return;
+                if (!includeCompleted && isCompletedProject(item)) return;
                 const parsed = parseDisplayDate(item.releaseDate);
                 if (!parsed) return;
                 if (targetYear && parsed.getFullYear() !== targetYear) return;
@@ -2513,20 +2574,13 @@ function renderPortfolioStateMetric(label, value, kind) {
                 releaseDates.set(label, parsed.getTime());
             });
 
-            if (taskReleaseDate) {
+            if (taskReleaseDate && (!targetYear || taskReleaseDate.getFullYear() === targetYear)) {
                 releaseDates.set(formatDateLabel(taskReleaseDate), taskReleaseDate.getTime());
             }
 
-            const datedItems = [...releaseDates.entries()]
+            return [...releaseDates.entries()]
                 .map(([date, time]) => ({ date, time }))
                 .sort((a, b) => a.time - b.time);
-            const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
-            const count = Math.max(MIN_RELEASE_BAND_COUNT, datedItems.length, manualNumber || 0);
-
-            return Array.from({ length: count }, (_, index) => ({
-                number: index + 1,
-                date: datedItems[index]?.date || ""
-            }));
         }
 
         function getReleaseBandYear(taskReleaseDate = null) {
@@ -2543,15 +2597,15 @@ function renderPortfolioStateMetric(label, value, kind) {
         }
 
         function getAutomaticReleaseNumberByDate(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
-            const releaseIndex = getReleaseBandIndex(releaseDate, releaseBandItems);
-            return releaseIndex >= 0 ? releaseIndex + 1 : null;
+            const releaseItem = getReleaseBandItemByDate(releaseDate, releaseBandItems);
+            return releaseItem ? releaseItem.number : null;
         }
 
-        function getReleaseBandIndex(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
+        function getReleaseBandItemByDate(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
             const parsed = parseDisplayDate(releaseDate);
-            if (!parsed) return -1;
+            if (!parsed) return null;
             const releaseLabel = formatDateLabel(parsed);
-            return releaseBandItems.findIndex((item) => item.date === releaseLabel);
+            return releaseBandItems.find((item) => item.date === releaseLabel) || null;
         }
 
         function renderArtifactNote(note) {
