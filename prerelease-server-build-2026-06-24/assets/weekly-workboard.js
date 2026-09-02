@@ -10,6 +10,8 @@
         const DEFAULT_VIEW_MODE = "executive";
         const PATCH_FILE_TYPE = "healbe-weekly-report-patch";
         const PATCH_BASE_VERSION = 1;
+        const MIN_RELEASE_BAND_COUNT = 6;
+        const MAX_MANUAL_RELEASE_NUMBER = 24;
         const PATCH_AUTHOR_KEY = getActiveStorageKey() + "_patch_author";
         const PATCH_BASELINE_KEY = getActiveStorageKey() + "_patch_baseline";
         const PATCH_TRACKED_FIELDS = [
@@ -1605,11 +1607,47 @@ function renderPortfolioStateMetric(label, value, kind) {
             ]);
             if (manualRows.length) return manualRows;
 
-            return summary.releasePackages.slice(0, 4).map((pkg) => [
-                pkg.label || pkg.date || "н/д",
-                pkg.title || "Релизный результат",
-                getReleaseUserValue(pkg.id, pkg.title)
-            ]);
+            const baseline = getReportDate();
+            const rowsByDate = new Map();
+            (summary.releasePackages || []).forEach((pkg) => {
+                const parsed = parseDisplayDate(pkg.date);
+                if (parsed && baseline && parsed.getTime() < baseline.getTime()) return;
+                const key = parsed ? formatDateLabel(parsed) : pkg.id;
+                rowsByDate.set(key, {
+                    date: pkg.label || pkg.date || "н/д",
+                    result: pkg.title || "Релизный результат",
+                    sortTime: parsed ? parsed.getTime() : Number.MAX_SAFE_INTEGER,
+                    userValue: getReleaseUserValue(pkg.id, pkg.title),
+                    titles: []
+                });
+            });
+
+            (summary.projects || []).forEach((task) => {
+                if (isCompletedReleaseCandidate(task)) return;
+                const parsed = parseDisplayDate(task.releaseDate);
+                if (!parsed) return;
+                if (baseline && parsed.getTime() < baseline.getTime()) return;
+
+                const key = formatDateLabel(parsed);
+                const group = rowsByDate.get(key) || {
+                    date: formatShortRussianDate(parsed),
+                    result: "",
+                    sortTime: parsed.getTime(),
+                    userValue: "Пользовательский эффект будет уточнен.",
+                    titles: []
+                };
+                const title = cleanProjectTitle(task.title);
+                if (title) group.titles.push(title);
+                rowsByDate.set(key, group);
+            });
+
+            return [...rowsByDate.values()]
+                .sort((a, b) => a.sortTime - b.sortTime)
+                .map((row) => [
+                    row.date,
+                    row.result || joinUnique(row.titles).join(" + ") || "Релизный результат",
+                    row.userValue
+                ]);
         }
 
         function buildDirectionControlPointRows(tasks, reportDate) {
@@ -2086,7 +2124,9 @@ function renderPortfolioStateMetric(label, value, kind) {
             document.getElementById("releaseProgressInput").value = normalizedTask?.releaseProgress ?? "";
             document.getElementById("actualHoursInput").value = normalizedTask?.actualHours ?? "";
             document.getElementById("plannedHoursInput").value = normalizedTask?.plannedHours ?? "";
-            document.getElementById("releaseNumberInput").value = normalizeReleaseNumber(normalizedTask?.releaseNumber) || "";
+            const releaseNumberInput = document.getElementById("releaseNumberInput");
+            populateReleaseNumberInput(releaseNumberInput, normalizedTask);
+            releaseNumberInput.value = normalizeReleaseNumber(normalizedTask?.releaseNumber) || "";
             document.getElementById("descriptionInput").value = normalizedTask?.description || "";
             document.getElementById("focusInput").value = normalizedTask?.focus || normalizedTask?.ceoFocus || "";
             document.getElementById("summaryInput").value = normalizedTask?.summary || "";
@@ -2097,6 +2137,25 @@ function renderPortfolioStateMetric(label, value, kind) {
                 : "";
             resetMilestoneBuilder();
             taskDialog.showModal();
+        }
+
+        function populateReleaseNumberInput(select, task = null) {
+            if (!select) return;
+            const selectedValue = select.value;
+            const count = Math.min(
+                MAX_MANUAL_RELEASE_NUMBER,
+                Math.max(12, getReleaseBandItems(task).length)
+            );
+            select.innerHTML = [
+                `<option value="">Авто по дате</option>`,
+                ...Array.from({ length: count }, (_, index) => {
+                    const value = index + 1;
+                    return `<option value="${value}">${value}</option>`;
+                })
+            ].join("");
+            if (selectedValue && Number(selectedValue) <= count) {
+                select.value = selectedValue;
+            }
         }
 
         function saveTaskFromForm(event) {
@@ -2427,33 +2486,62 @@ function renderPortfolioStateMetric(label, value, kind) {
         }
 
         function renderReleaseBand(task) {
-            const labels = ["1", "2", "3", "4", "5", "6"];
-            const activeNumber = getTaskReleaseNumber(task);
+            const items = getReleaseBandItems(task);
+            const activeNumber = getTaskReleaseNumber(task, items);
             const activeIndex = activeNumber ? activeNumber - 1 : -1;
             const status = task?.status || "in-progress";
-            const boxes = labels.map((label, index) => {
+            const boxes = items.map((item, index) => {
                 const isActive = index === activeIndex;
                 const className = isActive ? `release-band-box active ${escapeHtml(status || "in-progress")}` : "release-band-box";
-                return `<span class="${className}">${label}</span>`;
+                const title = item.date ? ` title="${escapeHtml(item.date)}"` : "";
+                return `<span class="${className}"${title}>${item.number}</span>`;
             }).join("");
-            return `<div class="release-band-grid">${boxes}</div>`;
+            return `<div class="release-band-grid" style="--release-band-count:${items.length}">${boxes}</div>`;
         }
 
-        function getTaskReleaseNumber(task) {
+        function getReleaseBandItems(task = null) {
+            const releaseDates = new Map();
+            (state.tasks || []).forEach((item) => {
+                if (isCompletedProject(item)) return;
+                const parsed = parseDisplayDate(item.releaseDate);
+                if (!parsed) return;
+                const label = formatDateLabel(parsed);
+                releaseDates.set(label, parsed.getTime());
+            });
+
+            const taskReleaseDate = parseDisplayDate(task?.releaseDate);
+            if (taskReleaseDate) {
+                releaseDates.set(formatDateLabel(taskReleaseDate), taskReleaseDate.getTime());
+            }
+
+            const datedItems = [...releaseDates.entries()]
+                .map(([date, time]) => ({ date, time }))
+                .sort((a, b) => a.time - b.time);
+            const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
+            const count = Math.max(MIN_RELEASE_BAND_COUNT, datedItems.length, manualNumber || 0);
+
+            return Array.from({ length: count }, (_, index) => ({
+                number: index + 1,
+                date: datedItems[index]?.date || ""
+            }));
+        }
+
+        function getTaskReleaseNumber(task, releaseBandItems = getReleaseBandItems(task)) {
             const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
             if (manualNumber) return manualNumber;
-            return getAutomaticReleaseNumberByDate(task?.releaseDate);
+            return getAutomaticReleaseNumberByDate(task?.releaseDate, releaseBandItems);
         }
 
-        function getAutomaticReleaseNumberByDate(releaseDate) {
-            const releaseIndex = getReleaseBandIndex(releaseDate);
+        function getAutomaticReleaseNumberByDate(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
+            const releaseIndex = getReleaseBandIndex(releaseDate, releaseBandItems);
             return releaseIndex >= 0 ? releaseIndex + 1 : null;
         }
 
-        function getReleaseBandIndex(releaseDate) {
+        function getReleaseBandIndex(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
             const parsed = parseDisplayDate(releaseDate);
             if (!parsed) return -1;
-            return Math.max(0, Math.min(5, Math.floor(parsed.getMonth() / 2)));
+            const releaseLabel = formatDateLabel(parsed);
+            return releaseBandItems.findIndex((item) => item.date === releaseLabel);
         }
 
         function renderArtifactNote(note) {
@@ -4554,7 +4642,7 @@ function renderPortfolioStateMetric(label, value, kind) {
 
         function normalizeReleaseNumber(value) {
             const num = Number(value);
-            if (!Number.isInteger(num) || num < 1 || num > 6) return null;
+            if (!Number.isInteger(num) || num < 1 || num > MAX_MANUAL_RELEASE_NUMBER) return null;
             return num;
         }
 
