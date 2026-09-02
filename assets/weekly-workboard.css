@@ -1120,21 +1120,23 @@
 
         .release-band-grid {
             display: grid;
-            grid-template-columns: repeat(var(--release-band-columns, 6), 22px);
-            gap: 4px;
+            grid-template-columns: repeat(var(--release-band-columns, 6), 20px);
+            gap: 3px;
             align-items: center;
-            width: max-content;
+            justify-content: center;
+            width: 100%;
             max-width: 100%;
+            box-sizing: border-box;
         }
 
         .release-band-box {
-            width: 22px;
-            min-height: 22px;
+            width: 20px;
+            min-height: 20px;
             border-radius: 999px;
             border: 1px solid rgba(148, 163, 184, 0.22);
             background: rgba(241, 245, 249, 0.95);
             color: #8aa0bd;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             letter-spacing: 0.03em;
             line-height: 1;
