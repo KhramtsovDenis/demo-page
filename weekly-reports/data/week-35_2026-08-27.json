@@ -8,8 +8,8 @@
       "owner": "Маргарита Ящук",
       "title": "Energy Balance Transparency (WGHT-1)",
       "startDate": "23.10.2025",
-      "releaseDate": "07.09.2026",
-      "releaseProgress": 76,
+      "releaseDate": "04.09.2026",
+      "releaseProgress": 92,
       "status": "development",
       "completedAt": "",
       "actualHours": 167.5,
@@ -18,7 +18,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "",
+      "artifactNote": "Были доработаны визуальные материалы для статей в раздел Энергобаланса. \n7 статей\n16 картинок",
       "achievements": [
         {
           "date": "15.04.2026",
@@ -47,24 +47,24 @@
         {
           "date": "28.08.2026",
           "text": "Верификация текста",
-          "status": "in-progress",
-          "progress": 30
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "03.09.2026",
           "text": "Статьи по Энергобалансу",
-          "status": "in-progress",
-          "progress": 55
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "05.09.2026",
+          "date": "04.09.2026",
           "text": "Релиз функции",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 80
         }
       ],
       "ceoFocus": "",
-      "weeklyProgress": 1,
+      "weeklyProgress": 10,
       "contourId": "weight",
       "releasePackageId": ""
     },
@@ -75,7 +75,7 @@
       "title": "Long-term data (WGHT-111)",
       "startDate": "",
       "releaseDate": "07.09.2026",
-      "releaseProgress": 78,
+      "releaseProgress": 93,
       "status": "development",
       "completedAt": "",
       "actualHours": 194.5,
@@ -84,7 +84,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "26.08 проведена продуктовая вычитка текстов модуля Энергобаланса с копирайтером. Комментарии переданы в доработку",
+      "artifactNote": "26.08 проведена продуктовая вычитка текстов модуля Энергобаланса с копирайтером.",
       "achievements": [
         {
           "date": "15.04.2026",
@@ -113,14 +113,14 @@
         {
           "date": "28.08.2026",
           "text": "Верификация текста",
-          "status": "in-progress",
-          "progress": 30
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "07.09.2026",
+          "date": "04.09.2026",
           "text": "Релиз функции",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 80
         }
       ],
       "ceoFocus": "",
@@ -192,7 +192,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы недели",
-      "artifactNote": "Выбрана основная метрика ВСР для отображения пользователю",
+      "artifactNote": "Выбрана основная метрика ВСР для отображения пользователю\nПараметр на основе РМССД",
       "achievements": [
         {
           "date": "03.09.2026",
@@ -305,12 +305,6 @@
         {
           "date": "05.10.2026",
           "text": "Продуктовая рекомендация",
-          "status": "planned",
-          "progress": 0
-        },
-        {
-          "date": "15.09.2026",
-          "text": "Презентация инвестору",
           "status": "planned",
           "progress": 0
         }
@@ -530,8 +524,8 @@
       "owner": "Маргарита Ящук",
       "title": "Complex indicator (WGHT-112)",
       "startDate": "",
-      "releaseDate": "07.09.2026",
-      "releaseProgress": 69,
+      "releaseDate": "04.09.2026",
+      "releaseProgress": 85,
       "status": "development",
       "completedAt": "",
       "actualHours": 114,
@@ -557,20 +551,26 @@
         {
           "date": "28.08.2026",
           "text": "Системный анализ",
-          "status": "in-progress",
-          "progress": 95
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "29.08.2026",
           "text": "Тестовая сборка",
-          "status": "in-progress",
-          "progress": 55
+          "status": "done",
+          "progress": 100
         },
         {
-          "date": "07.09.2026",
+          "date": "02.09.2026",
+          "text": "Валидация текстов и локализация",
+          "status": "in-progress",
+          "progress": 50
+        },
+        {
+          "date": "04.09.2026",
           "text": "Релиз функции",
-          "status": "planned",
-          "progress": 0
+          "status": "in-progress",
+          "progress": 80
         }
       ],
       "ceoFocus": "",
@@ -635,7 +635,7 @@
         {
           "date": "25.09.2026",
           "text": "Отчет об исследовании",
-          "status": "planned",
+          "status": "in-progress",
           "progress": 0
         }
       ],
@@ -660,7 +660,7 @@
       "focus": "",
       "summary": "",
       "artifactTitle": "Выводы за неделю",
-      "artifactNote": "AppStore Доступна в TestFlight, ожидаем РУ для публичного релиза, видео с использованием готово.\nGoogle Play Доступна для закрытого теста, нужен список email-ов Google-аккаунтов для предоставления доступа.\nRuStore Доступна публично всем пользователям.",
+      "artifactNote": "AppStore Доступна в TestFlight, ожидаем РУ для публичного релиза, видео с использованием готово.\nGoogle Play Доступна для закрытого теста, нужен список email-ов Google-аккаунтов для предоставления доступа.\nRuStore Доступна публично всем пользователям.\nСобрали адреса, готовимся рассылать устройства",
       "achievements": [
         {
           "date": "15.01.2026",
@@ -687,9 +687,9 @@
           "progress": 100
         },
         {
-          "date": "09.08.2026",
+          "date": "20.08.2026",
           "text": "FW",
-          "status": "in-progress",
+          "status": "done",
           "progress": 100
         },
         {
@@ -843,6 +843,12 @@
           "progress": 100
         },
         {
+          "date": "05.09.2026",
+          "text": "НИР",
+          "status": "in-progress",
+          "progress": 0
+        },
+        {
           "date": "10.09.2026",
           "text": "UX/UI",
           "status": "planned",
@@ -878,8 +884,8 @@
       "owner": "Маргарита Ящук",
       "title": "Weight Trend (WGHT-110)",
       "startDate": "10.03.2026",
-      "releaseDate": "07.09.2026",
-      "releaseProgress": 65,
+      "releaseDate": "04.09.2026",
+      "releaseProgress": 75,
       "status": "development",
       "completedAt": "",
       "actualHours": 56,
@@ -915,13 +921,13 @@
           "progress": 100
         },
         {
-          "date": "28.08.2026",
+          "date": "02.09.2026",
           "text": "Верификация текста",
           "status": "in-progress",
-          "progress": 30
+          "progress": 50
         },
         {
-          "date": "07.09.2026",
+          "date": "04.09.2026",
           "text": "Реализация в МА",
           "status": "planned",
           "progress": 0
@@ -1532,9 +1538,9 @@
       "owner": "Маргарита Ящук",
       "title": "Мобильного приложения Healbe Health (NMA-1)",
       "startDate": "18.06.2026",
-      "releaseDate": "07.09.2026",
+      "releaseDate": "04.09.2026",
       "releaseProgress": 13,
-      "status": "discovery",
+      "status": "in-progress",
       "completedAt": "",
       "actualHours": "",
       "plannedHours": "",
@@ -1553,8 +1559,8 @@
         {
           "date": "31.08.2026",
           "text": "Концепт обновленного dashboard приложения",
-          "status": "in-progress",
-          "progress": 80
+          "status": "done",
+          "progress": 100
         },
         {
           "date": "15.10.2026",
