@@ -4567,6 +4567,8 @@ function renderPortfolioStateMetric(label, value, kind) {
             try {
                 const exportedState = buildStateFromSource(window[EXPORTED_STATE_GLOBAL]);
 
+                if (FORCE_EXPORTED_STATE && exportedState) return exportedState;
+
                 const raw = localStorage.getItem(getActiveStorageKey());
                 if (raw) {
                     const parsed = JSON.parse(raw);
@@ -4580,8 +4582,6 @@ function renderPortfolioStateMetric(label, value, kind) {
                     const localState = buildStateFromSource(parsed);
                     if (localState) return localState;
                 }
-
-                if (FORCE_EXPORTED_STATE && exportedState) return exportedState;
 
                 if (REPORT_QUERY_ID) {
                     const seededState = createSeedReportState(null);
