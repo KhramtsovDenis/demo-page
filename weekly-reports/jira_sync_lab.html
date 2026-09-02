@@ -32,7 +32,7 @@
                 <strong data-report-title>не загружен</strong>
             </div>
             <div>
-                <span>Задач</span>
+                <span>Активных задач</span>
                 <strong data-task-count>0</strong>
             </div>
             <div>
@@ -92,7 +92,7 @@
 
         <section class="panel muted">
             <p class="eyebrow">Формат входа</p>
-            <p>Тестовая страница ждет JSON с массивом <code>items</code>. Каждый элемент можно наполнять постепенно: <code>key</code>, <code>status</code>, <code>actualHours</code>, <code>releaseDate</code>, <code>releaseProgress</code>, <code>milestones</code>, <code>weeklyNotes</code>. Если поля нет, оно просто не участвует в сравнении.</p>
+            <p>Тестовая страница сравнивает только активные задачи: завершенные, архивные и скрытые не участвуют. Она ждет JSON с массивом <code>items</code>. Каждый элемент можно наполнять постепенно: <code>key</code>, <code>status</code>, <code>actualHours</code>, <code>releaseDate</code>, <code>releaseProgress</code>, <code>milestones</code>, <code>weeklyNotes</code>. Если поля нет, оно просто не участвует в сравнении.</p>
         </section>
     </main>
 

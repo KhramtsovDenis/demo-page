@@ -162,7 +162,8 @@
     }
 
     function render() {
-        const tasks = Array.isArray(state.report?.tasks) ? state.report.tasks : [];
+        const allTasks = Array.isArray(state.report?.tasks) ? state.report.tasks : [];
+        const tasks = allTasks.filter(isSyncCandidate);
         const taskRows = tasks.map((task) => ({ task, keys: extractJiraKeys(task) }));
         const keyedRows = taskRows.filter((row) => row.keys.length);
         const snapshotItems = state.snapshot?.items || [];
@@ -177,6 +178,15 @@
         renderDiffs(matchedRows, snapshotByKey);
         renderMissingKeys(taskRows);
         renderWeeklyNotes(matchedRows, snapshotByKey);
+    }
+
+    function isSyncCandidate(task) {
+        if (!task || typeof task !== "object") return false;
+        const status = String(task.status || "").trim().toLowerCase();
+        if (status === "done" || status === "completed" || status === "archived") return false;
+        if (task.hidden === true || task.archived === true) return false;
+        if (String(task.completedAt || "").trim()) return false;
+        return true;
     }
 
     function extractJiraKeys(task) {
