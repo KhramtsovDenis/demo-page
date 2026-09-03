@@ -10,8 +10,9 @@
         const DEFAULT_VIEW_MODE = "executive";
         const PATCH_FILE_TYPE = "healbe-weekly-report-patch";
         const PATCH_BASE_VERSION = 1;
-        const MIN_RELEASE_BAND_COUNT = 6;
-        const MAX_MANUAL_RELEASE_NUMBER = 24;
+        const RELEASE_BAND_MONTH_COUNT = 12;
+        const MIN_RELEASE_BAND_COUNT = RELEASE_BAND_MONTH_COUNT;
+        const MAX_MANUAL_RELEASE_NUMBER = RELEASE_BAND_MONTH_COUNT;
         const PATCH_AUTHOR_KEY = getActiveStorageKey() + "_patch_author";
         const PATCH_BASELINE_KEY = getActiveStorageKey() + "_patch_baseline";
         const PATCH_TRACKED_FIELDS = [
@@ -2538,25 +2539,18 @@ function renderPortfolioStateMetric(label, value, kind) {
             const taskReleaseDate = parseDisplayDate(task?.releaseDate);
             const targetYear = getReleaseBandYear(taskReleaseDate);
             const manualNumber = normalizeReleaseNumber(task?.releaseNumber);
-            const allYearDates = collectReleaseBandDates(targetYear, true, taskReleaseDate);
-            const visibleItems = allYearDates.map((item, index) => ({
-                number: index + 1,
-                date: item.date
-            }));
-
-            if (manualNumber && !visibleItems.some((item) => item.number === manualNumber)) {
-                visibleItems.push({ number: manualNumber, date: "" });
-                visibleItems.sort((a, b) => a.number - b.number);
-            }
-
-            if (visibleItems.length) return visibleItems;
-
-            const count = Math.max(MIN_RELEASE_BAND_COUNT, manualNumber || 0);
-
+            const count = Math.max(RELEASE_BAND_MONTH_COUNT, manualNumber || 0);
             return Array.from({ length: count }, (_, index) => ({
                 number: index + 1,
-                date: ""
+                date: formatReleaseMonthLabel(targetYear, index),
+                month: index
             }));
+        }
+
+        function formatReleaseMonthLabel(year, monthIndex) {
+            if (!Number.isFinite(Number(year)) || !Number.isFinite(Number(monthIndex))) return "";
+            return new Intl.DateTimeFormat("ru-RU", { month: "long", year: "numeric" })
+                .format(new Date(Number(year), Number(monthIndex), 1));
         }
 
         function collectReleaseBandDates(targetYear, includeCompleted, taskReleaseDate = null) {
@@ -2589,7 +2583,7 @@ function renderPortfolioStateMetric(label, value, kind) {
         }
 
         function getReleaseBandColumnCount(itemCount) {
-            if (itemCount > 10) return 5;
+            if (itemCount >= 12) return 6;
             if (itemCount > 6) return 5;
             return Math.max(1, Math.min(6, itemCount));
         }
@@ -2608,15 +2602,15 @@ function renderPortfolioStateMetric(label, value, kind) {
         }
 
         function getAutomaticReleaseNumberByDate(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
-            const releaseItem = getReleaseBandItemByDate(releaseDate, releaseBandItems);
-            return releaseItem ? releaseItem.number : null;
+            const parsed = parseDisplayDate(releaseDate);
+            if (!parsed) return null;
+            return parsed.getMonth() + 1;
         }
 
         function getReleaseBandItemByDate(releaseDate, releaseBandItems = getReleaseBandItems({ releaseDate })) {
             const parsed = parseDisplayDate(releaseDate);
             if (!parsed) return null;
-            const releaseLabel = formatDateLabel(parsed);
-            return releaseBandItems.find((item) => item.date === releaseLabel) || null;
+            return releaseBandItems.find((item) => item.month === parsed.getMonth()) || null;
         }
 
         function renderArtifactNote(note) {
