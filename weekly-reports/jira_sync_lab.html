@@ -55,6 +55,21 @@
                 <button class="button subtle" type="button" data-action="download-template">Скачать шаблон Jira-снимка</button>
             </div>
             <p class="sync-hint">Боевой отчет эта страница не меняет. Часы показываем только для контроля и не применяем автоматически.</p>
+            <div class="patch-builder">
+                <div>
+                    <h3>Patch для отчета</h3>
+                    <p>Собираем файл изменений из Jira-снимка. Его потом можно импортировать в недельный отчет через обычную кнопку принятия изменений.</p>
+                </div>
+                <div class="patch-options" aria-label="Что включить в patch">
+                    <label><input type="checkbox" value="releaseDate" data-patch-group checked> Даты</label>
+                    <label><input type="checkbox" value="progress" data-patch-group checked> Готовность</label>
+                    <label><input type="checkbox" value="weeklyNotes" data-patch-group> Тезисы</label>
+                    <label><input type="checkbox" value="status" data-patch-group> Статусы</label>
+                    <label><input type="checkbox" value="achievements" data-patch-group> Контрольные точки</label>
+                    <label class="is-disabled"><input type="checkbox" value="hours" disabled> Часы</label>
+                </div>
+                <button class="button primary" type="button" data-action="download-report-patch">Скачать patch для отчета</button>
+            </div>
             <div class="diff-sections" data-diff-sections>
                 <div class="table-wrap">
                     <table>

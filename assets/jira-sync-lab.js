@@ -1,8 +1,32 @@
 (function () {
     const state = {
         report: null,
+        reportDataFile: "",
         snapshot: null
     };
+
+    const PATCH_FILE_TYPE = "healbe-weekly-report-patch";
+    const PATCH_BASE_VERSION = 1;
+    const PATCH_TRACKED_FIELDS = [
+        "title",
+        "domain",
+        "owner",
+        "description",
+        "releaseDate",
+        "releaseNumber",
+        "status",
+        "completedAt",
+        "releaseProgress",
+        "weeklyProgress",
+        "actualHours",
+        "plannedHours",
+        "artifactTitle",
+        "artifactNote",
+        "focus",
+        "summary",
+        "ceoFocus",
+        "achievements"
+    ];
 
     const els = {
         reportTitle: document.querySelector("[data-report-title]"),
@@ -22,19 +46,19 @@
         {
             id: "releaseDate",
             title: "Даты релиза",
-            description: "Кандидаты на перенос в Jira после ручного подтверждения.",
+            description: "Кандидаты на перенос из Jira-снимка в недельный отчет.",
             fields: [{ id: "releaseDate", label: "Дата релиза" }]
         },
         {
             id: "status",
             title: "Статусы",
-            description: "Пока только смотрим. Переводы статусов лучше включать отдельным шагом.",
+            description: "По умолчанию не попадают в patch: статусы требуют отдельного решения.",
             fields: [{ id: "status", label: "Статус" }]
         },
         {
             id: "progress",
             title: "Готовность",
-            description: "Проценты из отчета и Jira для сверки перед автоматизацией.",
+            description: "Проценты из Jira-снимка для обновления готовности в отчете.",
             fields: [{ id: "releaseProgress", label: "Готовность" }]
         },
         {
@@ -49,6 +73,12 @@
             description: "Часы намеренно не применяются автоматически.",
             readOnly: true,
             fields: [{ id: "actualHours", label: "Факт часов" }]
+        },
+        {
+            id: "weeklyNotes",
+            title: "Тезисы недели",
+            description: "Комментарии weeklyNotes из Jira-снимка можно перенести в поле сделанного за неделю.",
+            fields: [{ id: "weeklyNotes", label: "Тезисы недели" }]
         }
     ];
 
@@ -56,6 +86,7 @@
     document.querySelector("[data-action='load-sample']")?.addEventListener("click", loadSampleSnapshot);
     document.querySelector("[data-action='load-week-36-snapshot']")?.addEventListener("click", loadWeek36Snapshot);
     document.querySelector("[data-action='download-template']")?.addEventListener("click", downloadTemplate);
+    document.querySelector("[data-action='download-report-patch']")?.addEventListener("click", downloadReportPatch);
     els.snapshotInput?.addEventListener("change", handleSnapshotUpload);
 
     loadLatestReport();
@@ -76,6 +107,7 @@
             const dataResponse = await fetch(`./data/${encodeURIComponent(dataFile)}`, { cache: "no-store" });
             if (!dataResponse.ok) throw new Error(`data/${dataFile} ${dataResponse.status}`);
             state.report = await dataResponse.json();
+            state.reportDataFile = dataFile;
             render();
             setStatus(`Отчет загружен: ${state.report?.meta || dataFile}. Теперь можно загрузить пример или Jira-снимок.`, "ok");
         } catch (error) {
@@ -173,7 +205,7 @@
                     title: String(item.title || item.summary || "").trim(),
                     status: normalizeString(item.status),
                     actualHours: normalizeNumber(item.actualHours),
-                    releaseDate: normalizeString(item.releaseDate),
+                    releaseDate: normalizeDateString(item.releaseDate),
                     releaseProgress: normalizeNumber(item.releaseProgress),
                     achievements: normalizeMilestones(item.achievements || item.milestones),
                     weeklyNotes: normalizeNotes(item.weeklyNotes || item.notes)
@@ -185,7 +217,7 @@
     function normalizeMilestones(value) {
         if (!Array.isArray(value)) return null;
         return value.map((item) => ({
-            date: normalizeString(item.date),
+            date: normalizeDateString(item.date),
             text: normalizeString(item.text || item.summary || item.title),
             status: normalizeString(item.status),
             progress: normalizeNumber(item.progress)
@@ -202,6 +234,14 @@
         return next || null;
     }
 
+    function normalizeDateString(value) {
+        const raw = String(value ?? "").trim();
+        if (!raw) return null;
+        const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (iso) return `${iso[3]}.${iso[2]}.${iso[1]}`;
+        return raw;
+    }
+
     function normalizeNumber(value) {
         if (value === "" || value === null || typeof value === "undefined") return null;
         const number = Number(value);
@@ -209,6 +249,19 @@
     }
 
     function render() {
+        const context = getSyncContext();
+
+        els.reportTitle.textContent = state.report?.meta || state.report?.title || "не загружен";
+        els.taskCount.textContent = String(context.tasks.length);
+        els.keyCount.textContent = String(context.keyedRows.length);
+        els.matchCount.textContent = String(context.matchedRows.length);
+
+        renderDiffs(context.matchedRows, context.snapshotByKey);
+        renderMissingKeys(context.taskRows);
+        renderWeeklyNotes(context.matchedRows, context.snapshotByKey);
+    }
+
+    function getSyncContext() {
         const allTasks = Array.isArray(state.report?.tasks) ? state.report.tasks : [];
         const tasks = allTasks.filter(isSyncCandidate);
         const taskRows = tasks.map((task) => ({ task, keys: extractJiraKeys(task) }));
@@ -216,15 +269,7 @@
         const snapshotItems = state.snapshot?.items || [];
         const snapshotByKey = new Map(snapshotItems.map((item) => [item.key, item]));
         const matchedRows = keyedRows.filter((row) => row.keys.some((key) => snapshotByKey.has(key)));
-
-        els.reportTitle.textContent = state.report?.meta || state.report?.title || "не загружен";
-        els.taskCount.textContent = String(tasks.length);
-        els.keyCount.textContent = String(keyedRows.length);
-        els.matchCount.textContent = String(matchedRows.length);
-
-        renderDiffs(matchedRows, snapshotByKey);
-        renderMissingKeys(taskRows);
-        renderWeeklyNotes(matchedRows, snapshotByKey);
+        return { tasks, taskRows, keyedRows, snapshotByKey, matchedRows };
     }
 
     function isSyncCandidate(task) {
@@ -311,7 +356,7 @@
     }
 
     function renderDiffRow(task, key, field, currentValue, jiraValue, same, group) {
-        const statusLabel = same ? "без изменений" : group.readOnly ? "проверить руками" : "кандидат";
+        const statusLabel = same ? "без изменений" : group.readOnly ? "только контроль" : "отличается";
         const statusClass = same ? "same" : group.readOnly ? "readonly" : "changed";
         return {
             changed: !same,
@@ -330,16 +375,19 @@
     function hasComparableValue(item, fieldId) {
         if (!item) return false;
         if (fieldId === "achievements") return Array.isArray(item.achievements);
+        if (fieldId === "weeklyNotes") return Array.isArray(item.weeklyNotes) && item.weeklyNotes.length > 0;
         return item[fieldId] !== null && typeof item[fieldId] !== "undefined";
     }
 
     function readReportValue(task, fieldId) {
         if (fieldId === "achievements") return task.achievements || [];
+        if (fieldId === "weeklyNotes") return task.artifactNote || "";
         return task[fieldId];
     }
 
     function readJiraValue(item, fieldId) {
         if (fieldId === "achievements") return item.achievements || [];
+        if (fieldId === "weeklyNotes") return (item.weeklyNotes || []).join("\n");
         return item[fieldId];
     }
 
@@ -418,6 +466,239 @@
             </div>
         `;
         els.diffBody = document.querySelector("[data-diff-body]");
+    }
+
+    function downloadReportPatch() {
+        if (!state.report) {
+            window.alert("Сначала загрузите недельный отчет.");
+            return;
+        }
+        if (!state.snapshot) {
+            window.alert("Сначала загрузите Jira-снимок.");
+            return;
+        }
+
+        const patch = buildReportPatchPayload();
+        if (!patch.changes.length) {
+            window.alert("Для выбранных блоков нет изменений. Patch не сформирован.");
+            return;
+        }
+
+        downloadJson(buildReportPatchFilename(), patch);
+        setStatus(`Patch сформирован: ${patch.summary.changedTasks} задач, ${patch.summary.changedFields} полей. Часы не включены.`, "ok");
+    }
+
+    function buildReportPatchPayload() {
+        const selectedGroups = getSelectedPatchGroups();
+        const changes = buildReportPatchChanges(selectedGroups);
+        return {
+            type: PATCH_FILE_TYPE,
+            reportId: getPatchReportId(state.report),
+            reportTitle: state.report?.title || "",
+            reportMeta: state.report?.meta || "",
+            baseVersion: PATCH_BASE_VERSION,
+            baseHash: "",
+            sourceHash: "",
+            author: "jira-sync",
+            createdAt: new Date().toISOString(),
+            source: {
+                type: "jira-sync-lab",
+                reportDataFile: state.reportDataFile || "",
+                snapshotGeneratedAt: state.snapshot?.generatedAt || ""
+            },
+            changes,
+            potentialConflicts: [],
+            summary: summarizePatchChanges(changes)
+        };
+    }
+
+    function getSelectedPatchGroups() {
+        return new Set(
+            Array.from(document.querySelectorAll("[data-patch-group]:checked"))
+                .map((input) => input.value)
+                .filter(Boolean)
+        );
+    }
+
+    function buildReportPatchChanges(selectedGroups) {
+        const { matchedRows, snapshotByKey } = getSyncContext();
+        const changes = [];
+
+        matchedRows.forEach(({ task, keys }) => {
+            const key = keys.find((item) => snapshotByKey.has(item));
+            const jiraItem = snapshotByKey.get(key);
+            const changedFields = {};
+
+            diffGroups.forEach((group) => {
+                if (group.readOnly || !selectedGroups.has(group.id)) return;
+                group.fields.forEach((field) => {
+                    collectPatchFieldChange(changedFields, task, jiraItem, field.id);
+                });
+            });
+
+            if (!Object.keys(changedFields).length) return;
+            const before = buildTaskPatchView(task);
+            const after = applyChangedFieldsToView(before, changedFields);
+            changes.push({
+                taskId: task.id,
+                taskTitle: task.title || jiraItem?.title || key,
+                owner: task.owner || "",
+                operation: "update",
+                changedFields,
+                before,
+                after
+            });
+        });
+
+        return changes.sort((a, b) => String(a.taskTitle || "").localeCompare(String(b.taskTitle || ""), "ru"));
+    }
+
+    function collectPatchFieldChange(changedFields, task, jiraItem, fieldId) {
+        if (!hasComparableValue(jiraItem, fieldId)) return;
+
+        if (fieldId === "weeklyNotes") {
+            const nextNote = readJiraValue(jiraItem, fieldId);
+            if (!nextNote) return;
+            addPatchFieldChange(changedFields, "artifactNote", task.artifactNote || "", nextNote);
+            if (!String(task.artifactTitle || "").trim()) {
+                addPatchFieldChange(changedFields, "artifactTitle", task.artifactTitle || "", "Выводы недели");
+            }
+            return;
+        }
+
+        const reportField = fieldId;
+        const before = readReportValue(task, fieldId);
+        const after = readJiraValue(jiraItem, fieldId);
+        addPatchFieldChange(changedFields, reportField, before, after);
+    }
+
+    function addPatchFieldChange(changedFields, field, before, after) {
+        if (field === "actualHours") return;
+        if (stringifyComparable(before) === stringifyComparable(after)) return;
+        changedFields[field] = {
+            before: clonePatchData(before ?? ""),
+            after: clonePatchData(after ?? "")
+        };
+    }
+
+    function buildTaskPatchView(task) {
+        const view = { id: task?.id };
+        PATCH_TRACKED_FIELDS.forEach((field) => {
+            if (field === "achievements") {
+                view[field] = Array.isArray(task?.achievements)
+                    ? task.achievements.map((item) => ({
+                        date: String(item?.date || ""),
+                        text: String(item?.text || ""),
+                        status: String(item?.status || "planned"),
+                        progress: normalizeProgress(item?.progress)
+                    }))
+                    : [];
+                return;
+            }
+            view[field] = clonePatchData(task?.[field] ?? "");
+        });
+        return view;
+    }
+
+    function applyChangedFieldsToView(before, changedFields) {
+        const after = clonePatchData(before);
+        Object.entries(changedFields).forEach(([field, diff]) => {
+            after[field] = clonePatchData(diff.after);
+        });
+        return after;
+    }
+
+    function summarizePatchChanges(changes) {
+        return changes.reduce((summary, change) => {
+            const fields = Object.keys(change.changedFields || {});
+            summary.changedTasks += 1;
+            summary.changedFields += fields.length;
+            if (fields.includes("achievements")) {
+                const before = change.changedFields.achievements?.before;
+                const after = change.changedFields.achievements?.after;
+                summary.changedControlPoints += Math.max(
+                    Array.isArray(before) ? before.length : 0,
+                    Array.isArray(after) ? after.length : 0
+                );
+            }
+            return summary;
+        }, { changedTasks: 0, changedFields: 0, changedControlPoints: 0 });
+    }
+
+    function getPatchReportId(report) {
+        const base = report || {};
+        return String(base.reportId || `report_${hashString(`${base.title || ""}|${base.meta || ""}`)}`);
+    }
+
+    function buildReportPatchFilename() {
+        const meta = String(state.report?.meta || "");
+        const weekMatch = meta.match(/Неделя\s*№?\s*(\d+)/i);
+        const weekPart = weekMatch ? `week-${weekMatch[1]}` : "week";
+        const datePart = parseRussianDateFromMeta(meta) || formatDateForFilename(new Date());
+        return `weekly_workboard_patch_${weekPart}_${datePart}_jira-sync.json`;
+    }
+
+    function parseRussianDateFromMeta(meta) {
+        const normalized = String(meta || "").toLowerCase().replace(/ё/g, "е");
+        const match = normalized.match(/(\d{1,2})\s+([а-я]+)\s+(\d{4})/i);
+        if (!match) return "";
+        const months = {
+            января: "01",
+            февраля: "02",
+            марта: "03",
+            апреля: "04",
+            мая: "05",
+            июня: "06",
+            июля: "07",
+            августа: "08",
+            сентября: "09",
+            октября: "10",
+            ноября: "11",
+            декабря: "12"
+        };
+        const month = months[match[2]];
+        if (!month) return "";
+        return `${match[3]}-${month}-${String(match[1]).padStart(2, "0")}`;
+    }
+
+    function formatDateForFilename(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    }
+
+    function normalizeProgress(value) {
+        const number = Number(value);
+        if (!Number.isFinite(number)) return 0;
+        return Math.max(0, Math.min(100, Math.round(number)));
+    }
+
+    function clonePatchData(value) {
+        if (typeof value === "undefined") return undefined;
+        return JSON.parse(JSON.stringify(value));
+    }
+
+    function hashString(value) {
+        let hash = 2166136261;
+        const text = String(value || "");
+        for (let index = 0; index < text.length; index += 1) {
+            hash ^= text.charCodeAt(index);
+            hash = Math.imul(hash, 16777619);
+        }
+        return (hash >>> 0).toString(16).padStart(8, "0");
+    }
+
+    function downloadJson(filename, payload) {
+        const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
     }
 
     function downloadTemplate() {

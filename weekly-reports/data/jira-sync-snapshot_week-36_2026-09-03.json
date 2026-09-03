@@ -26,7 +26,7 @@
       "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 363.5,
-      "weeklyNotes": [
+      "syncNotes": [
         "Jira-статус синхронизирован с отчетом: задача переведена в 'Проверка'."
       ]
     },
@@ -47,7 +47,7 @@
       "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 621.5,
-      "weeklyNotes": [
+      "syncNotes": [
         "Большая часть часов сидит в UX/UI-блоке: Андрей Зверев 452 ч, Олег Громенков 14 ч."
       ]
     },
@@ -77,7 +77,7 @@
       "status": "paused",
       "releaseDate": "05.11.2026",
       "actualHours": 507,
-      "weeklyNotes": [
+      "syncNotes": [
         "По ранее согласованной продуктовой логике ЭКГ дает 507 ч, а в отчете сейчас стоит 13.5 ч."
       ]
     },
@@ -105,7 +105,7 @@
       "jiraStatus": "Backlog",
       "status": "discovery",
       "actualHours": 10,
-      "weeklyNotes": [
+      "syncNotes": [
         "В Jira нашлись 10 ч продуктового исследования; в отчете сейчас 15 ч."
       ]
     },
@@ -124,7 +124,7 @@
       "title": "EDA в РФ POC",
       "jiraStatus": "ON HOLD",
       "status": "paused",
-      "weeklyNotes": [
+      "syncNotes": [
         "Jira вернула INCBG-1 на запрос INC-125. Нужна таблица соответствий, иначе автоматика будет путаться."
       ]
     },
@@ -136,7 +136,7 @@
       "status": "in-progress",
       "releaseDate": "05.10.2026",
       "actualHours": 169.5,
-      "weeklyNotes": [
+      "syncNotes": [
         "Jira вернула INCBG-84 на запрос INC-87. Для автоматизации нужен явный mapping INC-87 -> INCBG-84/INCBG-85."
       ]
     },
@@ -148,7 +148,7 @@
       "status": "in-progress",
       "releaseDate": "30.12.2026",
       "actualHours": 300,
-      "weeklyNotes": [
+      "syncNotes": [
         "Для РУ часы считаются не только по RU-5, а по всем RU-* задачам выбранных людей."
       ]
     },
@@ -165,7 +165,7 @@
       "title": "Инфраструктура",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "weeklyNotes": [
+      "syncNotes": [
         "Название Jira-задачи 'Инфраструктура' плохо совпадает с названием отчета 'Мобильное приложение Healbe Health'. Нужна проверка, тот ли ключ привязан."
       ]
     },

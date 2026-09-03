@@ -194,6 +194,63 @@ h2 {
     line-height: 1.45;
 }
 
+.patch-builder {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 18px;
+    border: 1px solid #dbe7f6;
+    border-radius: 16px;
+    padding: 16px;
+    background: #f8fbff;
+}
+
+.patch-builder h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.patch-builder p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.patch-options {
+    display: flex;
+    gap: 8px;
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+}
+
+.patch-options label {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #d6e4f5;
+    border-radius: 999px;
+    padding: 0 12px;
+    background: #fff;
+    color: #25476f;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.patch-options input {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--accent);
+}
+
+.patch-options .is-disabled {
+    color: #94a3b8;
+    background: #f8fafc;
+}
+
 .diff-sections {
     display: grid;
     gap: 16px;
@@ -378,6 +435,10 @@ code {
 
     .diff-card-head {
         flex-direction: column;
+    }
+
+    .patch-builder {
+        grid-template-columns: 1fr;
     }
 
     .hero-actions .button,
