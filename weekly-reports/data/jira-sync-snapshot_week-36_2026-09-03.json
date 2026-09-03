@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T12:00:00+03:00",
+  "generatedAt": "2026-09-03T20:16:00+03:00",
   "source": "Jira через Atlassian Rovo",
   "report": {
     "week": 36,
@@ -23,7 +23,7 @@
       "title": "Energy Balance Transparency",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "31.08.2026",
+      "releaseDate": "04.09.2026",
       "actualHours": 363.5,
       "weeklyNotes": [
         "Jira-статус отличается от отчета: в Jira задача еще 'В работе', в отчете стоит тестовый статус."
@@ -35,11 +35,8 @@
       "title": "Weight Trend",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "23.12.2026",
-      "actualHours": 219,
-      "weeklyNotes": [
-        "Дата в Jira сильно позже текущей даты релиза в отчете; нужно решить, какой источник считать правильным для плановой даты."
-      ]
+      "releaseDate": "04.09.2026",
+      "actualHours": 219
     },
     {
       "key": "WGHT-111",
@@ -47,7 +44,7 @@
       "title": "Long-term data",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "31.08.2026",
+      "releaseDate": "04.09.2026",
       "actualHours": 621.5,
       "weeklyNotes": [
         "Большая часть часов сидит в UX/UI-блоке: Андрей Зверев 452 ч, Олег Громенков 14 ч."
@@ -59,7 +56,7 @@
       "title": "Complex indicator",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "26.10.2026",
+      "releaseDate": "04.09.2026",
       "actualHours": 375.5
     },
     {
@@ -68,11 +65,8 @@
       "title": "Weekly plan MVP 1.0",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "03.02.2027",
-      "actualHours": 429,
-      "weeklyNotes": [
-        "Jira due date ушла в 2027 год; в отчете сейчас стоит октябрь 2026."
-      ]
+      "releaseDate": "05.10.2026",
+      "actualHours": 429
     },
     {
       "key": "HLTH-3",
@@ -80,7 +74,7 @@
       "title": "ЭКГ MVP 1.0",
       "jiraStatus": "Проверка",
       "status": "test",
-      "releaseDate": "29.12.2026",
+      "releaseDate": "05.11.2026",
       "actualHours": 507,
       "weeklyNotes": [
         "По ранее согласованной продуктовой логике ЭКГ дает 507 ч, а в отчете сейчас стоит 13.5 ч."
@@ -92,7 +86,7 @@
       "title": "Аритмия MVP 1.0",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "23.12.2026",
+      "releaseDate": "05.11.2026",
       "actualHours": 311.5
     },
     {
@@ -120,7 +114,7 @@
       "title": "Умный дом/ Умная колонка (S. Speaker)",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "10.09.2026",
+      "releaseDate": "05.10.2026",
       "actualHours": 26
     },
     {
@@ -139,7 +133,7 @@
       "title": "НИР по массе тела и иным физиологическим параметрам",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "29.05.2026",
+      "releaseDate": "05.10.2026",
       "actualHours": 169.5,
       "weeklyNotes": [
         "Jira вернула INCBG-84 на запрос INC-87. Для автоматизации нужен явный mapping INC-87 -> INCBG-84/INCBG-85."
@@ -151,7 +145,7 @@
       "title": "Мобильное приложение РУ",
       "jiraStatus": "В работе",
       "status": "in-progress",
-      "releaseDate": "26.06.2026",
+      "releaseDate": "30.12.2026",
       "actualHours": 300,
       "weeklyNotes": [
         "Для РУ часы считаются не только по RU-5, а по всем RU-* задачам выбранных людей."
@@ -178,11 +172,8 @@
       "key": "LS-179",
       "jiraKey": "LS-179",
       "title": "Работа со стрессом",
-      "jiraStatus": "Backlog",
-      "status": "discovery",
-      "weeklyNotes": [
-        "Родительская задача в Jira пока Backlog, хотя в отчете направление уже в работе."
-      ]
+      "jiraStatus": "В работе",
+      "status": "in-progress"
     },
     {
       "key": "LS-181",
