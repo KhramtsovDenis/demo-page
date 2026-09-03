@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-03T20:16:00+03:00",
+  "generatedAt": "2026-09-03T20:33:00+03:00",
   "source": "Jira через Atlassian Rovo",
   "report": {
     "week": 36,
@@ -12,6 +12,7 @@
       "Backlog": "discovery",
       "В работе": "in-progress",
       "Проверка": "test",
+      "ON HOLD": "paused",
       "Готово": "done"
     },
     "hours": "actualHours заполнены только там, где уже есть согласованная продуктовая логика подсчета по нашим людям; прямые часы родительских Jira-задач часто пустые."
@@ -21,20 +22,20 @@
       "key": "WGHT-1",
       "jiraKey": "WGHT-1",
       "title": "Energy Balance Transparency",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "Проверка",
+      "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 363.5,
       "weeklyNotes": [
-        "Jira-статус отличается от отчета: в Jira задача еще 'В работе', в отчете стоит тестовый статус."
+        "Jira-статус синхронизирован с отчетом: задача переведена в 'Проверка'."
       ]
     },
     {
       "key": "WGHT-110",
       "jiraKey": "WGHT-110",
       "title": "Weight Trend",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "Проверка",
+      "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 219
     },
@@ -42,8 +43,8 @@
       "key": "WGHT-111",
       "jiraKey": "WGHT-111",
       "title": "Long-term data",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "Проверка",
+      "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 621.5,
       "weeklyNotes": [
@@ -54,8 +55,8 @@
       "key": "WGHT-112",
       "jiraKey": "WGHT-112",
       "title": "Complex indicator",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "Проверка",
+      "status": "test",
       "releaseDate": "04.09.2026",
       "actualHours": 375.5
     },
@@ -72,8 +73,8 @@
       "key": "HLTH-3",
       "jiraKey": "HLTH-3",
       "title": "ЭКГ MVP 1.0",
-      "jiraStatus": "Проверка",
-      "status": "test",
+      "jiraStatus": "ON HOLD",
+      "status": "paused",
       "releaseDate": "05.11.2026",
       "actualHours": 507,
       "weeklyNotes": [
@@ -84,8 +85,8 @@
       "key": "HLTH-112",
       "jiraKey": "HLTH-112",
       "title": "Аритмия MVP 1.0",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "ON HOLD",
+      "status": "paused",
       "releaseDate": "05.11.2026",
       "actualHours": 311.5
     },
@@ -121,8 +122,8 @@
       "key": "INC-125",
       "jiraKey": "INCBG-1",
       "title": "EDA в РФ POC",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "ON HOLD",
+      "status": "paused",
       "weeklyNotes": [
         "Jira вернула INCBG-1 на запрос INC-125. Нужна таблица соответствий, иначе автоматика будет путаться."
       ]
