@@ -1546,8 +1546,8 @@
       "startDate": "02.06.2026",
       "releaseDate": "31.8.2026",
       "releaseProgress": 29,
-      "status": "done",
-      "completedAt": "20.08.2026",
+      "status": "in-progress",
+      "completedAt": "",
       "actualHours": "",
       "plannedHours": "",
       "description": "Ранние партнерские и коммерческие инициативы: Кивач, Скандинавия и другие пре-проекты, которые пока проходят проверку гипотез и могут стать отдельными продуктовыми треками.",
@@ -2168,7 +2168,7 @@
       "releaseResults": [],
       "icon": "",
       "color": "",
-      "hidden": true,
+      "hidden": false,
       "order": 11
     }
   ]
