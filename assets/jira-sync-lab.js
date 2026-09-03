@@ -2,11 +2,16 @@
     const state = {
         report: null,
         reportDataFile: "",
-        snapshot: null
+        snapshot: null,
+        selectedDiffIds: new Set(),
+        seenDiffIds: new Set(),
+        lastDiffEntries: [],
+        pendingDefaultSelection: false
     };
 
     const PATCH_FILE_TYPE = "healbe-weekly-report-patch";
     const PATCH_BASE_VERSION = 1;
+    const DEFAULT_SELECTED_GROUP_IDS = new Set(["releaseDate", "progress"]);
     const PATCH_TRACKED_FIELDS = [
         "title",
         "domain",
@@ -35,11 +40,13 @@
         matchCount: document.querySelector("[data-match-count]"),
         diffBody: document.querySelector("[data-diff-body]"),
         diffSections: document.querySelector("[data-diff-sections]"),
+        changeCards: document.querySelector("[data-change-cards]"),
         missingKeys: document.querySelector("[data-missing-keys]"),
         weeklyNotes: document.querySelector("[data-weekly-notes]"),
         snapshotInput: document.getElementById("snapshotInput"),
         statusMessage: document.querySelector("[data-status-message]"),
-        loadLatestButton: document.querySelector("[data-action='load-latest']")
+        loadLatestButton: document.querySelector("[data-action='load-latest']"),
+        selectedCount: document.querySelector("[data-selected-count]")
     };
 
     const diffGroups = [
@@ -69,9 +76,8 @@
         },
         {
             id: "hours",
-            title: "Часы: только контроль",
-            description: "Часы намеренно не применяются автоматически.",
-            readOnly: true,
+            title: "Часы",
+            description: "Часы можно тестово включать в patch, если Jira-снимок уже посчитан по согласованным людям.",
             fields: [{ id: "actualHours", label: "Факт часов" }]
         },
         {
@@ -87,6 +93,14 @@
     document.querySelector("[data-action='load-week-36-snapshot']")?.addEventListener("click", loadWeek36Snapshot);
     document.querySelector("[data-action='download-template']")?.addEventListener("click", downloadTemplate);
     document.querySelector("[data-action='download-report-patch']")?.addEventListener("click", downloadReportPatch);
+    document.querySelector("[data-action='download-jira-doc']")?.addEventListener("click", downloadJiraUpdateDocument);
+    document.querySelector("[data-action='select-all-diffs']")?.addEventListener("click", selectAllDiffs);
+    document.querySelector("[data-action='clear-diff-selection']")?.addEventListener("click", clearDiffSelection);
+    document.querySelectorAll("[data-patch-group]").forEach((input) => {
+        input.addEventListener("change", handleGroupSelectionChange);
+    });
+    els.diffSections?.addEventListener("change", handleDiffSelectionChange);
+    els.changeCards?.addEventListener("click", handleChangeCardClick);
     els.snapshotInput?.addEventListener("change", handleSnapshotUpload);
 
     loadLatestReport();
@@ -108,6 +122,7 @@
             if (!dataResponse.ok) throw new Error(`data/${dataFile} ${dataResponse.status}`);
             state.report = await dataResponse.json();
             state.reportDataFile = dataFile;
+            resetDiffSelection(false);
             render();
             setStatus(`Отчет загружен: ${state.report?.meta || dataFile}. Теперь можно загрузить пример или Jira-снимок.`, "ok");
         } catch (error) {
@@ -137,6 +152,7 @@
             const text = await file.text();
             const parsed = JSON.parse(text);
             state.snapshot = normalizeSnapshot(parsed);
+            resetDiffSelection(true);
             render();
             setStatus(`Jira-снимок загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
@@ -154,6 +170,7 @@
             const response = await fetch("./data/jira-sync-sample_week-36.json", { cache: "no-store" });
             if (!response.ok) throw new Error(`jira-sync-sample_week-36.json ${response.status}`);
             state.snapshot = normalizeSnapshot(await response.json());
+            resetDiffSelection(true);
             render();
             setStatus(`Пример загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
@@ -173,6 +190,7 @@
             const response = await fetch(url, { cache: "no-store" });
             if (!response.ok) throw new Error(`${url} ${response.status}`);
             state.snapshot = normalizeSnapshot(await response.json());
+            resetDiffSelection(true);
             render();
             setStatus(`${label} загружен: ${state.snapshot.items.length} задач.`, "ok");
         } catch (error) {
@@ -193,6 +211,13 @@
         if (!els.loadLatestButton) return;
         els.loadLatestButton.disabled = isLoading;
         els.loadLatestButton.textContent = isLoading ? "Загружаю..." : "Загрузить последнюю неделю";
+    }
+
+    function resetDiffSelection(useDefaultSelection = false) {
+        state.selectedDiffIds = new Set();
+        state.seenDiffIds = new Set();
+        state.lastDiffEntries = [];
+        state.pendingDefaultSelection = useDefaultSelection;
     }
 
     function normalizeSnapshot(input) {
@@ -256,7 +281,12 @@
         els.keyCount.textContent = String(context.keyedRows.length);
         els.matchCount.textContent = String(context.matchedRows.length);
 
-        renderDiffs(context.matchedRows, context.snapshotByKey);
+        const diffEntries = buildDiffEntries(context);
+        state.lastDiffEntries = diffEntries;
+        syncDiffSelection(diffEntries);
+        renderChangeCards(diffEntries);
+        renderDiffs(diffEntries);
+        updateSelectionUi(diffEntries);
         renderMissingKeys(context.taskRows);
         renderWeeklyNotes(context.matchedRows, context.snapshotByKey);
     }
@@ -268,7 +298,9 @@
         const keyedRows = taskRows.filter((row) => row.keys.length);
         const snapshotItems = state.snapshot?.items || [];
         const snapshotByKey = new Map(snapshotItems.map((item) => [item.key, item]));
-        const matchedRows = keyedRows.filter((row) => row.keys.some((key) => snapshotByKey.has(key)));
+        const matchedRows = keyedRows
+            .map((row) => ({ ...row, keys: resolveMatchedJiraKeys(row.keys, snapshotByKey) }))
+            .filter((row) => row.keys.length);
         return { tasks, taskRows, keyedRows, snapshotByKey, matchedRows };
     }
 
@@ -284,10 +316,242 @@
     function extractJiraKeys(task) {
         const source = `${task?.title || ""} ${task?.domain || ""}`;
         const matches = source.match(/[A-ZА-Я][A-ZА-Я0-9]{1,15}-\d+/gi) || [];
-        return Array.from(new Set(matches.map((key) => key.toUpperCase())));
+        const wildcardMatches = source.match(/[A-ZА-Я][A-ZА-Я0-9]{1,15}-\*/gi) || [];
+        return Array.from(new Set([
+            ...matches.map((key) => key.toUpperCase()),
+            ...wildcardMatches.map((key) => key.toUpperCase())
+        ]));
     }
 
-    function renderDiffs(matchedRows, snapshotByKey) {
+    function resolveMatchedJiraKeys(keys, snapshotByKey) {
+        const snapshotKeys = Array.from(snapshotByKey.keys());
+        return Array.from(new Set(keys.flatMap((key) => {
+            if (key.endsWith("-*")) {
+                const prefix = key.slice(0, -1);
+                return snapshotKeys.filter((snapshotKey) => snapshotKey.startsWith(prefix));
+            }
+            return snapshotByKey.has(key) ? [key] : [];
+        })));
+    }
+
+    function buildDiffEntries(context) {
+        if (!state.report || !state.snapshot) return [];
+        const entries = [];
+        context.matchedRows.forEach(({ task, keys }) => {
+            const match = getJiraMatchForRow(keys, context.snapshotByKey);
+            if (!match.item) return;
+            const key = match.key;
+            const jiraItem = match.item;
+            diffGroups.forEach((group) => {
+                group.fields.forEach((field) => {
+                    if (!hasComparableValue(jiraItem, field.id)) return;
+                    const currentValue = readReportValue(task, field.id);
+                    const jiraValue = readJiraValue(jiraItem, field.id);
+                    const same = stringifyComparable(currentValue) === stringifyComparable(jiraValue);
+                    const reportField = field.id === "weeklyNotes" ? "artifactNote" : field.id;
+                    entries.push({
+                        id: buildDiffId(task, key, field.id),
+                        groupId: group.id,
+                        groupTitle: group.title,
+                        fieldId: field.id,
+                        reportField,
+                        fieldLabel: field.label,
+                        key,
+                        task,
+                        taskId: task.id,
+                        taskTitle: task.title || jiraItem?.title || key,
+                        currentValue,
+                        jiraValue,
+                        same,
+                        readOnly: group.readOnly === true,
+                        canPatch: !same && group.readOnly !== true
+                    });
+                });
+            });
+        });
+        return entries;
+    }
+
+    function getJiraMatchForRow(keys, snapshotByKey) {
+        const items = keys
+            .map((key) => snapshotByKey.get(key))
+            .filter(Boolean);
+        if (items.length <= 1) {
+            const item = items[0] || null;
+            return { key: item?.key || keys[0] || "", item };
+        }
+        return {
+            key: keys.join(", "),
+            item: aggregateJiraItems(items)
+        };
+    }
+
+    function aggregateJiraItems(items) {
+        const achievements = items.flatMap((item) => Array.isArray(item.achievements) ? item.achievements : []);
+        const weeklyNotes = items.flatMap((item) => Array.isArray(item.weeklyNotes) ? item.weeklyNotes : []);
+        return {
+            key: items.map((item) => item.key).join(", "),
+            title: items.map((item) => item.title).filter(Boolean).join(", "),
+            status: pickSameValue(items.map((item) => item.status)),
+            actualHours: sumNumbers(items.map((item) => item.actualHours)),
+            releaseDate: pickLatestDate(items.map((item) => item.releaseDate)),
+            releaseProgress: pickSameValue(items.map((item) => item.releaseProgress)),
+            achievements: achievements.length ? achievements : null,
+            weeklyNotes
+        };
+    }
+
+    function pickSameValue(values) {
+        const normalized = values.filter((value) => value !== null && typeof value !== "undefined" && value !== "");
+        const unique = Array.from(new Set(normalized.map((value) => stringifyComparable(value))));
+        return unique.length === 1 ? normalized[0] : null;
+    }
+
+    function sumNumbers(values) {
+        const numbers = values.filter((value) => Number.isFinite(Number(value))).map(Number);
+        if (!numbers.length) return null;
+        return Math.round(numbers.reduce((sum, value) => sum + value, 0) * 10) / 10;
+    }
+
+    function pickLatestDate(values) {
+        const dated = values
+            .map((value) => ({ value, time: getDateTime(value) }))
+            .filter((item) => Number.isFinite(item.time))
+            .sort((a, b) => b.time - a.time);
+        return dated[0]?.value || null;
+    }
+
+    function getDateTime(value) {
+        const raw = String(value || "").trim();
+        const display = raw.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+        if (display) return new Date(Number(display[3]), Number(display[2]) - 1, Number(display[1])).getTime();
+        const iso = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (iso) return new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3])).getTime();
+        return NaN;
+    }
+
+    function buildDiffId(task, key, fieldId) {
+        return hashString(`${task?.id || ""}|${key || ""}|${fieldId || ""}`);
+    }
+
+    function syncDiffSelection(diffEntries) {
+        const validIds = new Set(diffEntries.map((entry) => entry.id));
+        state.selectedDiffIds = new Set(
+            Array.from(state.selectedDiffIds).filter((id) => validIds.has(id))
+        );
+
+        const selectedGroups = state.pendingDefaultSelection
+            ? DEFAULT_SELECTED_GROUP_IDS
+            : getSelectedPatchGroups();
+        diffEntries.forEach((entry) => {
+            if (state.seenDiffIds.has(entry.id)) return;
+            state.seenDiffIds.add(entry.id);
+            if (entry.canPatch && selectedGroups.has(entry.groupId)) {
+                state.selectedDiffIds.add(entry.id);
+            }
+        });
+        state.pendingDefaultSelection = false;
+    }
+
+    function renderChangeCards(diffEntries) {
+        if (!els.changeCards) return;
+
+        if (!state.report) {
+            els.changeCards.innerHTML = `<div class="empty-card">Сначала загрузите недельный отчет.</div>`;
+            return;
+        }
+
+        if (!state.snapshot) {
+            els.changeCards.innerHTML = `<div class="empty-card">Отчет загружен. Теперь загрузите Jira-снимок.</div>`;
+            return;
+        }
+
+        const changedEntries = diffEntries.filter((entry) => !entry.same);
+        if (!changedEntries.length) {
+            els.changeCards.innerHTML = `<div class="empty-card">Отличий нет. Jira и отчет совпадают по загруженным полям.</div>`;
+            return;
+        }
+
+        const groups = new Map();
+        changedEntries.forEach((entry) => {
+            const key = String(entry.taskId || entry.key);
+            if (!groups.has(key)) {
+                groups.set(key, {
+                    taskTitle: entry.taskTitle,
+                    jiraKey: entry.key,
+                    entries: []
+                });
+            }
+            groups.get(key).entries.push(entry);
+        });
+
+        els.changeCards.innerHTML = Array.from(groups.values())
+            .sort((a, b) => String(a.taskTitle || "").localeCompare(String(b.taskTitle || ""), "ru"))
+            .map(renderTaskChangeCard)
+            .join("");
+    }
+
+    function renderTaskChangeCard(group) {
+        return `
+            <article class="change-card">
+                <div class="change-card-head">
+                    <div>
+                        <h3>${escapeHtml(group.taskTitle)}</h3>
+                        <p>${escapeHtml(group.jiraKey)}</p>
+                    </div>
+                    <span class="tag selected">${group.entries.length} измен.</span>
+                </div>
+                <div class="change-fields">
+                    ${group.entries.map(renderChangeField).join("")}
+                </div>
+            </article>
+        `;
+    }
+
+    function renderChangeField(entry) {
+        const selected = state.selectedDiffIds.has(entry.id);
+        const canToggle = entry.canPatch;
+        const buttonLabel = selected ? "Jira" : "Снято";
+        const title = canToggle
+            ? "Нажмите, чтобы включить или убрать это изменение из patch"
+            : "Это поле только для контроля";
+        return `
+            <section class="change-field ${selected ? "is-selected" : "is-muted"}">
+                <div class="change-field-top">
+                    <div>
+                        <span>${escapeHtml(entry.groupTitle)}</span>
+                        <strong>${escapeHtml(entry.fieldLabel)}</strong>
+                    </div>
+                    <button class="jira-cube ${selected ? "is-selected" : ""}" type="button" data-change-toggle="${escapeHtml(entry.id)}" ${canToggle ? "" : "disabled"} title="${escapeHtml(title)}">${escapeHtml(buttonLabel)}</button>
+                </div>
+                <div class="change-values">
+                    <div>
+                        <span>В отчете</span>
+                        <p>${escapeHtml(formatValue(entry.currentValue))}</p>
+                    </div>
+                    <div>
+                        <span>В Jira</span>
+                        <p>${escapeHtml(formatValue(entry.jiraValue))}</p>
+                    </div>
+                </div>
+            </section>
+        `;
+    }
+
+    function handleChangeCardClick(event) {
+        const button = event.target?.closest?.("[data-change-toggle]");
+        if (!button || button.disabled) return;
+        const id = button.dataset.changeToggle;
+        if (!id) return;
+        if (state.selectedDiffIds.has(id)) {
+            state.selectedDiffIds.delete(id);
+        } else {
+            state.selectedDiffIds.add(id);
+        }
+        render();
+    }
+
+    function renderDiffs(diffEntries) {
         if (!state.report) {
             showDiffMessage("Сначала загрузите недельный отчет.");
             return;
@@ -299,18 +563,8 @@
         }
 
         const rowsByGroup = new Map(diffGroups.map((group) => [group.id, []]));
-        matchedRows.forEach(({ task, keys }) => {
-            const key = keys.find((item) => snapshotByKey.has(item));
-            const jiraItem = snapshotByKey.get(key);
-            diffGroups.forEach((group) => {
-                group.fields.forEach((field) => {
-                    if (!hasComparableValue(jiraItem, field.id)) return;
-                    const currentValue = readReportValue(task, field.id);
-                    const jiraValue = readJiraValue(jiraItem, field.id);
-                    const same = stringifyComparable(currentValue) === stringifyComparable(jiraValue);
-                    rowsByGroup.get(group.id).push(renderDiffRow(task, key, field, currentValue, jiraValue, same, group));
-                });
-            });
+        diffEntries.forEach((entry) => {
+            rowsByGroup.get(entry.groupId)?.push(entry);
         });
 
         const groupMarkup = diffGroups
@@ -321,8 +575,10 @@
     }
 
     function renderDiffGroup(group, rows) {
-        const changedCount = rows.filter((row) => row.changed).length;
+        const changedCount = rows.filter((row) => !row.same).length;
         const sameCount = rows.length - changedCount;
+        const selectableCount = rows.filter((row) => row.canPatch).length;
+        const selectedCount = rows.filter((row) => state.selectedDiffIds.has(row.id)).length;
         return `
             <section class="diff-card ${group.readOnly ? "is-readonly" : ""}">
                 <div class="diff-card-head">
@@ -333,12 +589,14 @@
                     <div class="diff-stats">
                         <span class="tag changed">${changedCount} отлич.</span>
                         <span class="tag same">${sameCount} совп.</span>
+                        ${selectableCount ? `<span class="tag selected">${selectedCount} выбрано</span>` : ""}
                     </div>
                 </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
+                                <th>Выбор</th>
                                 <th>Задача</th>
                                 <th>Поле</th>
                                 <th>В отчете</th>
@@ -347,7 +605,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            ${rows.length ? rows.map((row) => row.markup).join("") : `<tr><td colspan="5" class="empty">В Jira-снимке нет данных для этого блока.</td></tr>`}
+                            ${rows.length ? rows.map(renderDiffRow).join("") : `<tr><td colspan="6" class="empty">В Jira-снимке нет данных для этого блока.</td></tr>`}
                         </tbody>
                     </table>
                 </div>
@@ -355,21 +613,92 @@
         `;
     }
 
-    function renderDiffRow(task, key, field, currentValue, jiraValue, same, group) {
-        const statusLabel = same ? "без изменений" : group.readOnly ? "только контроль" : "отличается";
-        const statusClass = same ? "same" : group.readOnly ? "readonly" : "changed";
-        return {
-            changed: !same,
-            markup: `
-                <tr class="${same ? "" : "is-different"}">
-                    <td><strong>${escapeHtml(task.title || key)}</strong><br><small>${escapeHtml(key)}</small></td>
-                    <td>${escapeHtml(field.label)}</td>
-                    <td>${escapeHtml(formatValue(currentValue))}</td>
-                    <td>${escapeHtml(formatValue(jiraValue))}</td>
-                    <td><span class="tag ${statusClass}">${statusLabel}</span></td>
-                </tr>
-            `
-        };
+    function renderDiffRow(entry) {
+        const selected = state.selectedDiffIds.has(entry.id);
+        const statusLabel = entry.same
+            ? "без изменений"
+            : entry.readOnly
+                ? "только контроль"
+                : selected
+                    ? "в patch"
+                    : "не выбрано";
+        const statusClass = entry.same
+            ? "same"
+            : entry.readOnly
+                ? "readonly"
+                : selected
+                    ? "selected"
+                    : "changed";
+        const checkbox = entry.canPatch
+            ? `<input type="checkbox" data-diff-select="${escapeHtml(entry.id)}" aria-label="Выбрать изменение ${escapeHtml(entry.fieldLabel)} для ${escapeHtml(entry.taskTitle)}" ${selected ? "checked" : ""}>`
+            : `<span class="select-placeholder">-</span>`;
+        return `
+            <tr class="${entry.same ? "" : "is-different"}">
+                <td class="select-cell">${checkbox}</td>
+                <td><strong>${escapeHtml(entry.taskTitle)}</strong><br><small>${escapeHtml(entry.key)}</small></td>
+                <td>${escapeHtml(entry.fieldLabel)}</td>
+                <td class="value-cell">${escapeHtml(formatValue(entry.currentValue))}</td>
+                <td class="value-cell">${escapeHtml(formatValue(entry.jiraValue))}</td>
+                <td><span class="tag ${statusClass}">${statusLabel}</span></td>
+            </tr>
+        `;
+    }
+
+    function updateSelectionUi(diffEntries = state.lastDiffEntries) {
+        const selectable = diffEntries.filter((entry) => entry.canPatch);
+        const selected = selectable.filter((entry) => state.selectedDiffIds.has(entry.id));
+        if (els.selectedCount) {
+            els.selectedCount.textContent = `Выбрано: ${selected.length} из ${selectable.length}`;
+        }
+        syncGroupControls(diffEntries);
+    }
+
+    function syncGroupControls(diffEntries = state.lastDiffEntries) {
+        document.querySelectorAll("[data-patch-group]").forEach((input) => {
+            const groupRows = diffEntries.filter((entry) => entry.canPatch && entry.groupId === input.value);
+            const selectedRows = groupRows.filter((entry) => state.selectedDiffIds.has(entry.id));
+            input.disabled = groupRows.length === 0;
+            input.checked = groupRows.length > 0 && selectedRows.length === groupRows.length;
+            input.indeterminate = selectedRows.length > 0 && selectedRows.length < groupRows.length;
+        });
+    }
+
+    function handleDiffSelectionChange(event) {
+        const input = event.target?.closest?.("[data-diff-select]");
+        if (!input) return;
+        if (input.checked) {
+            state.selectedDiffIds.add(input.dataset.diffSelect);
+        } else {
+            state.selectedDiffIds.delete(input.dataset.diffSelect);
+        }
+        render();
+    }
+
+    function handleGroupSelectionChange(event) {
+        const input = event.currentTarget;
+        const groupId = input.value;
+        const groupRows = state.lastDiffEntries.filter((entry) => entry.canPatch && entry.groupId === groupId);
+        groupRows.forEach((entry) => {
+            if (input.checked) state.selectedDiffIds.add(entry.id);
+            else state.selectedDiffIds.delete(entry.id);
+        });
+        render();
+    }
+
+    function selectAllDiffs() {
+        state.lastDiffEntries.forEach((entry) => {
+            if (entry.canPatch) state.selectedDiffIds.add(entry.id);
+        });
+        render();
+        setStatus(`Выбраны все доступные изменения: ${state.selectedDiffIds.size}.`, "ok");
+    }
+
+    function clearDiffSelection() {
+        state.lastDiffEntries.forEach((entry) => {
+            if (entry.canPatch) state.selectedDiffIds.delete(entry.id);
+        });
+        render();
+        setStatus("Выбор изменений снят.", "info");
     }
 
     function hasComparableValue(item, fieldId) {
@@ -423,8 +752,9 @@
 
         const notes = [];
         matchedRows.forEach(({ task, keys }) => {
-            const key = keys.find((item) => snapshotByKey.has(item));
-            const jiraItem = snapshotByKey.get(key);
+            const match = getJiraMatchForRow(keys, snapshotByKey);
+            const key = match.key;
+            const jiraItem = match.item;
             (jiraItem?.weeklyNotes || []).forEach((note) => {
                 notes.push(`<li><strong>${escapeHtml(task.title || key)}</strong><br>${escapeHtml(note)}</li>`);
             });
@@ -436,7 +766,7 @@
     }
 
     function showTableMessage(message) {
-        els.diffBody.innerHTML = `<tr><td colspan="5" class="empty">${escapeHtml(message)}</td></tr>`;
+        els.diffBody.innerHTML = `<tr><td colspan="6" class="empty">${escapeHtml(message)}</td></tr>`;
     }
 
     function showDiffMessage(message) {
@@ -450,6 +780,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Выбор</th>
                             <th>Задача</th>
                             <th>Поле</th>
                             <th>В отчете</th>
@@ -459,7 +790,7 @@
                     </thead>
                     <tbody data-diff-body>
                         <tr>
-                            <td colspan="5" class="empty">${escapeHtml(message)}</td>
+                            <td colspan="6" class="empty">${escapeHtml(message)}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -478,19 +809,19 @@
             return;
         }
 
-        const patch = buildReportPatchPayload();
+        const selectedEntries = getSelectedPatchEntries();
+        const patch = buildReportPatchPayload(selectedEntries);
         if (!patch.changes.length) {
-            window.alert("Для выбранных блоков нет изменений. Patch не сформирован.");
+            window.alert("Выберите хотя бы одно изменение. Patch не сформирован.");
             return;
         }
 
         downloadJson(buildReportPatchFilename(), patch);
-        setStatus(`Patch сформирован: ${patch.summary.changedTasks} задач, ${patch.summary.changedFields} полей. Часы не включены.`, "ok");
+        setStatus(`Patch сформирован: ${patch.summary.changedTasks} задач, ${patch.summary.changedFields} полей.`, "ok");
     }
 
-    function buildReportPatchPayload() {
-        const selectedGroups = getSelectedPatchGroups();
-        const changes = buildReportPatchChanges(selectedGroups);
+    function buildReportPatchPayload(selectedEntries) {
+        const changes = buildReportPatchChanges(selectedEntries);
         return {
             type: PATCH_FILE_TYPE,
             reportId: getPatchReportId(state.report),
@@ -512,6 +843,10 @@
         };
     }
 
+    function getSelectedPatchEntries() {
+        return state.lastDiffEntries.filter((entry) => entry.canPatch && state.selectedDiffIds.has(entry.id));
+    }
+
     function getSelectedPatchGroups() {
         return new Set(
             Array.from(document.querySelectorAll("[data-patch-group]:checked"))
@@ -520,60 +855,57 @@
         );
     }
 
-    function buildReportPatchChanges(selectedGroups) {
-        const { matchedRows, snapshotByKey } = getSyncContext();
-        const changes = [];
+    function buildReportPatchChanges(selectedEntries) {
+        const changesByTask = new Map();
 
-        matchedRows.forEach(({ task, keys }) => {
-            const key = keys.find((item) => snapshotByKey.has(item));
-            const jiraItem = snapshotByKey.get(key);
-            const changedFields = {};
-
-            diffGroups.forEach((group) => {
-                if (group.readOnly || !selectedGroups.has(group.id)) return;
-                group.fields.forEach((field) => {
-                    collectPatchFieldChange(changedFields, task, jiraItem, field.id);
+        selectedEntries.forEach((entry) => {
+            const mapKey = String(entry.taskId || entry.key);
+            if (!changesByTask.has(mapKey)) {
+                changesByTask.set(mapKey, {
+                    task: entry.task,
+                    key: entry.key,
+                    changedFields: {}
                 });
-            });
-
-            if (!Object.keys(changedFields).length) return;
-            const before = buildTaskPatchView(task);
-            const after = applyChangedFieldsToView(before, changedFields);
-            changes.push({
-                taskId: task.id,
-                taskTitle: task.title || jiraItem?.title || key,
-                owner: task.owner || "",
-                operation: "update",
-                changedFields,
-                before,
-                after
-            });
+            }
+            applyDiffEntryToChangedFields(changesByTask.get(mapKey).changedFields, entry);
         });
 
-        return changes.sort((a, b) => String(a.taskTitle || "").localeCompare(String(b.taskTitle || ""), "ru"));
+        return Array.from(changesByTask.values())
+            .map(({ task, key, changedFields }) => {
+                if (!Object.keys(changedFields).length) return null;
+                const before = buildTaskPatchView(task);
+                const after = applyChangedFieldsToView(before, changedFields);
+                return {
+                    taskId: task.id,
+                    taskTitle: task.title || key,
+                    owner: task.owner || "",
+                    operation: "update",
+                    changedFields,
+                    before,
+                    after
+                };
+            })
+            .filter(Boolean)
+            .sort((a, b) => String(a.taskTitle || "").localeCompare(String(b.taskTitle || ""), "ru"));
     }
 
-    function collectPatchFieldChange(changedFields, task, jiraItem, fieldId) {
-        if (!hasComparableValue(jiraItem, fieldId)) return;
+    function applyDiffEntryToChangedFields(changedFields, entry) {
+        if (!entry?.canPatch) return;
 
-        if (fieldId === "weeklyNotes") {
-            const nextNote = readJiraValue(jiraItem, fieldId);
+        if (entry.fieldId === "weeklyNotes") {
+            const nextNote = entry.jiraValue;
             if (!nextNote) return;
-            addPatchFieldChange(changedFields, "artifactNote", task.artifactNote || "", nextNote);
-            if (!String(task.artifactTitle || "").trim()) {
-                addPatchFieldChange(changedFields, "artifactTitle", task.artifactTitle || "", "Выводы недели");
+            addPatchFieldChange(changedFields, "artifactNote", entry.task.artifactNote || "", nextNote);
+            if (!String(entry.task.artifactTitle || "").trim()) {
+                addPatchFieldChange(changedFields, "artifactTitle", entry.task.artifactTitle || "", "Выводы недели");
             }
             return;
         }
 
-        const reportField = fieldId;
-        const before = readReportValue(task, fieldId);
-        const after = readJiraValue(jiraItem, fieldId);
-        addPatchFieldChange(changedFields, reportField, before, after);
+        addPatchFieldChange(changedFields, entry.reportField, entry.currentValue, entry.jiraValue);
     }
 
     function addPatchFieldChange(changedFields, field, before, after) {
-        if (field === "actualHours") return;
         if (stringifyComparable(before) === stringifyComparable(after)) return;
         changedFields[field] = {
             before: clonePatchData(before ?? ""),
@@ -691,6 +1023,93 @@
 
     function downloadJson(filename, payload) {
         const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: "application/json;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+    }
+
+    function downloadJiraUpdateDocument() {
+        if (!state.report) {
+            window.alert("Сначала загрузите недельный отчет.");
+            return;
+        }
+        if (!state.snapshot) {
+            window.alert("Сначала загрузите Jira-снимок.");
+            return;
+        }
+
+        const changedEntries = state.lastDiffEntries.filter((entry) => !entry.same);
+        if (!changedEntries.length) {
+            window.alert("Расхождений между отчетом и Jira-снимком нет.");
+            return;
+        }
+
+        downloadText(buildJiraUpdateFilename(), buildJiraUpdateMarkdown(changedEntries), "text/markdown;charset=utf-8");
+        setStatus(`Документ для Jira сформирован: ${changedEntries.length} расхождений.`, "ok");
+    }
+
+    function buildJiraUpdateMarkdown(changedEntries) {
+        const lines = [
+            "# Что обновить в Jira",
+            "",
+            `Отчет: ${state.report?.meta || state.reportDataFile || "не указан"}`,
+            `Jira-снимок: ${state.snapshot?.generatedAt || "дата снимка не указана"}`,
+            "",
+            "Документ показывает расхождения между отчетом и Jira-снимком. Перед изменением Jira проверьте строки вручную.",
+            "",
+            "| Задача | Jira-ключ | Поле | В отчете | В Jira | Рекомендация |",
+            "| --- | --- | --- | --- | --- | --- |"
+        ];
+
+        changedEntries
+            .slice()
+            .sort((a, b) => String(a.taskTitle || "").localeCompare(String(b.taskTitle || ""), "ru")
+                || String(a.fieldLabel || "").localeCompare(String(b.fieldLabel || ""), "ru"))
+            .forEach((entry) => {
+                lines.push([
+                    entry.taskTitle,
+                    entry.key,
+                    entry.fieldLabel,
+                    formatValue(entry.currentValue),
+                    formatValue(entry.jiraValue),
+                    getJiraUpdateRecommendation(entry)
+                ].map(toMarkdownCell).join(" | ").replace(/^/, "| ").replace(/$/, " |"));
+            });
+
+        lines.push("");
+        return `${lines.join("\n")}\n`;
+    }
+
+    function getJiraUpdateRecommendation(entry) {
+        if (entry.fieldId === "status") return "проверить статус вручную";
+        if (entry.fieldId === "achievements") return "проверить контрольные точки";
+        if (entry.fieldId === "weeklyNotes") return "проверить комментарии недели";
+        if (entry.fieldId === "actualHours") return "сверить worklog";
+        return "обновить Jira, если отчет проверен";
+    }
+
+    function toMarkdownCell(value) {
+        return String(value ?? "")
+            .replace(/\r?\n/g, "<br>")
+            .replace(/\|/g, "\\|")
+            .trim() || "пусто";
+    }
+
+    function buildJiraUpdateFilename() {
+        const meta = String(state.report?.meta || "");
+        const weekMatch = meta.match(/Неделя\s*№?\s*(\d+)/i);
+        const weekPart = weekMatch ? `week-${weekMatch[1]}` : "week";
+        const datePart = parseRussianDateFromMeta(meta) || formatDateForFilename(new Date());
+        return `jira-update-candidates_${weekPart}_${datePart}.md`;
+    }
+
+    function downloadText(filename, content, type = "text/plain;charset=utf-8") {
+        const blob = new Blob([content], { type });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;

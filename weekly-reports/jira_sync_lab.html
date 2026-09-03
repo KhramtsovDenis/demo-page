@@ -12,7 +12,7 @@
             <div>
                 <p class="eyebrow">Тестовая зона</p>
                 <h1>Jira Sync Lab</h1>
-                <p class="lead">Сравниваем текущий недельный отчет с Jira-снимком и смотрим, что можно обновить автоматически. Боевой отчет эта страница не меняет.</p>
+                <p class="lead">Тестируем слой изменений из Jira: что подтянуть в отчет, что откатить, и что потом вернуть обратно в Jira. Боевой отчет эта страница не меняет.</p>
             </div>
             <div class="hero-actions">
                 <button class="button primary" type="button" data-action="load-latest">Загрузить последнюю неделю</button>
@@ -49,32 +49,44 @@
         <section class="panel">
             <div class="section-head">
                 <div>
-                    <p class="eyebrow">Предпросмотр</p>
-                    <h2>Что отличается</h2>
+                    <p class="eyebrow">Тестовый слой изменений</p>
+                    <h2>Что подтянуть из Jira</h2>
                 </div>
-                <button class="button subtle" type="button" data-action="download-template">Скачать шаблон Jira-снимка</button>
+                <div class="section-actions">
+                    <button class="button subtle" type="button" data-action="select-all-diffs">Выбрать все</button>
+                    <button class="button subtle" type="button" data-action="clear-diff-selection">Снять все</button>
+                    <button class="button subtle" type="button" data-action="download-template">Скачать шаблон Jira-снимка</button>
+                </div>
             </div>
-            <p class="sync-hint">Боевой отчет эта страница не меняет. Часы показываем только для контроля и не применяем автоматически.</p>
+            <p class="sync-hint">Боевой отчет эта страница не меняет. Выбираем конкретные строки, чтобы не принимать целый раздел ради одной полезной правки.</p>
             <div class="patch-builder">
                 <div>
                     <h3>Patch для отчета</h3>
-                    <p>Собираем файл изменений из Jira-снимка. Его потом можно импортировать в недельный отчет через обычную кнопку принятия изменений.</p>
+                    <p>Собираем файл только из выбранных строк. Его потом можно импортировать в недельный отчет через обычную кнопку принятия изменений.</p>
                 </div>
                 <div class="patch-options" aria-label="Что включить в patch">
-                    <label><input type="checkbox" value="releaseDate" data-patch-group checked> Даты</label>
-                    <label><input type="checkbox" value="progress" data-patch-group checked> Готовность</label>
-                    <label><input type="checkbox" value="weeklyNotes" data-patch-group> Тезисы</label>
-                    <label><input type="checkbox" value="status" data-patch-group> Статусы</label>
-                    <label><input type="checkbox" value="achievements" data-patch-group> Контрольные точки</label>
-                    <label class="is-disabled"><input type="checkbox" value="hours" disabled> Часы</label>
+                    <label><input type="checkbox" value="releaseDate" data-patch-group checked> Включить даты</label>
+                    <label><input type="checkbox" value="progress" data-patch-group checked> Включить готовность</label>
+                    <label><input type="checkbox" value="weeklyNotes" data-patch-group> Включить тезисы</label>
+                    <label><input type="checkbox" value="status" data-patch-group> Включить статусы</label>
+                    <label><input type="checkbox" value="achievements" data-patch-group> Включить контрольные точки</label>
+                    <label><input type="checkbox" value="hours" data-patch-group> Включить часы</label>
                 </div>
-                <button class="button primary" type="button" data-action="download-report-patch">Скачать patch для отчета</button>
+                <div class="patch-actions">
+                    <span class="selection-counter" data-selected-count>Выбрано: 0</span>
+                    <button class="button ghost" type="button" data-action="download-jira-doc">Скачать документ для Jira</button>
+                    <button class="button primary" type="button" data-action="download-report-patch">Скачать patch для отчета</button>
+                </div>
+            </div>
+            <div class="change-cards" data-change-cards>
+                <div class="empty-card">Загрузите отчет и Jira-снимок, чтобы увидеть карточки изменений.</div>
             </div>
             <div class="diff-sections" data-diff-sections>
                 <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
+                                <th>Выбор</th>
                                 <th>Задача</th>
                                 <th>Поле</th>
                                 <th>В отчете</th>
@@ -84,7 +96,7 @@
                         </thead>
                         <tbody data-diff-body>
                             <tr>
-                                <td colspan="5" class="empty">Загрузите отчет и Jira-снимок, чтобы увидеть расхождения.</td>
+                                <td colspan="6" class="empty">Загрузите отчет и Jira-снимок, чтобы увидеть расхождения.</td>
                             </tr>
                         </tbody>
                     </table>
