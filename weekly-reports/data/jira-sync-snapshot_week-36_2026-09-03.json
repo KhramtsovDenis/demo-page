@@ -113,8 +113,8 @@
       "key": "INC-1",
       "jiraKey": "INC-1",
       "title": "Умный дом/ Умная колонка (S. Speaker)",
-      "jiraStatus": "В работе",
-      "status": "in-progress",
+      "jiraStatus": "Backlog",
+      "status": "discovery",
       "releaseDate": "05.10.2026",
       "actualHours": 26
     },
