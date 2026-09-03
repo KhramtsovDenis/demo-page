@@ -187,6 +187,79 @@ h2 {
     margin-bottom: 16px;
 }
 
+.sync-hint {
+    margin: -6px 0 16px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.diff-sections {
+    display: grid;
+    gap: 16px;
+}
+
+.diff-card {
+    border: 1px solid #dbe7f6;
+    border-radius: 16px;
+    background: #fbfdff;
+    overflow: hidden;
+}
+
+.diff-card.is-readonly {
+    background: #fffdf8;
+}
+
+.diff-card-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid #e5eef8;
+}
+
+.diff-card-head h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.diff-card-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.diff-stats {
+    display: flex;
+    gap: 8px;
+    flex: 0 0 auto;
+    align-items: center;
+}
+
+.diff-card .table-wrap {
+    border: 0;
+    border-radius: 0;
+}
+
+.diff-card table {
+    min-width: 820px;
+}
+
+.diff-card tr.is-different td {
+    background: #fffaf0;
+}
+
+.empty-card {
+    border: 1px dashed #c7d8ee;
+    border-radius: 14px;
+    padding: 24px;
+    color: var(--muted);
+    text-align: center;
+}
+
 .table-wrap {
     overflow: auto;
     border: 1px solid #e3edf8;
@@ -243,6 +316,11 @@ tr:last-child td {
     background: #fef3c7;
 }
 
+.tag.readonly {
+    color: #475569;
+    background: #e2e8f0;
+}
+
 .tag.missing {
     color: var(--bad);
     background: #fee2e2;
@@ -296,6 +374,10 @@ code {
     .status-grid,
     .split {
         grid-template-columns: 1fr;
+    }
+
+    .diff-card-head {
+        flex-direction: column;
     }
 
     .hero-actions .button,

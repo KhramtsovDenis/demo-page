@@ -10,6 +10,7 @@
         keyCount: document.querySelector("[data-key-count]"),
         matchCount: document.querySelector("[data-match-count]"),
         diffBody: document.querySelector("[data-diff-body]"),
+        diffSections: document.querySelector("[data-diff-sections]"),
         missingKeys: document.querySelector("[data-missing-keys]"),
         weeklyNotes: document.querySelector("[data-weekly-notes]"),
         snapshotInput: document.getElementById("snapshotInput"),
@@ -17,12 +18,38 @@
         loadLatestButton: document.querySelector("[data-action='load-latest']")
     };
 
-    const comparedFields = [
-        { id: "status", label: "Статус" },
-        { id: "actualHours", label: "Факт часов" },
-        { id: "releaseDate", label: "Дата релиза" },
-        { id: "releaseProgress", label: "Готовность" },
-        { id: "achievements", label: "Контрольные точки" }
+    const diffGroups = [
+        {
+            id: "releaseDate",
+            title: "Даты релиза",
+            description: "Кандидаты на перенос в Jira после ручного подтверждения.",
+            fields: [{ id: "releaseDate", label: "Дата релиза" }]
+        },
+        {
+            id: "status",
+            title: "Статусы",
+            description: "Пока только смотрим. Переводы статусов лучше включать отдельным шагом.",
+            fields: [{ id: "status", label: "Статус" }]
+        },
+        {
+            id: "progress",
+            title: "Готовность",
+            description: "Проценты из отчета и Jira для сверки перед автоматизацией.",
+            fields: [{ id: "releaseProgress", label: "Готовность" }]
+        },
+        {
+            id: "achievements",
+            title: "Контрольные точки",
+            description: "Самая чувствительная часть: здесь сначала нужен предпросмотр, потом применение.",
+            fields: [{ id: "achievements", label: "Контрольные точки" }]
+        },
+        {
+            id: "hours",
+            title: "Часы: только контроль",
+            description: "Часы намеренно не применяются автоматически.",
+            readOnly: true,
+            fields: [{ id: "actualHours", label: "Факт часов" }]
+        }
     ];
 
     els.loadLatestButton?.addEventListener("click", loadLatestReport);
@@ -217,39 +244,87 @@
 
     function renderDiffs(matchedRows, snapshotByKey) {
         if (!state.report) {
-            showTableMessage("Сначала загрузите недельный отчет.");
+            showDiffMessage("Сначала загрузите недельный отчет.");
             return;
         }
 
         if (!state.snapshot) {
-            showTableMessage("Отчет загружен. Теперь загрузите Jira-снимок.");
+            showDiffMessage("Отчет загружен. Теперь загрузите Jira-снимок.");
             return;
         }
 
-        const rows = [];
+        const rowsByGroup = new Map(diffGroups.map((group) => [group.id, []]));
         matchedRows.forEach(({ task, keys }) => {
             const key = keys.find((item) => snapshotByKey.has(item));
             const jiraItem = snapshotByKey.get(key);
-            comparedFields.forEach((field) => {
-                if (!hasComparableValue(jiraItem, field.id)) return;
-                const currentValue = readReportValue(task, field.id);
-                const jiraValue = readJiraValue(jiraItem, field.id);
-                const same = stringifyComparable(currentValue) === stringifyComparable(jiraValue);
-                rows.push(`
-                    <tr>
-                        <td><strong>${escapeHtml(task.title || key)}</strong><br><small>${escapeHtml(key)}</small></td>
-                        <td>${escapeHtml(field.label)}</td>
-                        <td>${escapeHtml(formatValue(currentValue))}</td>
-                        <td>${escapeHtml(formatValue(jiraValue))}</td>
-                        <td><span class="tag ${same ? "same" : "changed"}">${same ? "без изменений" : "изменится"}</span></td>
-                    </tr>
-                `);
+            diffGroups.forEach((group) => {
+                group.fields.forEach((field) => {
+                    if (!hasComparableValue(jiraItem, field.id)) return;
+                    const currentValue = readReportValue(task, field.id);
+                    const jiraValue = readJiraValue(jiraItem, field.id);
+                    const same = stringifyComparable(currentValue) === stringifyComparable(jiraValue);
+                    rowsByGroup.get(group.id).push(renderDiffRow(task, key, field, currentValue, jiraValue, same, group));
+                });
             });
         });
 
-        els.diffBody.innerHTML = rows.length
-            ? rows.join("")
-            : `<tr><td colspan="5" class="empty">Совпадения есть, но в Jira-снимке нет полей для сравнения.</td></tr>`;
+        const groupMarkup = diffGroups
+            .map((group) => renderDiffGroup(group, rowsByGroup.get(group.id) || []))
+            .join("");
+
+        els.diffSections.innerHTML = groupMarkup || `<div class="empty-card">Совпадения есть, но в Jira-снимке нет полей для сравнения.</div>`;
+    }
+
+    function renderDiffGroup(group, rows) {
+        const changedCount = rows.filter((row) => row.changed).length;
+        const sameCount = rows.length - changedCount;
+        return `
+            <section class="diff-card ${group.readOnly ? "is-readonly" : ""}">
+                <div class="diff-card-head">
+                    <div>
+                        <h3>${escapeHtml(group.title)}</h3>
+                        <p>${escapeHtml(group.description)}</p>
+                    </div>
+                    <div class="diff-stats">
+                        <span class="tag changed">${changedCount} отлич.</span>
+                        <span class="tag same">${sameCount} совп.</span>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Задача</th>
+                                <th>Поле</th>
+                                <th>В отчете</th>
+                                <th>В Jira</th>
+                                <th>Итог</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.length ? rows.map((row) => row.markup).join("") : `<tr><td colspan="5" class="empty">В Jira-снимке нет данных для этого блока.</td></tr>`}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        `;
+    }
+
+    function renderDiffRow(task, key, field, currentValue, jiraValue, same, group) {
+        const statusLabel = same ? "без изменений" : group.readOnly ? "проверить руками" : "кандидат";
+        const statusClass = same ? "same" : group.readOnly ? "readonly" : "changed";
+        return {
+            changed: !same,
+            markup: `
+                <tr class="${same ? "" : "is-different"}">
+                    <td><strong>${escapeHtml(task.title || key)}</strong><br><small>${escapeHtml(key)}</small></td>
+                    <td>${escapeHtml(field.label)}</td>
+                    <td>${escapeHtml(formatValue(currentValue))}</td>
+                    <td>${escapeHtml(formatValue(jiraValue))}</td>
+                    <td><span class="tag ${statusClass}">${statusLabel}</span></td>
+                </tr>
+            `
+        };
     }
 
     function hasComparableValue(item, fieldId) {
@@ -314,6 +389,35 @@
 
     function showTableMessage(message) {
         els.diffBody.innerHTML = `<tr><td colspan="5" class="empty">${escapeHtml(message)}</td></tr>`;
+    }
+
+    function showDiffMessage(message) {
+        if (!els.diffSections) {
+            showTableMessage(message);
+            return;
+        }
+
+        els.diffSections.innerHTML = `
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Поле</th>
+                            <th>В отчете</th>
+                            <th>В Jira</th>
+                            <th>Итог</th>
+                        </tr>
+                    </thead>
+                    <tbody data-diff-body>
+                        <tr>
+                            <td colspan="5" class="empty">${escapeHtml(message)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        els.diffBody = document.querySelector("[data-diff-body]");
     }
 
     function downloadTemplate() {

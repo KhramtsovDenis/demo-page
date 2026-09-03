@@ -50,27 +50,30 @@
             <div class="section-head">
                 <div>
                     <p class="eyebrow">Предпросмотр</p>
-                    <h2>Что обновилось бы</h2>
+                    <h2>Что отличается</h2>
                 </div>
                 <button class="button subtle" type="button" data-action="download-template">Скачать шаблон Jira-снимка</button>
             </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Задача</th>
-                            <th>Поле</th>
-                            <th>В отчете</th>
-                            <th>В Jira</th>
-                            <th>Итог</th>
-                        </tr>
-                    </thead>
-                    <tbody data-diff-body>
-                        <tr>
-                            <td colspan="5" class="empty">Загрузите отчет и Jira-снимок, чтобы увидеть расхождения.</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p class="sync-hint">Боевой отчет эта страница не меняет. Часы показываем только для контроля и не применяем автоматически.</p>
+            <div class="diff-sections" data-diff-sections>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Задача</th>
+                                <th>Поле</th>
+                                <th>В отчете</th>
+                                <th>В Jira</th>
+                                <th>Итог</th>
+                            </tr>
+                        </thead>
+                        <tbody data-diff-body>
+                            <tr>
+                                <td colspan="5" class="empty">Загрузите отчет и Jira-снимок, чтобы увидеть расхождения.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
