@@ -3868,6 +3868,7 @@
         .changed-field-pill {
             display: inline-flex;
             align-items: center;
+            gap: 5px;
             padding: 3px 7px;
             border-radius: 999px;
             background: #fff7ed;
@@ -3877,6 +3878,36 @@
             font-weight: 800;
             letter-spacing: 0.03em;
             text-transform: uppercase;
+        }
+
+        .jira-change-cube {
+            cursor: pointer;
+            font: inherit;
+            line-height: 1.1;
+        }
+
+        .jira-change-cube span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            min-height: 18px;
+            border-radius: 7px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        .jira-change-cube:hover {
+            border-color: #93c5fd;
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .jira-change-cube:focus-visible {
+            outline: 2px solid #2563eb;
+            outline-offset: 2px;
         }
 
         .field-changed {

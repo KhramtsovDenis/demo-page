@@ -1842,6 +1842,13 @@ function renderPortfolioStateMetric(label, value, kind) {
                 clearScheduledRoadmapToggle();
                 openDetailDialog(task.id);
             });
+            card.querySelectorAll("[data-revert-change-field]").forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    revertChangedField(normalized.id, button.getAttribute("data-revert-change-field"));
+                });
+            });
             card.addEventListener("click", () => scheduleRoadmapToggle(task.id));
             card.addEventListener("dblclick", () => {
                 clearScheduledRoadmapToggle();
@@ -3399,10 +3406,36 @@ function renderPortfolioStateMetric(label, value, kind) {
             return `
                 <span class="change-badge">Есть изменения</span>
                 <div class="changed-field-list">
-                    ${visibleFields.map((field) => `<span class="changed-field-pill">${escapeHtml(getPatchFieldLabel(field))}</span>`).join("")}
+                    ${visibleFields.map((field) => renderChangedFieldPill(field)).join("")}
                     ${hiddenCount ? `<span class="changed-field-pill">+${hiddenCount}</span>` : ""}
                 </div>
             `;
+        }
+
+        function renderChangedFieldPill(field) {
+            const label = getPatchFieldLabel(field);
+            if (field === "task") {
+                return `<span class="changed-field-pill">${escapeHtml(label)}</span>`;
+            }
+            return `
+                <button class="changed-field-pill jira-change-cube" type="button" data-revert-change-field="${escapeHtml(field)}" title="Откатить поле: ${escapeHtml(label)}" aria-label="Откатить изменение поля ${escapeHtml(label)}">
+                    <span>Jira</span>
+                    ${escapeHtml(label)}
+                </button>
+            `;
+        }
+
+        function revertChangedField(taskId, field) {
+            const fieldId = String(field || "").trim();
+            if (!fieldId || fieldId === "task") return;
+            const index = findTaskIndexById(taskId);
+            if (index < 0) return;
+            const originalTask = (originalState.tasks || []).find((task) => String(task.id) === String(taskId));
+            if (!originalTask) return;
+            const originalView = buildTaskPatchView(originalTask);
+            setPatchTaskField(state.tasks[index], fieldId, originalView[fieldId]);
+            state.tasks[index] = normalizeTaskFromJson(state.tasks[index], index);
+            persistAndRender();
         }
 
         function buildPatchPayload(options = {}) {

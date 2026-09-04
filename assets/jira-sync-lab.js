@@ -660,6 +660,11 @@
             input.disabled = groupRows.length === 0;
             input.checked = groupRows.length > 0 && selectedRows.length === groupRows.length;
             input.indeterminate = selectedRows.length > 0 && selectedRows.length < groupRows.length;
+            const label = input.closest("label");
+            if (label) {
+                label.classList.toggle("is-disabled", input.disabled);
+                label.title = input.disabled ? "В этом блоке нет отличий для выбора" : "";
+            }
         });
     }
 

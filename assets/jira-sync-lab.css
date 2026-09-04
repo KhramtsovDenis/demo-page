@@ -257,6 +257,12 @@ h2 {
 .patch-options .is-disabled {
     color: #94a3b8;
     background: #f8fafc;
+    border-color: #e2e8f0;
+    cursor: default;
+}
+
+.patch-options .is-disabled input {
+    cursor: default;
 }
 
 .patch-actions {
